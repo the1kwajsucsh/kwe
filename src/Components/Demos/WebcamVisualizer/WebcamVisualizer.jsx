@@ -40,15 +40,8 @@ function WebcamVisualizer() {
 
       const stream = video.srcObject;
       if (stream) {
-        console.log("Before");
-        console.log(video.srcObject);
-
         const tracks = stream.getTracks();
         tracks.forEach(track => track.stop());
-
-        console.log("After");
-        console.log(video.srcObject);
-
         video.srcObject = null;
       }
 

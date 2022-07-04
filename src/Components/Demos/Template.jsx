@@ -3,7 +3,7 @@ import {Canvas} from "@react-three/fiber";
 import {OrbitControls, Stats} from "@react-three/drei";
 import Box from "./Box";
 
-const Starter = () => {
+const Template = () => {
   return (
     <>
       <Canvas id="canvas" aspect={2.35}>
@@ -19,4 +19,4 @@ const Starter = () => {
   )
 };
 
-export default Starter;
+export default Template;

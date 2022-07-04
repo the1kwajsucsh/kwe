@@ -1,15 +1,15 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Header from "./Header";
 import ExampleLink from "./ExampleLink";
 import {MathUtils} from "three";
-import Starter from "../Demos/Starter";
+import Template from "../Demos/Template";
 import CircleSpinners from "../Demos/CircleSpinners/CircleSpinners";
 import SplineSquares from "../Demos/SpineSquares/SplineSquares";
 import WebcamVisualizer from "../Demos/WebcamVisualizer/WebcamVisualizer";
 
 const elements = {
   Basics: {
-    Starter: <Starter/>,
+    Template: <Template/>,
     CircleSpinners: <CircleSpinners/>,
   },
   Intermediate: {
@@ -18,11 +18,7 @@ const elements = {
   },
 };
 
-const HelloWorld = () => {
-  return <h2>Hello World</h2>
-};
-
-const Sidebar = ({setExample}) => {
+const Sidebar = ({setExample, params}) => {
 
   let [activeElement, setActiveElement] = useState("");
 
@@ -30,6 +26,13 @@ const Sidebar = ({setExample}) => {
     setActiveElement(title);
     setExample(component);
   };
+
+  useEffect(() => {
+    if (Object.keys(params).length !== 0) {
+      const {group, demo} = params;
+      updateExample(group + demo, elements[group][demo]);
+    }
+  }, []);
 
   return (
     <div className="sidebar lg-pt-0 lg-bg-white lg-overflow-y-visible lg-w-60 lg-h-auto lg-block lg-static">
