@@ -12,7 +12,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter basename={`/${process.env.PUBLIC_URL}`}>
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<App />}>
+          <Route path=":group" element={<App/>}>
+            <Route path=":demo" element={<App/>} />
+          </Route>
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
