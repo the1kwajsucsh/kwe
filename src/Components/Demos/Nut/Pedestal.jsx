@@ -7,7 +7,7 @@ import { useGLTF } from '@react-three/drei'
 
 export default function Model({ ...props }) {
   const group = useRef();
-  const { nodes, materials } = useGLTF('/kwe/Demos/Nut/pedestal.gltf');
+  const { nodes, materials } = useGLTF(process.env.PUBLIC_URL + "/Demos/Nut/pedestal.gltf");
   return (
     <group ref={group} {...props} dispose={null}>
       <mesh geometry={nodes.mesh_Model_1001.geometry} material={materials['mesh_Model_1_u1_v1.001']} position={[2.67, 4.18, 0.01]} scale={0.39} />

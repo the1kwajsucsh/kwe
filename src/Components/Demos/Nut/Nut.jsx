@@ -49,7 +49,7 @@ FloorSpotlight.defaultProps = {
 };
 
 function NutModel(props) {
-  const gltf = useLoader(GLTFLoader, '/Kwe/Demos/Nut/nut.gltf');
+  const gltf = useLoader(GLTFLoader, process.env.PUBLIC_URL + "/Demos/Nut/nut.gltf");
   const ref = useRef();
 
   useFrame(({clock}) => {

@@ -7,7 +7,7 @@ import { useGLTF } from '@react-three/drei'
 
 export default function SpotLightModel({ ...props }) {
   const group = useRef();
-  const { nodes, materials } = useGLTF('/kwe/Demos/Nut/spotlight.gltf');
+  const { nodes, materials } = useGLTF(process.env.PUBLIC_URL + "/Demos/Nut/spotlight.gltf");
   return (
     <group ref={group} {...props} dispose={null}>
       <group position={[-0.23, 0, 1.62]} rotation={[Math.PI / 2, 0, 0]} scale={1.5}>
