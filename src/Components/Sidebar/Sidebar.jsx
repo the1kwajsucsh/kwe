@@ -6,11 +6,15 @@ import Template from "../Demos/Template";
 import CircleSpinners from "../Demos/CircleSpinners/CircleSpinners";
 import SplineSquares from "../Demos/SpineSquares/SplineSquares";
 import WebcamVisualizer from "../Demos/WebcamVisualizer/WebcamVisualizer";
+import WarpedDiscoWall from "../Demos/WarpedDiscoWall/WarpedDiscoWall";
+import Nut from "../Demos/Nut/Nut";
 
 const elements = {
   Basics: {
     Template: <Template/>,
     CircleSpinners: <CircleSpinners/>,
+    WarpedDiscoWall: <WarpedDiscoWall/>,
+    Nut: <Nut/>
   },
   Intermediate: {
     SplineSquares: <SplineSquares/>,
