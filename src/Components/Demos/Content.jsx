@@ -1,4 +1,5 @@
-import React from "react";
+import React, {Suspense} from "react";
+import Loader from "../Common/Loader";
 
 const Content = ({example}) => {
   return (
@@ -6,7 +7,9 @@ const Content = ({example}) => {
       <div className="flex w-full h-full">
         <div className="content-container sm-px-6">
           <main>
-            {example}
+            <Suspense fallback={<Loader/>}>
+              {example}
+            </Suspense>
           </main>
         </div>
       </div>

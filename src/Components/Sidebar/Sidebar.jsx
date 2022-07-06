@@ -26,7 +26,7 @@ const elements = {
 
 const Sidebar = ({setExample, params}) => {
 
-  let [activeElement, setActiveElement] = useState("");
+  let [activeElement, setActiveElement] = useState();
 
   const updateExample = (title, component) => {
     setActiveElement(title);
@@ -37,6 +37,8 @@ const Sidebar = ({setExample, params}) => {
     if (Object.keys(params).length !== 0) {
       const {group, demo} = params;
       updateExample(group + demo, elements[group][demo]);
+    } else {
+      updateExample("BasicsTemplate", elements.Basics.Template);
     }
   }, []);
 
