@@ -9,6 +9,7 @@ import WebcamVisualizer from "../Demos/WebcamVisualizer/WebcamVisualizer";
 import WarpedDiscoWall from "../Demos/WarpedDiscoWall/WarpedDiscoWall";
 import Nut from "../Demos/Nut/Nut";
 import AbstractArt from "../Demos/AbstractArt/AbstractArt";
+import ToastyPhone from "../Demos/ToastyPhone/ToastyPhone";
 
 const elements = {
   Basics: {
@@ -21,6 +22,7 @@ const elements = {
   Intermediate: {
     SplineSquares: <SplineSquares/>,
     WebcamVisualizer: <WebcamVisualizer/>,
+    ToastyPhone: <ToastyPhone/>
   },
 };
 
