@@ -3,6 +3,7 @@ import "./messenger.css";
 import MessageSequence from "./MessageSequence";
 import {MathUtils} from "three";
 import structuredClone from '@ungap/structured-clone';
+import {parseInput} from "./InputParser";
 
 const ToastyPhone = () => {
   const [input, updateInput] = useState("");
@@ -17,9 +18,19 @@ const ToastyPhone = () => {
       isLast: true,
     };
 
+    const responseMessage = parseInput(input);
+    const responseSequence = {messages: [responseMessage], sender: "yours"};
+
     if (lastSender !== "mine") {
-      setLastSender("mine");
-      updateMessages([...messageSequence, {messages: [message], sender: "mine"}]);
+      const inputSequence = {messages: [message], sender: "mine"};
+
+      if (responseMessage) {
+        setLastSender("yours");
+        updateMessages([...messageSequence, inputSequence, responseSequence]);
+      } else {
+        setLastSender("mine");
+        updateMessages([...messageSequence,inputSequence]);
+      }
     } else {
       const cloneOfSequence = structuredClone(messageSequence);
       const lastSequence = cloneOfSequence.pop();
@@ -31,6 +42,11 @@ const ToastyPhone = () => {
       lastSequence.messages.push(message);
 
       cloneOfSequence.push(lastSequence);
+
+      if (responseMessage) {
+        setLastSender("yours");
+        cloneOfSequence.push(responseSequence);
+      }
 
       updateMessages(cloneOfSequence);
     }
@@ -48,13 +64,24 @@ const ToastyPhone = () => {
       <div className="chat">
         {messageSequence.map((msg) => <MessageSequence key={MathUtils.generateUUID()} messageSequence={msg} sender={msg.sender}/>)}
       </div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input type="text" value={input} onChange={handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div className="footerHbox">
+        <div className="flex">
+          <img src={process.env.PUBLIC_URL +  "/svg/camera.svg"} className="icon"/>
+        </div>
+        <div className="flex">
+          <img src={process.env.PUBLIC_URL +  "/svg/connect.svg"} className="icon"/>
+        </div>
+        <div className="sendHbox">
+          <div className="flex">
+            <form onSubmit={handleSubmit}>
+              <input className="iosInput" type="text" placeholder="iMessage" value={input} onChange={handleChange} />
+            </form>
+          </div>
+          <div className="flex">
+            <img src={process.env.PUBLIC_URL +  "/svg/microphone.svg"} className="icon"/>
+          </div>
+        </div>
+      </div>
     </div>
   )
 };
