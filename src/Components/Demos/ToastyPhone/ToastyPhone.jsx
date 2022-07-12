@@ -1,14 +1,27 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./messenger.css";
 import MessageSequence from "./MessageSequence";
 import {MathUtils} from "three";
 import structuredClone from '@ungap/structured-clone';
-import {parseInput} from "./InputParser";
+import { parseInput } from "./InputParser";
+import { FaSignal } from 'react-icons/fa';
+import { BiWifi } from 'react-icons/bi';
+import { BsBatteryFull } from "react-icons/bs"
 
 const ToastyPhone = () => {
   const [input, updateInput] = useState("");
   const [messageSequence, updateMessages] = useState([]);
   const [lastSender, setLastSender] = useState(null);
+  const [curTime, setCurTime] = useState(new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: false }))
+
+  let timeAtLoad = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+  useEffect(() => {
+    const elem = document.getElementById('chat');
+    if (elem) {
+      elem.scrollTop = elem.scrollHeight;
+    }
+  }, [messageSequence]);
 
   const handleSubmit = function (event) {
     event.preventDefault();
@@ -61,10 +74,35 @@ const ToastyPhone = () => {
 
   return (
     <div className="phoneContainer">
-      <div className="chat">
+      <div className="phone-header phone-left-right-border">
+        <div className="grid-container">
+          <div className="grid-item">
+            <p className="center"><strong>{curTime}</strong></p>
+          </div>
+          <div className="grid-item" />
+          <div className="grid-item">
+            <p className="center iosFont">
+              <FaSignal />
+              <BiWifi />
+              <BsBatteryFull />
+            </p>
+          </div>
+          <div className="grid-item">
+            <p className="center iosFont">4</p>
+          </div>
+          <div className="grid-item">
+            <p className="center iosFont">5</p>
+          </div>
+          <div className="grid-item" />
+        </div>
+      </div>
+      <div id="chat" className="chat phone-left-right-border">
+        <div>
+          <p className="iMessageText">iMessage<br/>Today {timeAtLoad}</p>
+        </div>
         {messageSequence.map((msg) => <MessageSequence key={MathUtils.generateUUID()} messageSequence={msg} sender={msg.sender}/>)}
       </div>
-      <div className="footerHbox">
+      <div className="footerHbox phone-left-right-border">
         <div className="flex">
           <img src={process.env.PUBLIC_URL +  "/svg/camera.svg"} className="icon"/>
         </div>
