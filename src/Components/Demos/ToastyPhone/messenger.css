@@ -2,14 +2,29 @@
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+.avatarName {
+    margin: 0;
+    height: 30%;
+    font-size: 10px;
+}
+
+.avatarHolder {
+    height: 70%;
+}
+
+.avatar {
+    border-radius: 50%;
+    height: 100%;
+}
+
 .grid-container {
     display: grid;
-    grid-template-columns: auto 47% auto;
+    grid-template-columns: auto 37% auto;
     grid-template-rows: 35% 65%;
     height: 100%;
 }
 .grid-item {
-    border: 1px solid rgba(0, 0, 0, 0.8);
+    /*border: 1px solid rgba(0, 0, 0, 0.8);*/
     font-size: 12px;
     text-align: center;
     position: relative;
@@ -45,6 +60,8 @@
     background-color: #f9f9f9;
     border-radius: 25px 25px 0 0;
     padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-top: 1em;
 }
 
 input:focus {

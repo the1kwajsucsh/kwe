@@ -25,13 +25,13 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="1.0255231"
-     inkscape:cx="161.38106"
-     inkscape:cy="91.660541"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="1912"
-     inkscape:window-y="337"
-     inkscape:window-maximized="1"
+     inkscape:cx="144.31659"
+     inkscape:cy="93.123207"
+     inkscape:window-width="1350"
+     inkscape:window-height="1040"
+     inkscape:window-x="157"
+     inkscape:window-y="768"
+     inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
      id="defs12574">
@@ -118,9 +118,9 @@
        style="color-interpolation-filters:sRGB"
        inkscape:label="Drop Shadow"
        id="filter18092"
-       x="-0.23913066"
-       y="-0.050878864"
-       width="1.7373195"
+       x="-0.239131"
+       y="-0.050878865"
+       width="1.7373206"
        height="1.1568765">
       <feFlood
          flood-opacity="0.498039"
@@ -260,9 +260,9 @@
        style="color-interpolation-filters:sRGB"
        inkscape:label="Drop Shadow"
        id="filter18092-3-4"
-       x="-0.23913066"
-       y="-0.050878864"
-       width="1.7373195"
+       x="-0.239131"
+       y="-0.050878865"
+       width="1.7373206"
        height="1.1568765">
       <feFlood
          flood-opacity="0.498039"
@@ -313,9 +313,9 @@
        style="color-interpolation-filters:sRGB"
        inkscape:label="Drop Shadow"
        id="filter18092-1"
-       x="-0.23913066"
-       y="-0.050878864"
-       width="1.7373195"
+       x="-0.239131"
+       y="-0.050878865"
+       width="1.7373206"
        height="1.1568765">
       <feFlood
          flood-opacity="0.498039"
@@ -369,7 +369,7 @@
      id="layer1"
      transform="translate(-57.936951,-112.69257)">
     <path
-       style="fill:#8b8ba2;fill-opacity:1;fill-rule:evenodd;stroke-width:0.264583"
+       style="fill:#8b95a2;fill-opacity:1;fill-rule:evenodd;stroke-width:0.264583"
        id="rect14859-6"
        width="46.167233"
        height="33.872692"
@@ -389,7 +389,7 @@
        d="M 76.672637,112.69257 H 90.20475 a 16.431515,16.431515 45 0 1 16.43151,16.43152 v 3.42676 A 16.933333,16.933333 135 0 1 89.702932,149.48418 H 76.672637 A 16.933333,16.933333 45 0 1 59.739304,132.55085 v -2.92494 a 16.933333,16.933333 135 0 1 16.933333,-16.93334 z"
        sodipodi:type="rect" />
     <path
-       style="fill:#8b8ba2;fill-opacity:1;fill-rule:evenodd;stroke-width:0.264583"
+       style="fill:#8b95a2;fill-opacity:1;fill-rule:evenodd;stroke-width:0.264583"
        id="rect14859"
        width="46.167233"
        height="33.872692"
