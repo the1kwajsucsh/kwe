@@ -1,13 +1,10 @@
+import {cleanInput} from "./cleanInput";
+import {getResponseType} from "./responseType";
+import {determineResponse} from "./response";
+
 export const parseInput = (input) => {
 
-  let response = "Display response";
-
-  const message = {
-    content: response,
-    isLast: true,
-  };
-
-  const shouldResponse = Math.round(Math.random());
-
-  return (shouldResponse ? message : undefined);
+  const cleanedInput = cleanInput(input);
+  const responseType = getResponseType(cleanedInput);
+  return determineResponse(responseType);
 };
