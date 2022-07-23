@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./messenger.css";
-import structuredClone from '@ungap/structured-clone';
+import cloneDeep from 'lodash/cloneDeep';
 import { parseInput } from "./InputParser";
 import PhoneHeader from "./PhoneHeader";
 import PhoneFooter from "./PhoneFooter";
@@ -37,7 +37,7 @@ const ToastyPhone = () => {
         updateMessages([...messageSequence,inputSequence]);
       }
     } else {
-      const cloneOfSequence = structuredClone(messageSequence);
+      const cloneOfSequence = cloneDeep(messageSequence);
       const lastSequence = cloneOfSequence.pop();
 
       const lastMessage = lastSequence.messages.pop();

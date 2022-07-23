@@ -6,7 +6,10 @@ const MessageSequence = ({messageSequence = [], sender = "mine"}) => {
     <div className={"messages " + sender}>
       {messageSequence.messages.map(msg => {
         return (
-          <div key={MathUtils.generateUUID()} className={"message" + (msg.isLast ? " last" : "")}>
+          <div
+            key={MathUtils.generateUUID()}
+            className={"message" + (msg.isLast ? " last" : "") + (msg.type && msg.type === "AUDIO" ? " message-audio" : "")}
+          >
             {msg.content}
           </div>
         );

@@ -1,4 +1,4 @@
-import {Loader, OrbitControls, SpotLight, Stats} from '@react-three/drei';
+import { OrbitControls, SpotLight, Stats} from '@react-three/drei';
 import {Canvas, useFrame, useLoader} from '@react-three/fiber';
 import React, {Suspense, useLayoutEffect, useRef} from "react";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";

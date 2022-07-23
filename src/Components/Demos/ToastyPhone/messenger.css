@@ -139,6 +139,10 @@ input:focus {
     word-break: break-word;
 }
 
+.message-audio {
+    padding: 3px 15px;
+}
+
 .yours {
     align-items: flex-start;
 }
