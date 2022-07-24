@@ -5,7 +5,7 @@ import {MathUtils} from "three";
 
 const VOLUME_HEIGHT = 23.6;
 
-const VoiceMessage = ({audioSource = process.env.PUBLIC_URL + "/audio/voice.mp3"}) => {
+const VoiceMessage = ({audioSource = process.env.PUBLIC_URL + "/audio/sampulator.mp3"}) => {
   const [voiceMessageUUID] = useState(MathUtils.generateUUID);
   const [duration, setDuration] = useState(0);
   const [volumes, setVolumes] = useState(new Array(42));

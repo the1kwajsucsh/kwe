@@ -56,7 +56,7 @@
     border-top: solid 1px #EEE;
     border-bottom: 2px solid #ebebeb;
     height: 15%;
-    width: 300px;
+    width: 350px;
     background-color: #f9f9f9;
     border-radius: 25px 25px 0 0;
     padding-top: 0.5em;
@@ -71,7 +71,7 @@ input:focus {
 .footerHbox {
     border-radius: 0 0 25px 25px;
     display: flex;
-    width: 300px;
+    width: 350px;
     height: calc(25px + 2em);
     padding-top: 1em;
     padding-bottom: 1em;
@@ -112,7 +112,7 @@ input:focus {
 
 .chat {
     height: 67%;
-    width: 300px;
+    width: 350px;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;

@@ -41,9 +41,10 @@ const calculateVolumeArray = memoize(async function (audioSource) {
     .then((audioBuffer) => {
       const signal = new Float32Array(512);
       const volumeBars = new Array(NUM_AUDIO_DISPLAY_BARS);
+      const step = Math.ceil(audioBuffer.length / NUM_AUDIO_DISPLAY_BARS);
 
       let j = 0;
-      for (let i = 0; i < audioBuffer.length; i += audioBuffer.length / NUM_AUDIO_DISPLAY_BARS) {
+      for (let i = 0; i < audioBuffer.length; i += step) {
         audioBuffer.copyFromChannel(signal, 0, i);
         volumeBars[j++] = Meyda.extract('rms', signal);
       }
@@ -54,6 +55,6 @@ const calculateVolumeArray = memoize(async function (audioSource) {
       };
       const maxVolume = volumeBars.max();
       volumeBars.forEach((val, index) => volumeBars[index] = mapLinear(val, 0, maxVolume, 0, 1));
-      return volumeBars
+      return volumeBars;
     });
 });
