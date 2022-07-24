@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import Header from "./Header";
 import ExampleLink from "./ExampleLink";
 import {MathUtils} from "three";
@@ -30,10 +30,10 @@ const Sidebar = ({setExample, params}) => {
 
   let [activeElement, setActiveElement] = useState();
 
-  const updateExample = (title, component) => {
+  const updateExample = useCallback((title, component) => {
     setActiveElement(title);
     setExample(component);
-  };
+  }, [setExample]);
 
   useEffect(() => {
     if (Object.keys(params).length !== 0) {
@@ -42,7 +42,7 @@ const Sidebar = ({setExample, params}) => {
     } else {
       updateExample("BasicsTemplate", elements.Basics.Template);
     }
-  }, []);
+  }, [params, updateExample]);
 
   return (
     <div className="sidebar lg-pt-0 lg-bg-white lg-overflow-y-visible lg-w-60 lg-h-auto lg-block lg-static">

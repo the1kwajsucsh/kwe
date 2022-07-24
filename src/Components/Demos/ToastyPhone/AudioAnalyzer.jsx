@@ -23,12 +23,7 @@ const calculateDuration = memoize(async function (audioSource) {
       return offlineAudioContext.decodeAudioData(arrayBuffer);
     })
     .then((audioBuffer) => {
-      const lengthInSeconds = audioBuffer.length / audioBuffer.sampleRate;
-
-      const minutes = Math.floor(lengthInSeconds / 60) + "";
-      const seconds = Math.ceil(lengthInSeconds % 60) + "";
-
-      return minutes.padStart(2, '0') + ":" + seconds.padStart(2, '0');
+      return audioBuffer.length / audioBuffer.sampleRate;
     })
 });
 
@@ -53,6 +48,7 @@ const calculateVolumeArray = memoize(async function (audioSource) {
         volumeBars[j++] = Meyda.extract('rms', signal);
       }
 
+      // eslint-disable-next-line no-extend-native
       Array.prototype.max = function () {
         return Math.max.apply(null, this);
       };

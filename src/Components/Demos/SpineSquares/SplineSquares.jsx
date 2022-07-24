@@ -83,7 +83,7 @@ function Boxes() {
     }
 
     ref.current.instanceMatrix.needsUpdate = true;
-  }, []);
+  }, [boxList]);
 
   let moveState = Array.from({length: numElementsToDisplay}, () => 0);
   useFrame(() => {

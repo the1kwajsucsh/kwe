@@ -1,13 +1,12 @@
 import React from "react";
-import {MathUtils} from "three";
 
 const MessageSequence = ({messageSequence = [], sender = "mine"}) => {
   return (
     <div className={"messages " + sender}>
-      {messageSequence.messages.map(msg => {
+      {messageSequence.messages.map((msg, id) => {
         return (
           <div
-            key={MathUtils.generateUUID()}
+            key={id}
             className={"message" + (msg.isLast ? " last" : "") + (msg.type && msg.type === "AUDIO" ? " message-audio" : "")}
           >
             {msg.content}
@@ -17,5 +16,4 @@ const MessageSequence = ({messageSequence = [], sender = "mine"}) => {
     </div>
   )
 };
-
 export default MessageSequence;
