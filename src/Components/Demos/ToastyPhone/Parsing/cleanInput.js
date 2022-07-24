@@ -1,7 +1,7 @@
 export function cleanInput(input) {
   const wordSpaceDigits = input.trim().toLowerCase().replace(/[^\w\s\d]/gi, "");
   const cleanedContractions = removeContractions(wordSpaceDigits);
-  return removeUselessWords(cleanedContractions);
+  return ` ${removeUselessWords(cleanedContractions)} `;
 }
 
 function removeContractions(input) {

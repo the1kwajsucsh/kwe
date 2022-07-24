@@ -1,5 +1,5 @@
 import {MathUtils} from "three";
-import VoiceMessage from "./VoiceMessage";
+import VoiceMessage from "../Audio/VoiceMessage";
 import React from "react";
 
 export const determineResponse = (responseType) => {

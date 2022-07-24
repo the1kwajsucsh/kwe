@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "./messenger.css";
-import {parseInput} from "./InputParser";
+import {parseInput} from "./Parsing/InputParser";
 import PhoneHeader from "./PhoneHeader";
 import PhoneFooter from "./PhoneFooter";
 import MessageSequence from "./MessageSequence";
