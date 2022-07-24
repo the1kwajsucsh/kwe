@@ -55,7 +55,7 @@
 .phone-header {
     border-top: solid 1px #EEE;
     border-bottom: 2px solid #ebebeb;
-    height: 12%;
+    height: 15%;
     width: 300px;
     background-color: #f9f9f9;
     border-radius: 25px 25px 0 0;
@@ -111,7 +111,7 @@ input:focus {
 }
 
 .chat {
-    height: 70%;
+    height: 67%;
     width: 300px;
     overflow-y: scroll;
     display: flex;

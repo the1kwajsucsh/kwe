@@ -2,7 +2,7 @@ import {mapLinear} from "three/src/math/MathUtils";
 import memoize from 'lodash/memoize';
 
 const Meyda = require('meyda');
-const NUM_DISPLAY_BARS = 42;
+export const NUM_AUDIO_DISPLAY_BARS = 42;
 
 export async function getAverageVolumeArray(audioSource) {
   return await calculateVolumeArray(audioSource);
@@ -40,10 +40,10 @@ const calculateVolumeArray = memoize(async function (audioSource) {
     })
     .then((audioBuffer) => {
       const signal = new Float32Array(512);
-      const volumeBars = new Array(NUM_DISPLAY_BARS);
+      const volumeBars = new Array(NUM_AUDIO_DISPLAY_BARS);
 
       let j = 0;
-      for (let i = 0; i < audioBuffer.length; i += audioBuffer.length / NUM_DISPLAY_BARS) {
+      for (let i = 0; i < audioBuffer.length; i += audioBuffer.length / NUM_AUDIO_DISPLAY_BARS) {
         audioBuffer.copyFromChannel(signal, 0, i);
         volumeBars[j++] = Meyda.extract('rms', signal);
       }
