@@ -4,13 +4,19 @@ export const getResponseType = (input) => {
     return "GREETING";
   } else if (isAudio(input)) {
     return "AUDIO";
+  } else if (isImage(input)) {
+    return "IMAGE";
   }
 
   return undefined;
 };
 
 const isGreeting = (input) => {
-  return input.includes(" hi ") || input.includes(" hello ") || input.includes(" hey ") || input.includes(" yo ") || input.includes(" whattup ");
+  return input.includes(" hi ")
+    || input.includes(" hello ")
+    || input.includes(" hey ")
+    || input.includes(" yo ")
+    || input.includes(" whattup ")
 };
 
 const isAudio = (input) => {
@@ -20,5 +26,17 @@ const isAudio = (input) => {
     || input.includes(" dope ")
     || input.includes(" song ")
     || input.includes(" songs ")
-    || input.includes(" send ");
+};
+
+const isImage = (input) => {
+  return input.includes(" picture ")
+    || input.includes(" pictures ")
+    || input.includes(" pic ")
+    || input.includes(" pics ")
+    || input.includes(" cover ")
+    || input.includes(" covers ")
+    || input.includes(" image ")
+    || input.includes(" images ")
+    || input.includes(" img ")
+    || input.includes(" imgs ")
 };

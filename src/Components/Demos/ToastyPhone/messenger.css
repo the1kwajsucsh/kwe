@@ -99,7 +99,7 @@ input:focus {
 .iosInput {
     font-family: helvetica, serif;
     background-color: #fafafa;
-    width: 190px;
+    width: 240px;
 }
 
 .phoneContainer {
@@ -137,6 +137,17 @@ input:focus {
     margin-bottom: 5px;
     display: inline-block;
     word-break: break-word;
+}
+
+.message-image {
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+    object-fit: scale-down;
+    max-width: 250px;
+    height: auto;
 }
 
 .message-audio {

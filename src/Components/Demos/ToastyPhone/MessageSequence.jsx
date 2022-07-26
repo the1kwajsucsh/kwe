@@ -1,17 +1,22 @@
 import React from "react";
+import Text from "./MessageComponents/Text";
+import Audio from "./MessageComponents/Audio";
+import Image from "./MessageComponents/Image";
 
 const MessageSequence = ({messageSequence = [], sender = "mine"}) => {
   return (
     <div className={"messages " + sender}>
       {messageSequence.messages.map((msg, id) => {
-        return (
-          <div
-            key={id}
-            className={"message" + (msg.isLast ? " last" : "") + (msg.type && msg.type === "AUDIO" ? " message-audio" : "")}
-          >
-            {msg.content}
-          </div>
-        );
+        switch(msg.type) {
+          case "AUDIO":
+            return <Audio msg={msg}/>;
+          case "IMAGE":
+            return <Image msg={msg}/>
+          case "TEXT":
+          case "GREETING":
+          default:
+            return <Text msg={msg}/>;
+        }
       })}
     </div>
   )
