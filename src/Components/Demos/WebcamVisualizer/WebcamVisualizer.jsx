@@ -52,7 +52,7 @@ function WebcamVisualizer() {
     <>
       {
         video &&
-        <Canvas camera={{position: [0, 0, 10]}}>
+        <Canvas id="canvas" camera={{position: [0, 0, 10]}}>
           <color attach={"background"} args={["black"]}/>
           <ambientLight intensity={1} color="white"/>
           <directionalLight intensity={1} color="white"/>

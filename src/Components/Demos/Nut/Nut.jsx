@@ -75,7 +75,7 @@ function Nut() {
 
   return (
     <>
-      <Canvas shadows camera={{position: [7, 4, 7]}}>
+      <Canvas id="canvas" shadows camera={{position: [7, 4, 7]}}>
         <color attach="background" args={["black"]}/>
         <group position={[0, -2, 0]}>
           <ambientLight color="white" intensity={0.2}/>

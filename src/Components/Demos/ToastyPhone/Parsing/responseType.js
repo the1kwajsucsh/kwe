@@ -6,6 +6,8 @@ export const getResponseType = (input) => {
     return "AUDIO";
   } else if (isImage(input)) {
     return "IMAGE";
+  } else if (isPhoneCanvas(input)) {
+    return "CANVAS"
   }
 
   return undefined;
@@ -26,6 +28,7 @@ const isAudio = (input) => {
     || input.includes(" dope ")
     || input.includes(" song ")
     || input.includes(" songs ")
+    || input.includes(" music ")
 };
 
 const isImage = (input) => {
@@ -39,4 +42,8 @@ const isImage = (input) => {
     || input.includes(" images ")
     || input.includes(" img ")
     || input.includes(" imgs ")
+};
+
+const isPhoneCanvas = (input) => {
+  return input.includes(" canvas ")
 };

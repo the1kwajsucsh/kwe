@@ -221,3 +221,7 @@ input:focus {
     background: white;
     border-bottom-left-radius: 10px;
 }
+
+.phone-canvas {
+    background-color: red;
+}

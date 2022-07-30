@@ -5,7 +5,7 @@ import PhoneHeader from "./PhoneHeader";
 import PhoneFooter from "./PhoneFooter";
 import MessageSequence from "./MessageSequence";
 
-const ToastyPhone = () => {
+const ToastyPhone = ({overlaySetters}) => {
   const [input, updateInput] = useState("");
   const [messageSequence, updateMessages] = useState([]);
   const [lastSender, setLastSender] = useState(null);
@@ -67,7 +67,7 @@ const ToastyPhone = () => {
 
   const handleChange = function (event) {
     event.preventDefault();
-    updateInput(event.target.value)
+    updateInput(event.target.value);
   };
 
   return (
@@ -82,6 +82,7 @@ const ToastyPhone = () => {
             key={id}
             messageSequence={msg}
             sender={msg.sender}
+            overlaySetters={overlaySetters}
           />
         )}
       </div>

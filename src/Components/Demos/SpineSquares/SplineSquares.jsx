@@ -137,7 +137,7 @@ function Boxes() {
 function SplineSquares() {
   return (
     <>
-      <Canvas>
+      <Canvas id="canvas">
         <OrthographicCamera
           makeDefault
           zoom={5}

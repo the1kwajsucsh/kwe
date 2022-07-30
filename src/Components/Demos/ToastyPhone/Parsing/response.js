@@ -1,6 +1,7 @@
 import {MathUtils} from "three";
 import VoiceMessage from "../Audio/VoiceMessage";
 import React from "react";
+import PhoneCanvas from "../PhoneCanvas/PhoneCanvas";
 
 export const determineResponse = (responseType) => {
   switch(responseType) {
@@ -10,6 +11,8 @@ export const determineResponse = (responseType) => {
       return buildAudioResponse();
     case "IMAGE":
       return buildImageResponse();
+    case "CANVAS":
+      return buildCanvasResponse();
     default:
       return undefined;
   }
@@ -44,6 +47,14 @@ const buildImageResponse = () => {
   return [{
     type: "IMAGE",
     content: responses[MathUtils.randInt(0, responses.length -1)],
+    isLast: true,
+  }]
+};
+
+const buildCanvasResponse = () => {
+  return [{
+    type: "CANVAS",
+    content: <PhoneCanvas />,
     isLast: true,
   }]
 };
