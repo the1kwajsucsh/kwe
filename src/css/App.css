@@ -86,8 +86,8 @@ html, #root, .app {
 }
 
 .content-overlay {
-  width: 1px;
-  height: 1px;
+  width: 0px;
+  height: 0px;
   position: fixed;
   left: calc(100vw/2);
   top: calc(100vh/2);

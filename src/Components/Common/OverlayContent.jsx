@@ -1,6 +1,6 @@
 import React from "react";
 import {IoCloseSharp} from "react-icons/io5";
-import {updateCanvasToOverlaySize} from "../../../js/trackCanvasOverlaySize";
+import {updateCanvasToOverlaySize} from "../../js/trackCanvasOverlaySize";
 
 
 const OverlayContent = ({content, classes, overlaySetters}) => {
@@ -17,8 +17,8 @@ const OverlayContent = ({content, classes, overlaySetters}) => {
   return (
     content &&
     <div id="content-overlay" className={"content-overlay " + classes}>
-      <button onClick={resetOverlay} className="overlay-close-button">
-        <IoCloseSharp className="overlay-close"/>
+      <button id="overlay-close-button" className="overlay-close-button" style={{opacity: 0}} onClick={resetOverlay}>
+        <IoCloseSharp id="overlay-close" className="overlay-close"/>
       </button>
       {content}
     </div>

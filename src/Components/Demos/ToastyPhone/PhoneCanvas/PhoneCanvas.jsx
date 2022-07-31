@@ -1,6 +1,7 @@
 import React from "react";
 import {updateCanvasToOverlaySize} from "../../../../js/trackCanvasOverlaySize";
 import SplineSquares from "../../SpineSquares/SplineSquares";
+import TapToLoad from "./TapToLoad";
 
 const PhoneCanvas = ({overlaySetters}) => {
 
@@ -15,9 +16,7 @@ const PhoneCanvas = ({overlaySetters}) => {
   };
 
   return (
-   <div id="phone-canvas-holder">
-     <div className="phone-canvas" style={{width: "100px", height: "100px"}} onClick={populateOverlay}/>
-   </div>
+    <TapToLoad onClick={populateOverlay}/>
   );
 };
 

@@ -3,10 +3,12 @@ export const updateCanvasToOverlaySize = (frequency, duration) => {
   const canvas = document.getElementById("canvas");
   const canvasChildDiv = canvas.childNodes[0];
   const actualCanvas = canvasChildDiv.childNodes[0];
+  const overlayClose = document.getElementById("overlay-close-button");
 
   overlayContainer.style.transition = "all 2s ease-in-out";
   actualCanvas.style.opacity = 0;
   actualCanvas.style.transition = "opacity ease-in-out 0.8s";
+  overlayClose.style.opacity = 0;
 
   const loopInterval = setInterval(() => {
     const overlayWidth = overlayContainer.offsetWidth;
@@ -25,6 +27,8 @@ export const updateCanvasToOverlaySize = (frequency, duration) => {
   setTimeout(() => {
     clearInterval(loopInterval);
 
+    overlayClose.style.transition = "opacity ease-in-out 0.8s";
+    overlayClose.style.opacity = "100%";
     canvas.style.width = "100%";
     canvas.style.height = "100%";
     canvasChildDiv.style.width = "100%";

@@ -1,6 +1,6 @@
 import React, {Suspense, useState} from "react";
 import Loader from "../Common/Loader";
-import OverlayContent from "./ToastyPhone/OverlayContent";
+import OverlayContent from "../Common/OverlayContent";
 
 const Content = ({example}) => {
   const [overlayContent, setOverlayContent] = useState(null);

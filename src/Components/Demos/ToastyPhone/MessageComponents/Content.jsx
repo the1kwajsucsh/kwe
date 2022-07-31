@@ -2,7 +2,7 @@ import React from "react";
 
 const Content = ({msg, overlaySetters}) => {
   return (
-    <div className={"message" + (msg.isLast ? " last" : "")}>
+    <div>
       {React.cloneElement(msg.content, {overlaySetters: overlaySetters})}
     </div>
   )

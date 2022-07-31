@@ -52,6 +52,54 @@
     padding-right: 0.5em;
 }
 
+.web-preview-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f6f6f6;
+    color: #00D0EA;
+    height: 75px;
+    width: 175px;
+    border-radius: 20px 20px 0 0;
+    position: relative;
+}
+
+.web-preview-footer {
+    border-radius: 0 0 20px 20px;
+    color: #b3b4b6;
+    background-color: #eee;
+    position: relative;
+    padding-left: 8px;
+    width: 175px;
+}
+
+.web-preview-footer:before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: -7px;
+    height: 20px;
+    width: 20px;
+    background: #eee;
+    border-bottom-right-radius: 15px;
+}
+.web-preview-footer:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: -10px;
+    width: 10px;
+    height: 20px;
+    background: white;
+    border-bottom-right-radius: 10px;
+}
+
+.web-preview-message:hover {
+    cursor: pointer;
+}
+
 .phone-header {
     border-top: solid 1px #EEE;
     border-bottom: 2px solid #ebebeb;
@@ -220,8 +268,4 @@ input:focus {
     height: 20px;
     background: white;
     border-bottom-left-radius: 10px;
-}
-
-.phone-canvas {
-    background-color: red;
 }
