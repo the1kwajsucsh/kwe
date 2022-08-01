@@ -4,6 +4,12 @@ export const getResponseType = (input) => {
     return "GREETING";
   } else if (isAudio(input)) {
     return "AUDIO";
+  } else if (is2049(input)) {
+    return "2049";
+  } else if (isDietYeezus(input)) {
+    return "DIET";
+  } else if (isGKTF(input)) {
+    return "GKTF";
   } else if (isImage(input)) {
     return "IMAGE";
   } else if (isPhoneCanvas(input)) {
@@ -21,11 +27,30 @@ const isGreeting = (input) => {
     || input.includes(" whattup ")
 };
 
+const is2049 = (input) => {
+  return input.includes(" 2049 ")
+  || input.includes (" kanye2049 ")
+  || input.includes (" OG ")
+};
+
+const isDietYeezus = (input) => {
+  return input.includes(" diet ")
+  || input.includes(" yeezus ")
+  || input.includes(" dietyeezus ")
+};
+
+const isGKTF = (input) => {
+  return input.includes(" gktf ")
+  || input.includes(" good kid ")
+  || input.includes(" twisted fantasy ")
+  || input.includes (" kendrick ")
+  || input.includes(" lamar ")
+};
+
 const isAudio = (input) => {
   return input.includes(" track ")
     || input.includes(" tracks ")
     || input.includes(" audio ")
-    || input.includes(" dope ")
     || input.includes(" song ")
     || input.includes(" songs ")
     || input.includes(" music ")
@@ -46,4 +71,9 @@ const isImage = (input) => {
 
 const isPhoneCanvas = (input) => {
   return input.includes(" canvas ")
+    || input.includes(" dope shit ")
+    || input.includes(" 3d ")
+    || input.includes(" future ")
+    || input.includes(" futuristic ")
+    || input.includes(" demo ")
 };

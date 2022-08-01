@@ -57,7 +57,7 @@ function WebcamVisualizer() {
           <ambientLight intensity={1} color="white"/>
           <directionalLight intensity={1} color="white"/>
           <OrbitControls/>
-          <Stats/>
+          {/*<Stats/>*/}
           <group position={[-width/80/2, -height/80/2, 0]}>
             <PointsCam video={video} width={width} height={height}/>
           </group>

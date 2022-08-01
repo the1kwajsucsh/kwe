@@ -156,7 +156,7 @@ function SplineSquares() {
         <directionalLight position={[2, 2, 2]} color="#d3d3d3" intensity={5}/>
         <OrbitControls makeDefault enablePan={false}/>
         <Boxes/>
-        <Stats/>
+        {/*<Stats/>*/}
       </Canvas>
     </>
   );

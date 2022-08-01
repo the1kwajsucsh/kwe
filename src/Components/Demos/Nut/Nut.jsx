@@ -86,7 +86,7 @@ function Nut() {
           <Pedestal scale={0.4}/>
         </group>
         <OrbitControls autoRotate/>
-        <Stats />
+        {/*<Stats />*/}
       </Canvas>
     </>
   );

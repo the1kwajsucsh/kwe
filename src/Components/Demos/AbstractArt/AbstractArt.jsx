@@ -129,7 +129,7 @@ function AbstractArt() {
           <Ribbon />
         </group>
         <OrbitControls autoRotate dampen/>
-        <Stats />
+        {/*<Stats />*/}
         <Effects />
       </Canvas>
     </Suspense>

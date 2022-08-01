@@ -134,7 +134,7 @@ function WarpedDiscoWall() {
         <Boxes/>
         <CameraPositioning/>
         <Effects/>
-        <Stats/>
+        {/*<Stats/>*/}
       </Canvas>
     </>
   );
