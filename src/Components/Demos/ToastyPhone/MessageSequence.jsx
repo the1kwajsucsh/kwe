@@ -16,7 +16,6 @@ const MessageSequence = ({messageSequence = [], sender = "mine", overlaySetters}
           case "CANVAS":
             return <Content msg={msg} key={id} overlaySetters={overlaySetters}/>;
           case "TEXT":
-          case "GREETING":
           default:
             return <Text msg={msg} key={id}/>;
         }

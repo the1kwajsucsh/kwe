@@ -7,6 +7,8 @@ export const determineResponse = (responseType) => {
   switch(responseType) {
     case "GREETING":
       return buildGreetingResponse();
+    case "THANK":
+      return buildThankResponse();
     case "AUDIO":
     case "2049":
       return build2049Response();
@@ -26,7 +28,16 @@ export const determineResponse = (responseType) => {
 const buildGreetingResponse = () => {
   const responses = ["Hello", "Hey", "Ayoooooo", "Whattup", "????"];
   return [{
-    type: "GREETING",
+    type: "TEXT",
+    content: responses[MathUtils.randInt(0, responses.length - 1)],
+    isLast: true,
+  }];
+};
+
+const buildThankResponse = () => {
+  const responses = ["You got it boss", "Yessir", "Preciate it", "Bet"];
+  return [{
+    type: "TEXT",
     content: responses[MathUtils.randInt(0, responses.length - 1)],
     isLast: true,
   }];

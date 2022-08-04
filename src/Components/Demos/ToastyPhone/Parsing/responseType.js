@@ -2,6 +2,8 @@ export const getResponseType = (input) => {
 
   if (isGreeting(input)) {
     return "GREETING";
+  } else if (isThanks(input)) {
+    return "THANK";
   } else if (isAudio(input)) {
     return "AUDIO";
   } else if (is2049(input)) {
@@ -27,10 +29,18 @@ const isGreeting = (input) => {
     || input.includes(" whattup ")
 };
 
+const isThanks = (input) => {
+  return input.includes(" thank you ")
+    || input.includes(" thank ")
+    || input.includes(" thanks ")
+};
+
 const is2049 = (input) => {
   return input.includes(" 2049 ")
-  || input.includes (" kanye2049 ")
-  || input.includes (" OG ")
+  || input.includes(" kanye2049 ")
+  || input.includes(" OG ")
+  || input.includes(" throwback ")
+    || input.includes(" throwbacks ")
 };
 
 const isDietYeezus = (input) => {
