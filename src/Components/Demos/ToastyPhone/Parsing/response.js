@@ -35,6 +35,17 @@ const buildGreetingResponse = () => {
 const build2049Response = () => {
   const isLocal = window.location.hostname === "localhost";
   const responses = [
+    "Check this out",
+    "Bangers only",
+    "Toasty Tuesday drops early",
+    "You think Ye would appreciate this",
+    "Now beat that",
+    "Cooking with the special sauce",
+    "Hella inspired right now",
+    "The originals"
+  ];
+
+  const audioFiles = [
     "/local/2049/01_INTRO_(CHARLIE_HEAT_VERSION).mp3",
     "/local/2049/02_POWER.mp3",
     "/local/2049/03_HOLD_MY_LIQUOR.mp3",
@@ -54,18 +65,37 @@ const build2049Response = () => {
     "/local/2049/17_TOUCH_THE_SKY.mp3",
   ];
 
-  const audioSource = process.env.PUBLIC_URL + (isLocal ? responses[MathUtils.randInt(0, responses.length - 1)] : "/audio/wicked_world.mp3");
+  const audioSource = process.env.PUBLIC_URL + (isLocal ? audioFiles[MathUtils.randInt(0, audioFiles.length - 1)] : "/audio/wicked_world.mp3");
 
-  return [{
-    type: "AUDIO",
-    content: <VoiceMessage audioSource={audioSource}/>,
-    isLast: true
-  }]
+  return [
+    {
+      type: "TEXT",
+      content: responses[MathUtils.randInt(0, responses.length-1)],
+      isLast: false
+    },
+    {
+      type: "AUDIO",
+      content: <VoiceMessage audioSource={audioSource}/>,
+      isLast: true
+    }
+  ]
 };
 
 const buildDietResponse = () => {
   const isLocal = window.location.hostname === "localhost";
+
   const responses = [
+    "DIET YEEZUS ALL DAY BABY",
+    "Bangers only",
+    "Toasty Tuesday drops early",
+    "Cooking up off of salad energy",
+    "Yuh",
+    "You got it boss",
+    "Hella inspired right now",
+    "WIP"
+  ];
+
+  const audioFiles = [
     "/local/DY/01_I_CANT_BELIEVE_ITS_NOT_YEEZUS.mp3",
     "/local/DY/02_BLOODBATH.mp3",
     "/local/DY/03_COWGIRL.mp3",
@@ -80,18 +110,36 @@ const buildDietResponse = () => {
     "/local/DY/12_SKINLESS.mp3",
   ];
 
-  const audioSource = process.env.PUBLIC_URL + (isLocal ? responses[MathUtils.randInt(0, responses.length - 1)] : "/audio/wicked_world.mp3");
+  const audioSource = process.env.PUBLIC_URL + (isLocal ? audioFiles[MathUtils.randInt(0, audioFiles.length - 1)] : "/audio/wicked_world.mp3");
 
-  return [{
-    type: "AUDIO",
-    content: <VoiceMessage audioSource={audioSource}/>,
-    isLast: true
-  }]
+  return [
+    {
+      type: "TEXT",
+      content: responses[MathUtils.randInt(0, responses.length - 1)],
+      isLast: true
+    },
+    {
+      type: "AUDIO",
+      content: <VoiceMessage audioSource={audioSource}/>,
+      isLast: true
+    }
+  ]
 };
 
 const buildGKTFResponse = () => {
-  const isLocal = window.location.hostname === "localhost";
   const responses = [
+    "New song from GKTF",
+    "Bangers only",
+    "Toasty Tuesday drops early",
+    "Kendrick was going too hard I haaaaaad to",
+    "Might be as good as it gets",
+    "Check it out",
+    "Hella inspired right now",
+    "Yesssiiirrr"
+  ];
+
+  const isLocal = window.location.hostname === "localhost";
+  const audioFiles = [
     "/local/GKTF/01_GET_MUCH_HIGHER.mp3",
     "/local/GKTF/02_GOOD_KID_TWISTED_FANTASY.mp3",
     "/local/GKTF/03_SACRIFICE_YA_LIFE.mp3",
@@ -105,13 +153,20 @@ const buildGKTFResponse = () => {
     "/local/GKTF/11_DEVIL_IN_THE_BACKSEAT.mp3",
   ];
 
-  const audioSource = process.env.PUBLIC_URL + (isLocal ? responses[MathUtils.randInt(0, responses.length - 1)] : "/audio/wicked_world.mp3");
+  const audioSource = process.env.PUBLIC_URL + (isLocal ? audioFiles[MathUtils.randInt(0, audioFiles.length - 1)] : "/audio/wicked_world.mp3");
 
-  return [{
-    type: "AUDIO",
-    content: <VoiceMessage audioSource={audioSource}/>,
-    isLast: true
-  }]
+  return [
+    {
+      type: "TEXT",
+      content: responses[MathUtils.randInt(0, responses.length - 1)],
+      isLast: true
+    },
+    {
+      type: "AUDIO",
+      content: <VoiceMessage audioSource={audioSource}/>,
+      isLast: true
+    }
+  ]
 };
 
 const buildImageResponse = () => {
@@ -131,9 +186,21 @@ const buildImageResponse = () => {
 };
 
 const buildCanvasResponse = () => {
-  return [{
+  return [
+    {
+      type: "TEXT",
+      content: "Shoutout to the genius that is my boy Kwa",
+      isLast: false,
+    },
+    {
+      type: "TEXT",
+      content: "Check this out",
+      isLast: false,
+    },
+    {
     type: "CANVAS",
     content: <PhoneCanvas />,
     isLast: true,
-  }]
+    }
+  ]
 };
