@@ -83,7 +83,7 @@ function Boxes() {
     }
 
     ref.current.instanceMatrix.needsUpdate = true;
-  }, []);
+  }, [boxList]);
 
   let moveState = Array.from({length: numElementsToDisplay}, () => 0);
   useFrame(() => {
@@ -137,7 +137,7 @@ function Boxes() {
 function SplineSquares() {
   return (
     <>
-      <Canvas>
+      <Canvas id="canvas">
         <OrthographicCamera
           makeDefault
           zoom={5}
@@ -156,7 +156,7 @@ function SplineSquares() {
         <directionalLight position={[2, 2, 2]} color="#d3d3d3" intensity={5}/>
         <OrbitControls makeDefault enablePan={false}/>
         <Boxes/>
-        <Stats/>
+        {/*<Stats/>*/}
       </Canvas>
     </>
   );

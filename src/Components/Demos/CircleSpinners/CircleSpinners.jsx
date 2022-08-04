@@ -87,11 +87,11 @@ function CircleSpinners() {
 
   return (
     <>
-      <Canvas>
+      <Canvas id="canvas">
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         <OrbitControls />
-        <Stats />
+        {/*<Stats />*/}
         <CircleSegments numSegments={8}/>
       </Canvas>
     </>

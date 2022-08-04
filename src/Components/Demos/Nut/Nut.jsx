@@ -1,4 +1,4 @@
-import {Loader, OrbitControls, SpotLight, Stats} from '@react-three/drei';
+import { OrbitControls, SpotLight, Stats} from '@react-three/drei';
 import {Canvas, useFrame, useLoader} from '@react-three/fiber';
 import React, {Suspense, useLayoutEffect, useRef} from "react";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
@@ -75,7 +75,7 @@ function Nut() {
 
   return (
     <>
-      <Canvas shadows camera={{position: [7, 4, 7]}}>
+      <Canvas id="canvas" shadows camera={{position: [7, 4, 7]}}>
         <color attach="background" args={["black"]}/>
         <group position={[0, -2, 0]}>
           <ambientLight color="white" intensity={0.2}/>
@@ -86,7 +86,7 @@ function Nut() {
           <Pedestal scale={0.4}/>
         </group>
         <OrbitControls autoRotate/>
-        <Stats />
+        {/*<Stats />*/}
       </Canvas>
     </>
   );

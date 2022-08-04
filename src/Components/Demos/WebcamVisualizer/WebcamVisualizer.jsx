@@ -1,7 +1,6 @@
 import {OrbitControls, Stats} from '@react-three/drei';
 import {Canvas} from '@react-three/fiber';
 import React, {useEffect} from "react";
-import Box from "../Box";
 import {PointsCam} from "./WebcamEffect";
 
 const width = 960;
@@ -53,12 +52,12 @@ function WebcamVisualizer() {
     <>
       {
         video &&
-        <Canvas camera={{position: [0, 0, 10]}}>
+        <Canvas id="canvas" camera={{position: [0, 0, 10]}}>
           <color attach={"background"} args={["black"]}/>
           <ambientLight intensity={1} color="white"/>
           <directionalLight intensity={1} color="white"/>
           <OrbitControls/>
-          <Stats/>
+          {/*<Stats/>*/}
           <group position={[-width/80/2, -height/80/2, 0]}>
             <PointsCam video={video} width={width} height={height}/>
           </group>

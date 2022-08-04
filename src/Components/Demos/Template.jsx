@@ -13,7 +13,7 @@ const Template = () => {
         <OrbitControls/>
         <Box position={[-1.2, 0, 0]}/>
         <Box position={[1.2, 0, 0]}/>
-        <Stats/>
+        {/*<Stats/>*/}
       </Canvas>
     </>
   )

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="82.322624mm"
+   height="82.322624mm"
+   viewBox="0 0 82.322624 82.322624"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="microphone.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.0544998"
+     inkscape:cx="287.81419"
+     inkscape:cy="253.20062"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="760"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-71.322778,-86.225745)">
+    <path
+       id="path115"
+       style="display:inline;fill:#8b95a2;fill-opacity:1;stroke-width:0.264583"
+       inkscape:label="Background"
+       d="M 112.48409,86.225745 A 41.161293,41.161293 0 0 0 71.322778,127.38706 41.161293,41.161293 0 0 0 112.48409,168.54837 41.161293,41.161293 0 0 0 153.6454,127.38706 41.161293,41.161293 0 0 0 112.48409,86.225745 Z" />
+    <ellipse
+       style="display:inline;fill:#fcfdfd;fill-opacity:1;stroke-width:0.417927"
+       id="path4210-3"
+       cx="113.46698"
+       cy="125.90121"
+       rx="15.114598"
+       ry="15.21371"
+       inkscape:label="mic surround" />
+    <ellipse
+       style="display:inline;fill:#8b95a2;fill-opacity:1;stroke-width:0.355177"
+       id="path4210"
+       cx="113.44199"
+       cy="125.85686"
+       rx="12.845205"
+       ry="12.929436"
+       inkscape:label="mic surround" />
+    <rect
+       style="display:inline;fill:#8b95a2;fill-opacity:1;stroke-width:0.264583"
+       id="rect5360"
+       width="47.770161"
+       height="14.104838"
+       x="88.754028"
+       y="111.86291"
+       ry="0.11938204"
+       inkscape:label="mic surround" />
+    <rect
+       style="display:inline;fill:#fcfdfd;fill-opacity:1;stroke-width:0.157598"
+       id="rect2356"
+       width="28.227247"
+       height="4.3909049"
+       x="99.485352"
+       y="151.79985"
+       inkscape:label="Base of mic" />
+    <rect
+       style="display:inline;fill:#fcfdfd;fill-opacity:1;stroke-width:0.264583"
+       id="rect3400"
+       width="3.7636328"
+       height="12.169079"
+       x="111.52898"
+       y="140.25806"
+       inkscape:label="Base of mic" />
+    <ellipse
+       style="display:inline;fill:#fcfdfd;fill-opacity:1;stroke-width:0.189492"
+       id="path4182"
+       cx="113.30373"
+       cy="126.84333"
+       rx="9.8038168"
+       ry="9.5345364"
+       inkscape:label="Bottom of mic" />
+    <rect
+       style="display:inline;fill:#fcfdfd;fill-opacity:1;stroke-width:0.257807"
+       id="rect4206"
+       width="19.526535"
+       height="20.05619"
+       x="103.53213"
+       y="106.92522"
+       ry="0.11938204"
+       inkscape:label="Core of mic" />
+    <ellipse
+       style="display:inline;fill:#fcfdfd;fill-opacity:1;stroke-width:0.189063"
+       id="path4182-0"
+       ry="9.5345364"
+       rx="9.7594633"
+       cy="106.81998"
+       cx="113.27772"
+       inkscape:label="Top of mic" />
+    <path
+       id="rect5428"
+       style="fill:#fcfdfd;fill-opacity:1;stroke-width:0.238184"
+       d="m 98.448179,115.16713 c -0.05518,0 -0.09958,0.0517 -0.09958,0.11595 v 10.67487 c 0,0.0642 0.04442,0.11596 0.09958,0.11596 h 2.050891 c 0.0552,0 0.0995,-0.0517 0.0995,-0.11596 v -10.67487 c 0,-0.0642 -0.0444,-0.11595 -0.0995,-0.11595 z" />
+    <path
+       id="rect5428-3"
+       style="fill:#fcfdfd;fill-opacity:1;stroke-width:0.240748"
+       d="m 126.38951,115.17746 c -0.0563,0 -0.10127,0.052 -0.10127,0.11635 v 10.68248 c 0,0.0642 0.0449,0.11584 0.10127,0.11584 h 2.09393 c 0.0564,0 0.10179,-0.0515 0.10179,-0.11584 v -10.68248 c 0,-0.0642 -0.0455,-0.11635 -0.10179,-0.11635 z" />
+  </g>
+</svg>

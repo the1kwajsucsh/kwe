@@ -1,0 +1,271 @@
+* {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.avatarName {
+    margin: 0;
+    height: 30%;
+    font-size: 10px;
+}
+
+.avatarHolder {
+    height: 70%;
+}
+
+.avatar {
+    border-radius: 50%;
+    height: 100%;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto 37% auto;
+    grid-template-rows: 35% 65%;
+    height: 100%;
+}
+.grid-item {
+    /*border: 1px solid rgba(0, 0, 0, 0.8);*/
+    font-size: 12px;
+    text-align: center;
+    position: relative;
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.iMessageText {
+    font-size: 10px;
+    text-align: center;
+    color: #8b8b8b;
+}
+
+.phone-left-right-border {
+    border-left: solid 1px #EEE;
+    border-right: solid 1px #EEE;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.web-preview-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f6f6f6;
+    color: #00D0EA;
+    height: 75px;
+    width: 175px;
+    border-radius: 20px 20px 0 0;
+    position: relative;
+}
+
+.web-preview-footer {
+    border-radius: 0 0 20px 20px;
+    color: #b3b4b6;
+    background-color: #eee;
+    position: relative;
+    padding-left: 8px;
+    width: 175px;
+}
+
+.web-preview-footer:before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: -7px;
+    height: 20px;
+    width: 20px;
+    background: #eee;
+    border-bottom-right-radius: 15px;
+}
+.web-preview-footer:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: -10px;
+    width: 10px;
+    height: 20px;
+    background: white;
+    border-bottom-right-radius: 10px;
+}
+
+.web-preview-message:hover {
+    cursor: pointer;
+}
+
+.phone-header {
+    border-top: solid 1px #EEE;
+    border-bottom: 2px solid #ebebeb;
+    height: 15%;
+    width: 350px;
+    background-color: #f9f9f9;
+    border-radius: 25px 25px 0 0;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-top: 1em;
+}
+
+input:focus {
+    outline: none;
+}
+
+.footerHbox {
+    border-radius: 0 0 25px 25px;
+    display: flex;
+    width: 350px;
+    height: calc(25px + 2em);
+    padding-top: 1em;
+    padding-bottom: 1em;
+    justify-content: space-between;
+    border-bottom: solid 1px #EEE;
+}
+
+.sendHbox {
+    display: flex;
+    border-radius: 30px;
+    border: 1px solid #c8c8c8;
+    background-color: #fafafa;
+    padding: 2px 6px 2px 6px;
+}
+
+.flex {
+    display: flex
+}
+
+.icon {
+    height: 100%;
+    width: 18px;
+}
+
+.iosInput {
+    font-family: helvetica, serif;
+    background-color: #fafafa;
+    width: 240px;
+}
+
+.phoneContainer {
+    font-family: helvetica, serif;
+    display: flex ;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.chat {
+    height: 67%;
+    width: 350px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.chat::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+}
+
+.messages {
+    /*margin-top: 30px;*/
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+    word-break: break-word;
+}
+
+.message-image {
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+    object-fit: scale-down;
+    max-width: 250px;
+    height: auto;
+}
+
+.message-audio {
+    padding: 3px 15px;
+}
+
+.yours {
+    align-items: flex-start;
+}
+
+.yours .message {
+    margin-right: 25%;
+    background-color: #eee;
+    position: relative;
+}
+
+.yours .message.last:before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: -7px;
+    height: 20px;
+    width: 20px;
+    background: #eee;
+    border-bottom-right-radius: 15px;
+}
+.yours .message.last:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: -10px;
+    width: 10px;
+    height: 20px;
+    background: white;
+    border-bottom-right-radius: 10px;
+}
+
+.mine {
+    align-items: flex-end;
+}
+
+.mine .message {
+    color: white;
+    margin-left: 25%;
+    background: linear-gradient(to bottom, #00D0EA 0%, #0085D1 100%) fixed;
+    position: relative;
+}
+
+.mine .message.last:before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    right: -8px;
+    height: 20px;
+    width: 20px;
+    background: linear-gradient(to bottom, #00D0EA 0%, #0085D1 100%) fixed;
+    border-bottom-left-radius: 15px;
+}
+
+.mine .message.last:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: -10px;
+    width: 10px;
+    height: 20px;
+    background: white;
+    border-bottom-left-radius: 10px;
+}

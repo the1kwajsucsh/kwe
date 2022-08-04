@@ -110,7 +110,7 @@ function Effects() {
 function AbstractArt() {
   return (
     <Suspense fallback={null}>
-      <Canvas shadows colorManagement camera={{position:[-5,2,10], fov:60}}>
+      <Canvas id="canvas" shadows colorManagement camera={{position:[-5,2,10], fov:60}}>
         <color attach="background" args={["black"]} />
         <ambientLight intensity={0.2}/>
         <directionalLight
@@ -129,7 +129,7 @@ function AbstractArt() {
           <Ribbon />
         </group>
         <OrbitControls autoRotate dampen/>
-        <Stats />
+        {/*<Stats />*/}
         <Effects />
       </Canvas>
     </Suspense>
