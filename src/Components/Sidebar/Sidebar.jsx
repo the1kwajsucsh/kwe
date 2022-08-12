@@ -10,6 +10,7 @@ import WarpedDiscoWall from "../Demos/WarpedDiscoWall/WarpedDiscoWall";
 import Nut from "../Demos/Nut/Nut";
 import AbstractArt from "../Demos/AbstractArt/AbstractArt";
 import ToastyPhone from "../Demos/ToastyPhone/ToastyPhone";
+import MatrixRain from "../Demos/MatrixRain/MatrixRain";
 
 const elements = {
   Basics: {
@@ -17,7 +18,8 @@ const elements = {
     AbstractArt: <AbstractArt/>,
     CircleSpinners: <CircleSpinners/>,
     WarpedDiscoWall: <WarpedDiscoWall/>,
-    Nut: <Nut/>
+    Nut: <Nut/>,
+    MatrixRain: <MatrixRain/>
   },
   Intermediate: {
     SplineSquares: <SplineSquares/>,
