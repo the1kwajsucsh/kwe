@@ -1,7 +1,7 @@
 import React, {useLayoutEffect, useRef} from "react";
 import {Canvas, useFrame, useLoader} from "@react-three/fiber";
 import {OrbitControls, Stats} from "@react-three/drei";
-import {BufferAttribute, DoubleSide, Object3D} from "three";
+import {BufferAttribute, DoubleSide} from "three";
 import {TextureLoader} from "three/src/loaders/TextureLoader";
 import {SymbolShader} from "./SymbolShader";
 import {randInt} from "three/src/math/MathUtils";
@@ -52,12 +52,12 @@ const updateOpacity = (attributesArray, symbolFadeInterval, minNegativeOpacity) 
   }
 };
 
-const MatrixRainPlane = ({width = 50, height=50, symbolFadeInterval=0.02, symbolFadePercentage=0.01, minNegativeOpacity=-1}) => {
+const MatrixRainPlane = ({width = 25, height=25, symbolFadeInterval=0.02, symbolFadePercentage=0.01, minNegativeOpacity=-1}) => {
   const ref = useRef();
   const positionRef = useRef();
   const opacityRef = useRef();
   const textureOffsetRef = useRef();
-  const textureAtlas = useLoader(TextureLoader, process.env.PUBLIC_URL + "/Demos/MatrixRain/atlas.png");
+  const textureAtlas = useLoader(TextureLoader, process.env.PUBLIC_URL + "/Demos/MatrixRain/atlas_matrix.png");
 
   let prevTime = 0;
   let curTime;
@@ -81,8 +81,8 @@ const MatrixRainPlane = ({width = 50, height=50, symbolFadeInterval=0.02, symbol
     let id = 0;
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < height; j++) {
-        positionRef.current.array[id++] = i + i*0.1;
-        positionRef.current.array[id++] = j + j*0.1;
+        positionRef.current.array[id++] = i;
+        positionRef.current.array[id++] = j;
         positionRef.current.array[id++] = 0;
       }
     }
@@ -92,7 +92,7 @@ const MatrixRainPlane = ({width = 50, height=50, symbolFadeInterval=0.02, symbol
   });
 
   return (
-    <group position={[-width/2 - width*0.1/2, -height/2 - height*0.1/2, 0]}>
+    <group position={[-width/2, -height/2, 0]}>
       <points ref={ref}>
         <bufferGeometry>
           <bufferAttribute
@@ -111,14 +111,6 @@ const MatrixRainPlane = ({width = 50, height=50, symbolFadeInterval=0.02, symbol
             {...new BufferAttribute(initializeOpacities(width, height), 1)}
           />
         </bufferGeometry>
-        {/*<pointsMaterial*/}
-          {/*size={1}*/}
-          {/*threshold={0.1}*/}
-          {/*transparent={true}*/}
-          {/*sizeAttenuation={true}*/}
-          {/*map={textureAtlas}*/}
-          {/*depthWrite={false} // fixes having a black box (sometimes) where there should  be transparency...*/}
-        {/*/>*/}
         <shaderMaterial
           attach="material"
           args={[SymbolShader]}
@@ -126,6 +118,7 @@ const MatrixRainPlane = ({width = 50, height=50, symbolFadeInterval=0.02, symbol
           uniforms-u_time-value={0.0}
           side={DoubleSide}
           transparent
+          depthWrite={false}
         />
       </points>
     </group>
