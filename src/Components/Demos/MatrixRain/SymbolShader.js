@@ -16,7 +16,9 @@ export const SymbolShader = {
       vTextureOffsets = textureOffsets;
       vOpacity = opacity;
    
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+      gl_PointSize = 1.0 * ( 300.0 / -mvPosition.z );
+      gl_Position = projectionMatrix * mvPosition;
     }
   `,
   fragmentShader: `
@@ -35,10 +37,10 @@ export const SymbolShader = {
       vec2 uv = vUv;
       vec2 texCoordinate;
       
-      texCoordinate.x = mapLinear(uv.x, 0.0, 1.0, vTextureOffsets.x, vTextureOffsets.x + 0.2);
-      texCoordinate.y = mapLinear(uv.y, 0.0, 1.0, vTextureOffsets.y, vTextureOffsets.y + 0.2);
+      texCoordinate.x = mapLinear(gl_PointCoord.x, 0.0, 1.0, vTextureOffsets.x, vTextureOffsets.x + 0.2);
+      texCoordinate.y = mapLinear(gl_PointCoord.y, 0.0, 1.0, vTextureOffsets.y, vTextureOffsets.y + 0.2);
       
-      vec4 tex = vec4(texture2D(textureAtlas, texCoordinate));
+      vec4 tex = texture2D(textureAtlas, texCoordinate);
       
       gl_FragColor = vec4(tex.xyz, vOpacity);
 }

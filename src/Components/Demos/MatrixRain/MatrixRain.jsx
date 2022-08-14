@@ -1,130 +1,133 @@
-import React, {useRef} from "react";
+import React, {useLayoutEffect, useRef} from "react";
 import {Canvas, useFrame, useLoader} from "@react-three/fiber";
 import {OrbitControls, Stats} from "@react-three/drei";
-import {BufferAttribute, DoubleSide, PlaneBufferGeometry} from "three";
+import {BufferAttribute, DoubleSide, Object3D} from "three";
 import {TextureLoader} from "three/src/loaders/TextureLoader";
 import {SymbolShader} from "./SymbolShader";
 import {randInt} from "three/src/math/MathUtils";
-
-const NUM_VERT_IN_GEOM = 4;
 
 const getNewTextureOffset = () => {
   return randInt(0, 4) * 0.2;
 };
 
-const initializeTextureOffsets = (textureXOffset, textureYOffset) => {
-  const float32Array = new Float32Array(NUM_VERT_IN_GEOM*2);
-  for (let i = 0; i < NUM_VERT_IN_GEOM*2; i +=2) {
-    float32Array[i] = textureXOffset;
-    float32Array[i+1] = textureYOffset;
+const initializeTextureOffsets = (numVertices) => {
+  const float32Array = new Float32Array(numVertices*2);
+  for (let i = 0; i < numVertices*2; i++) {
+    float32Array[i] = getNewTextureOffset();
   }
   return float32Array;
 };
 
-const updateTextureOffsets = (attributesArray) => {
-  const newXOffset = getNewTextureOffset();
-  const newYOffset = getNewTextureOffset();
-
-  for (let i = 0; i < attributesArray.size; i += 2) {
-    attributesArray[i] = newXOffset;
-    attributesArray[i+1] = newYOffset;
+const updateTexture = (textureOffsetArray) => {
+  const PERCENT_TO_UPDATE = 0.005;
+  for (let i = 0; i < textureOffsetArray.length/2 * PERCENT_TO_UPDATE; i++) {
+    const randomIndex = randInt(0, textureOffsetArray.length/2) * 2;
+    textureOffsetArray[randomIndex] = getNewTextureOffset();
+    textureOffsetArray[randomIndex+1] = getNewTextureOffset();
   }
 };
 
-const initializeOpacity = (initialOpacity) => {
-  return new Float32Array(NUM_VERT_IN_GEOM).fill(initialOpacity)
+const initializeOpacities = (width, height) => {
+  const float32Array = new Float32Array(width*height).fill(1.0);
+
+  let id = 0;
+  for (let i = 0; i < width; i++) {
+    const initialOffset = Math.random();
+
+    for (let j = 0; j < height; j++) {
+      float32Array[id++] = -j/height + initialOffset;
+    }
+  }
+
+  return float32Array;
 };
 
 const updateOpacity = (attributesArray, symbolFadeInterval, minNegativeOpacity) => {
-  let opacity = attributesArray[0] - symbolFadeInterval;
-  if (opacity < minNegativeOpacity) {
-    opacity = 1.0;
+  for (let i = 0; i < attributesArray.length; i++) {
+    let opacity = attributesArray[i] - symbolFadeInterval;
+    if (opacity < minNegativeOpacity) {
+      opacity = 1.0;
+    }
+    attributesArray[i] = opacity;
   }
-  attributesArray.fill(opacity)
 };
 
-const Symbol = ({symbolFadeInterval=0.02, symbolFadePercentage=0.01, height=1, width=1, position=[0,0,0], initialOpacity=1, minNegativeOpacity=-1}) => {
-  const materialRef = useRef();
-  const geometryRef = useRef();
+const MatrixRainPlane = ({width = 50, height=50, symbolFadeInterval=0.02, symbolFadePercentage=0.01, minNegativeOpacity=-1}) => {
+  const ref = useRef();
+  const positionRef = useRef();
+  const opacityRef = useRef();
+  const textureOffsetRef = useRef();
   const textureAtlas = useLoader(TextureLoader, process.env.PUBLIC_URL + "/Demos/MatrixRain/atlas.png");
-  const textureXOffset = getNewTextureOffset();
-  const textureYOffset = getNewTextureOffset();
 
   let prevTime = 0;
   let curTime;
   useFrame(({clock}) => {
     curTime = clock.getElapsedTime();
+
+    // update opacity & texture
     if (curTime - prevTime > symbolFadeInterval) {
       prevTime = curTime;
 
-      // update opacity for falling effect
-      updateOpacity(geometryRef.current.attributes.opacity.array, symbolFadeInterval, minNegativeOpacity);
-      geometryRef.current.attributes.opacity.needsUpdate = true;
+      updateOpacity(opacityRef.current.array, symbolFadeInterval, minNegativeOpacity);
+      opacityRef.current.needsUpdate = true;
 
+      updateTexture(textureOffsetRef.current.array);
+      textureOffsetRef.current.needsUpdate = true;
+    }
+  });
 
-      // Random chance to change texture
-      if (Math.random() < 0.001) {
-        updateTextureOffsets(geometryRef.current.attributes.textureOffsets.array);
-        geometryRef.current.attributes.textureOffsets.needsUpdate = true;
+  useLayoutEffect(() => {
+    // set positions
+    let id = 0;
+    for (let i = 0; i < width; i++) {
+      for (let j = 0; j < height; j++) {
+        positionRef.current.array[id++] = i + i*0.1;
+        positionRef.current.array[id++] = j + j*0.1;
+        positionRef.current.array[id++] = 0;
       }
     }
 
-    materialRef.current.uniforms.u_time.value = clock.getElapsedTime();
+    console.log(ref.current);
+    console.log(opacityRef.current);
   });
 
   return (
-    <mesh position={position} rotation={[0, 0, 0]} scale={[1, height, width]}>
-      <planeBufferGeometry ref={geometryRef}>
-        <bufferAttribute
-          attach="attributes-textureOffsets"
-          {...new BufferAttribute(initializeTextureOffsets(textureXOffset, textureYOffset), 2)}
+    <group position={[-width/2 - width*0.1/2, -height/2 - height*0.1/2, 0]}>
+      <points ref={ref}>
+        <bufferGeometry>
+          <bufferAttribute
+            ref={positionRef}
+            attach="attributes-position"
+            {...new BufferAttribute(new Float32Array(width*height*3), 3)}
+          />
+          <bufferAttribute
+            ref={textureOffsetRef}
+            attach="attributes-textureOffsets"
+            {...new BufferAttribute(initializeTextureOffsets(width*height), 2)}
+          />
+          <bufferAttribute
+            ref={opacityRef}
+            attach="attributes-opacity"
+            {...new BufferAttribute(initializeOpacities(width, height), 1)}
+          />
+        </bufferGeometry>
+        {/*<pointsMaterial*/}
+          {/*size={1}*/}
+          {/*threshold={0.1}*/}
+          {/*transparent={true}*/}
+          {/*sizeAttenuation={true}*/}
+          {/*map={textureAtlas}*/}
+          {/*depthWrite={false} // fixes having a black box (sometimes) where there should  be transparency...*/}
+        {/*/>*/}
+        <shaderMaterial
+          attach="material"
+          args={[SymbolShader]}
+          uniforms-textureAtlas-value={textureAtlas}
+          uniforms-u_time-value={0.0}
+          side={DoubleSide}
+          transparent
         />
-        <bufferAttribute
-          attach="attributes-opacity"
-          {...new BufferAttribute(initializeOpacity(initialOpacity), 1)}
-        />
-      </planeBufferGeometry>
-      <shaderMaterial
-        ref={materialRef}
-        attach="material"
-        args={[SymbolShader]}
-        uniforms-textureAtlas-value={textureAtlas}
-        uniforms-u_time-value={0.0}
-        side={DoubleSide}
-        transparent
-      />
-    </mesh>
-  );
-};
-
-const SymbolLine = ({numSymbols=50, position=[0,0,0], initialOffset = 0}) => {
-  const symbols = Array(numSymbols).fill(false);
-
-  return (
-    <group position={position}>
-      {
-        symbols.map((val, index) => {
-          if (!val) {
-            return <Symbol key={index} position={[0, index + (index*0.1), 0]} initialOpacity={-index/numSymbols + initialOffset} />
-          }
-        })
-      }
-    </group>
-  );
-};
-
-const SymbolPlane = ({numColumns=25}) => {
-  const columns = Array(numColumns).fill(false);
-
-  return (
-    <group position={[-numColumns/2, -numColumns/2, 0]}>
-      {
-        columns.map((val, index) => {
-          if (!val) {
-            return <SymbolLine key={index} numSymbols={numColumns} position={[index + (index*0.1), 0, 0]} initialOffset={Math.random()} />
-          }
-        })
-      }
+      </points>
     </group>
   );
 };
@@ -137,7 +140,7 @@ const MatrixRain = () => {
         <ambientLight/>
         <pointLight position={[10, 10, 10]}/>
         <OrbitControls/>
-        <SymbolPlane/>
+        <MatrixRainPlane/>
         <Stats/>
       </Canvas>
     </>
