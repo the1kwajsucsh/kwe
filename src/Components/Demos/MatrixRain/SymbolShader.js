@@ -41,6 +41,13 @@ export const SymbolShader = {
       texCoordinate.y = mapLinear(gl_PointCoord.y, 0.0, 1.0, vTextureOffsets.y, vTextureOffsets.y + 0.2);
       
       vec4 tex = texture2D(textureAtlas, texCoordinate);
+      
+      if (vOpacity > 0.95) {
+        tex.r = 115.0 / 255.0;
+        tex.g = 241.0 / 255.0;
+        tex.b = 156.0 / 255.0;
+      }
+      
       tex.a = tex.a * vOpacity;
       
       gl_FragColor = tex;

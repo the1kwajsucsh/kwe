@@ -4,7 +4,8 @@ import {OrbitControls, Stats} from "@react-three/drei";
 import {BufferAttribute, DoubleSide} from "three";
 import {TextureLoader} from "three/src/loaders/TextureLoader";
 import {SymbolShader} from "./SymbolShader";
-import {randInt} from "three/src/math/MathUtils";
+import {randFloat, randInt} from "three/src/math/MathUtils";
+import {Bloom, EffectComposer} from "@react-three/postprocessing";
 
 let heightVelocities;
 
@@ -30,7 +31,7 @@ const updateTexture = (textureOffsetArray) => {
 };
 
 const getNewOpacityVelocity = () => {
-  return Math.random()*2+0.25;
+  return randFloat(0.3, 1.3);
 };
 
 const initializeOpacities = (width, height) => {
@@ -39,7 +40,7 @@ const initializeOpacities = (width, height) => {
 
   let id = 0;
   for (let i = 0; i < width; i++) {
-    const initialOffset = Math.random();
+    const initialOffset = randFloat(0, 1);
 
     for (let j = 0; j < height; j++) {
       float32Array[id++] = -j/height + initialOffset;
@@ -73,7 +74,15 @@ const updateOpacity = (attributesArray, symbolFadeInterval, minNegativeOpacity, 
   }
 };
 
-const MatrixRainPlane = ({width = 50, height=25, symbolFadeInterval=0.02, symbolFadePercentage=0.01, minNegativeOpacity=-2}) => {
+const MatrixRainPlane = ({
+                           width = 50,
+                           height=25,
+                           symbolFadeInterval=0.01,
+                           symbolFadePercentage=0.01,
+                           minNegativeOpacity=-2,
+                           position=[0, 0, 0],
+                           rotation=[0, 0, 0]
+}) => {
   const ref = useRef();
   const positionRef = useRef();
   const opacityRef = useRef();
@@ -110,35 +119,37 @@ const MatrixRainPlane = ({width = 50, height=25, symbolFadeInterval=0.02, symbol
   });
 
   return (
-    <group position={[-width*0.6/2, -height*0.6/2, 0]}>
-      <points ref={ref}>
-        <bufferGeometry>
-          <bufferAttribute
-            ref={positionRef}
-            attach="attributes-position"
-            {...new BufferAttribute(new Float32Array(width*height*3), 3)}
+    <group position={position} rotation={rotation}>
+      <group position={[-width*0.6/2, -height*0.6/2, 0]}>
+        <points ref={ref}>
+          <bufferGeometry>
+            <bufferAttribute
+              ref={positionRef}
+              attach="attributes-position"
+              {...new BufferAttribute(new Float32Array(width*height*3), 3)}
+            />
+            <bufferAttribute
+              ref={textureOffsetRef}
+              attach="attributes-textureOffsets"
+              {...new BufferAttribute(initializeTextureOffsets(width*height), 2)}
+            />
+            <bufferAttribute
+              ref={opacityRef}
+              attach="attributes-opacity"
+              {...new BufferAttribute(initializeOpacities(width, height), 1)}
+            />
+          </bufferGeometry>
+          <shaderMaterial
+            attach="material"
+            args={[SymbolShader]}
+            uniforms-textureAtlas-value={textureAtlas}
+            uniforms-u_time-value={0.0}
+            side={DoubleSide}
+            transparent
+            depthWrite={false}
           />
-          <bufferAttribute
-            ref={textureOffsetRef}
-            attach="attributes-textureOffsets"
-            {...new BufferAttribute(initializeTextureOffsets(width*height), 2)}
-          />
-          <bufferAttribute
-            ref={opacityRef}
-            attach="attributes-opacity"
-            {...new BufferAttribute(initializeOpacities(width, height), 1)}
-          />
-        </bufferGeometry>
-        <shaderMaterial
-          attach="material"
-          args={[SymbolShader]}
-          uniforms-textureAtlas-value={textureAtlas}
-          uniforms-u_time-value={0.0}
-          side={DoubleSide}
-          transparent
-          depthWrite={false}
-        />
-      </points>
+        </points>
+      </group>
     </group>
   );
 };
@@ -152,7 +163,11 @@ const MatrixRain = () => {
         <pointLight position={[10, 10, 10]}/>
         <OrbitControls/>
         <MatrixRainPlane/>
+        <MatrixRainPlane position={[14,0,15]} rotation={[0, Math.PI/2, 0]}/>
         <Stats/>
+        <EffectComposer>
+          <Bloom luminanceThreshold={0.3} luminanceSmoothing={0.9} height={300} />
+        </EffectComposer>
       </Canvas>
     </>
   )
