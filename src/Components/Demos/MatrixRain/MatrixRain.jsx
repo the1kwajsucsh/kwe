@@ -6,6 +6,8 @@ import {TextureLoader} from "three/src/loaders/TextureLoader";
 import {SymbolShader} from "./SymbolShader";
 import {randInt} from "three/src/math/MathUtils";
 
+let heightVelocities;
+
 const getNewTextureOffset = () => {
   return randInt(0, 4) * 0.2;
 };
@@ -27,7 +29,12 @@ const updateTexture = (textureOffsetArray) => {
   }
 };
 
+const getNewOpacityVelocity = () => {
+  return Math.random()*2+0.25;
+};
+
 const initializeOpacities = (width, height) => {
+  heightVelocities = Array.from({length: width}, () => getNewOpacityVelocity());
   const float32Array = new Float32Array(width*height).fill(1.0);
 
   let id = 0;
@@ -42,17 +49,31 @@ const initializeOpacities = (width, height) => {
   return float32Array;
 };
 
-const updateOpacity = (attributesArray, symbolFadeInterval, minNegativeOpacity) => {
-  for (let i = 0; i < attributesArray.length; i++) {
-    let opacity = attributesArray[i] - symbolFadeInterval;
-    if (opacity < minNegativeOpacity) {
-      opacity = 1.0;
+const updateOpacity = (attributesArray, symbolFadeInterval, minNegativeOpacity, width, height) => {
+  let index = 0;
+  for (let i = 0; i < width; i++) {
+
+    let freeze = false;
+    if (attributesArray[index] < 0) {
+      //freeze = true;
+      heightVelocities[i] = getNewOpacityVelocity();
     }
-    attributesArray[i] = opacity;
+
+    for (let j = 0; j < height; j++) {
+      let opacity = attributesArray[index] - symbolFadeInterval*heightVelocities[i];
+      if (opacity < minNegativeOpacity) {
+        opacity = 1.0;
+      }
+
+      if (!freeze) {
+        attributesArray[index] = opacity;
+      }
+      index++;
+    }
   }
 };
 
-const MatrixRainPlane = ({width = 25, height=25, symbolFadeInterval=0.02, symbolFadePercentage=0.01, minNegativeOpacity=-1}) => {
+const MatrixRainPlane = ({width = 50, height=25, symbolFadeInterval=0.02, symbolFadePercentage=0.01, minNegativeOpacity=-2}) => {
   const ref = useRef();
   const positionRef = useRef();
   const opacityRef = useRef();
@@ -68,7 +89,7 @@ const MatrixRainPlane = ({width = 25, height=25, symbolFadeInterval=0.02, symbol
     if (curTime - prevTime > symbolFadeInterval) {
       prevTime = curTime;
 
-      updateOpacity(opacityRef.current.array, symbolFadeInterval, minNegativeOpacity);
+      updateOpacity(opacityRef.current.array, symbolFadeInterval, minNegativeOpacity, width, height);
       opacityRef.current.needsUpdate = true;
 
       updateTexture(textureOffsetRef.current.array);
@@ -81,18 +102,15 @@ const MatrixRainPlane = ({width = 25, height=25, symbolFadeInterval=0.02, symbol
     let id = 0;
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < height; j++) {
-        positionRef.current.array[id++] = i;
-        positionRef.current.array[id++] = j;
+        positionRef.current.array[id++] = i*0.6;
+        positionRef.current.array[id++] = j*0.6;
         positionRef.current.array[id++] = 0;
       }
     }
-
-    console.log(ref.current);
-    console.log(opacityRef.current);
   });
 
   return (
-    <group position={[-width/2, -height/2, 0]}>
+    <group position={[-width*0.6/2, -height*0.6/2, 0]}>
       <points ref={ref}>
         <bufferGeometry>
           <bufferAttribute
@@ -129,7 +147,7 @@ const MatrixRain = () => {
   return (
     <>
       <Canvas id="canvas" aspect={2.35} camera={{position: [0, 0, 30]}}>
-        <color attach="background" args={["gray"]}/>
+        <color attach="background" args={["black"]}/>
         <ambientLight/>
         <pointLight position={[10, 10, 10]}/>
         <OrbitControls/>
