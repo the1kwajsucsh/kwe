@@ -4,9 +4,9 @@
   "homepage": "https://the1kwa1jsucsh.github.io/kwe/",
   "private": true,
   "dependencies": {
-    "@react-three/drei": "^9.16.0",
-    "@react-three/fiber": "^8.0.27",
-    "@react-three/postprocessing": "^2.4.5",
+    "@react-three/drei": "^9.23.7",
+    "@react-three/fiber": "^8.6.0",
+    "@react-three/postprocessing": "2.4.5",
     "gh-pages": "^4.0.0",
     "leva": "^0.9.28",
     "lodash": "^4.17.21",

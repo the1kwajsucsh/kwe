@@ -1,4 +1,4 @@
-import {OrbitControls, Stats} from '@react-three/drei';
+import {OrbitControls} from '@react-three/drei';
 import {Canvas} from '@react-three/fiber';
 import React, {Suspense} from "react";
 import {useControls} from 'leva';
@@ -110,7 +110,7 @@ function Effects() {
 function AbstractArt() {
   return (
     <Suspense fallback={null}>
-      <Canvas id="canvas" shadows colorManagement camera={{position:[-5,2,10], fov:60}}>
+      <Canvas id="canvas" shadows camera={{position:[-5,2,10], fov:60}}>
         <color attach="background" args={["black"]} />
         <ambientLight intensity={0.2}/>
         <directionalLight
@@ -129,7 +129,6 @@ function AbstractArt() {
           <Ribbon />
         </group>
         <OrbitControls autoRotate dampen/>
-        {/*<Stats />*/}
         <Effects />
       </Canvas>
     </Suspense>

@@ -2025,15 +2025,15 @@
   resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.4.5.tgz#9c71e5ff866b5484a7ef3db822bf6c10e77bdd8c"
   integrity sha512-mpRIamoHwql0ogxEUh9yr4TP0xU5CWyZxVQeccGkHHF8kPMErtDXJlxyo0lj+telRF35XNihtPTWoflqtyARmg==
 
-"@react-three/drei@^9.16.0":
-  version "9.16.0"
-  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.16.0.tgz#6d2ba26e9d6bc0adcfc5063f774c59ecf35f7241"
-  integrity sha512-JV2+SHEWwSMBs9sFLkOQ8nJ3CT2AFRGkKOSKTvEaz0BzJT2ovR01Ge356FnLkRhRmtJG+MAv0g2Y9/p+UygWyQ==
+"@react-three/drei@^9.23.7":
+  version "9.23.7"
+  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.23.7.tgz#9da7bade0e0fa42f1c18e00cceef12dd9da4ff44"
+  integrity sha512-tUTID9B25x/c2T/ldx1OwqdLNNcRTyQVayXZe6uqAjx8KFkMSLyCKq0DZtLfYBzAvUiV0M570XR3zIJ9HU9f/w==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@react-spring/three" "^9.3.1"
     "@use-gesture/react" "^10.2.0"
-    detect-gpu "^4.0.19"
+    detect-gpu "^4.0.36"
     glsl-noise "^0.0.0"
     lodash.omit "^4.5.0"
     lodash.pick "^4.4.0"
@@ -2042,16 +2042,16 @@
     react-merge-refs "^1.1.0"
     stats.js "^0.17.0"
     suspend-react "^0.0.8"
-    three-mesh-bvh "^0.5.10"
-    three-stdlib "^2.10.2"
+    three-mesh-bvh "^0.5.15"
+    three-stdlib "^2.14.3"
     troika-three-text "^0.46.4"
     utility-types "^3.10.0"
     zustand "^3.5.13"
 
-"@react-three/fiber@^8.0.27":
-  version "8.0.27"
-  resolved "https://registry.yarnpkg.com/@react-three/fiber/-/fiber-8.0.27.tgz#06a3d3477282f1b8417cc319170866b79d4b3aaa"
-  integrity sha512-9taELeNe3buKCkwwEJHL5vR0xEFQc+TMDZ+RFk0jcbBFEFKZTqUyNepjoZj6GT51838ddSO5qtmTFxuDTK3LBQ==
+"@react-three/fiber@^8.6.0":
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/@react-three/fiber/-/fiber-8.6.0.tgz#cd9918b234feef2df4f12248eb2de211a7cc7bab"
+  integrity sha512-bdSrjPkcoGYqLsKL5pZHR3SrkzUyxP+VA7wKWhMQPZR+zUYhvw1IpUT+v/d/jlk7sKHlQS8KmGVvM91Ug1QJhA==
   dependencies:
     "@babel/runtime" "^7.17.8"
     "@types/react-reconciler" "^0.26.7"
@@ -2061,7 +2061,7 @@
     suspend-react "^0.0.8"
     zustand "^3.7.1"
 
-"@react-three/postprocessing@^2.4.5":
+"@react-three/postprocessing@2.4.5":
   version "2.4.5"
   resolved "https://registry.yarnpkg.com/@react-three/postprocessing/-/postprocessing-2.4.5.tgz#7652cdf607f6369bbe3361975af21d4d6baa2812"
   integrity sha512-o4IkP3E+2rDgwQD6luBcXGfvMQX+4EPOOWOtHUGhvMxKnGVn2SkQjf0B/T+opjHZavtkfTS9AUfvewIEslGeDw==
@@ -4200,10 +4200,10 @@ destroy@1.2.0:
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.2.0.tgz#4803735509ad8be552934c67df614f94e66fa015"
   integrity sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==
 
-detect-gpu@^4.0.19:
-  version "4.0.29"
-  resolved "https://registry.yarnpkg.com/detect-gpu/-/detect-gpu-4.0.29.tgz#1aea8da2e90ad7af9fad98f7a72da03e5666fd7b"
-  integrity sha512-4zvSjW8GcpwX6GqEJsp2Y9tTzE/6lq1hEaWs6+bvpMr2KW7hSGcvwAN2AcliA6VDvh+TcTenbcJuDRGG4XfRVw==
+detect-gpu@^4.0.36:
+  version "4.0.36"
+  resolved "https://registry.yarnpkg.com/detect-gpu/-/detect-gpu-4.0.36.tgz#65927d8c8700ab28920eada9a68eb8c80cfea8c4"
+  integrity sha512-er7wefPzC4uJNsH3nDW0r2A/QB3+qAB0ln4gL9XuJebi/UPH8wSFaTBaRIfV4qAzqzyQaYmcxm3qRgnLQW6qXw==
   dependencies:
     webgl-constants "^1.1.1"
 
@@ -6677,6 +6677,11 @@ ktx-parse@^0.2.1:
   resolved "https://registry.yarnpkg.com/ktx-parse/-/ktx-parse-0.2.2.tgz#b037b66044855215b332cb73104590af49e47791"
   integrity sha512-cFBc1jnGG2WlUf52NbDUXK2obJ+Mo9WUkBRvr6tP6CKxRMvZwDDFNV3JAS4cewETp5KyexByfWm9sm+O8AffiQ==
 
+ktx-parse@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/ktx-parse/-/ktx-parse-0.4.5.tgz#79905e22281a9d3e602b2ff522df1ee7d1813aa6"
+  integrity sha512-MK3FOody4TXbFf8Yqv7EBbySw7aPvEcPX++Ipt6Sox+/YMFvR5xaTyhfNSk1AEmMy+RYIw81ctN4IMxCB8OAlg==
+
 language-subtag-registry@~0.3.2:
   version "0.3.21"
   resolved "https://registry.yarnpkg.com/language-subtag-registry/-/language-subtag-registry-0.3.21.tgz#04ac218bea46f04cb039084602c6da9e788dd45a"
@@ -8131,9 +8136,9 @@ postcss@^8.3.5, postcss@^8.4.14, postcss@^8.4.4, postcss@^8.4.7:
     source-map-js "^1.0.2"
 
 postprocessing@^6.28.1:
-  version "6.28.1"
-  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.28.1.tgz#b201e6d9c9e1e2af4213a3b81af57ec599f5ed8d"
-  integrity sha512-3KwA5k9IwdB0bpyJ/jK1KnXAk1BJYV1jnywGXJnQXg5trSNVRUq0Gkas2GDIpo+6ThCbwb20NmF6WQOaeyk1Og==
+  version "6.28.5"
+  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.28.5.tgz#82363194d366f606cf0f25e32028fd46debca919"
+  integrity sha512-e9aH6T720AiQpStdgqrQSsHzpddFQ7Q8v204sZx4iSTnUuYvkq7mFPOyzhVDlx5NrmXXbwz2PEK2XTq+qEYSMg==
 
 potpack@^1.0.1:
   version "1.0.2"
@@ -8883,9 +8888,9 @@ schema-utils@^4.0.0:
     ajv-keywords "^5.0.0"
 
 screen-space-reflections@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/screen-space-reflections/-/screen-space-reflections-1.0.7.tgz#0ab24ed13f36f877df48c6885e06517c4ace49a6"
-  integrity sha512-wvAUWTeJOTB9z2Wn6+zo061RduTzaS3pfYo2Ag/AcDTH536+OKWkfvEvw03yuGVJmKNGJFUi3BwwBYcO3lKm+g==
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/screen-space-reflections/-/screen-space-reflections-1.0.8.tgz#304de62086cdcfa92151a48d19a608539e548586"
+  integrity sha512-UBahDIY3TBds7RIkiGmBMQLZKjBYuAdatOBHEs8jpkSe414cJ66nKNPh/cBFL7ZekTorluNbmxdbJ1GEw/e8xQ==
 
 select-hose@^2.0.0:
   version "2.0.0"
@@ -9556,12 +9561,28 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-three-mesh-bvh@^0.5.10:
-  version "0.5.14"
-  resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.5.14.tgz#605654cf802b3e92ea7b18997535960d04344159"
-  integrity sha512-rSk7SpKDR47m1PmkUxt5na5+dM4h0KW5zF43lMniZGjT4hQn9Om+g64ooFreFIWlQlrNN8pFqiPnDMRZS58/Yw==
+three-mesh-bvh@^0.5.15:
+  version "0.5.15"
+  resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.5.15.tgz#bcf681d784d8988618344a5e11e7ded7e76ee86a"
+  integrity sha512-jxE5iGjcoEMiyxUs7hMeZL6jBXBz9973ilqhXPhKlA1f7eitjIxRTtu7UWVQy+PhxXTsknmPzWmN5c+uAa/anA==
 
-three-stdlib@^2.10.2, three-stdlib@^2.8.11:
+three-stdlib@^2.14.3:
+  version "2.14.3"
+  resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.14.3.tgz#785cf927d20b62462d8d7b7b369bca564a66a254"
+  integrity sha512-FS2HsQFuGIexhzVRrAzhOHtC5YSkIyauWr3MgT6TSVcNZIVy5r+H9i5+Pjed2Oq4mpe97BufmJd+1Xg5Exh0rA==
+  dependencies:
+    "@babel/runtime" "^7.16.7"
+    "@webgpu/glslang" "^0.0.15"
+    chevrotain "^10.1.2"
+    draco3d "^1.4.1"
+    fflate "^0.6.9"
+    ktx-parse "^0.4.5"
+    mmd-parser "^1.0.4"
+    opentype.js "^1.3.3"
+    potpack "^1.0.1"
+    zstddec "^0.0.2"
+
+three-stdlib@^2.8.11:
   version "2.12.1"
   resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.12.1.tgz#b63de05cf7f7803e630a7c0c5887e85ae06178ca"
   integrity sha512-G3SSsCOBiWa0sjjPt+K28ikQ84Plm/ZVUozMfWagK59kZqBWcaPVXpOThkAgvdBpm2zCWLW3edAoW/4XIbljVQ==

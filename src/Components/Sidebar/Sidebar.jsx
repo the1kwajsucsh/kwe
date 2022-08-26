@@ -10,11 +10,13 @@ import WarpedDiscoWall from "../Demos/WarpedDiscoWall/WarpedDiscoWall";
 import Nut from "../Demos/Nut/Nut";
 import AbstractArt from "../Demos/AbstractArt/AbstractArt";
 import ToastyPhone from "../Demos/ToastyPhone/ToastyPhone";
+import AbstractArt2 from "../Demos/AbstractArt2/AbstractArt2";
 
 const elements = {
   Basics: {
     Template: <Template/>,
     AbstractArt: <AbstractArt/>,
+    AbstractArt2_Basement: <AbstractArt2/>,
     CircleSpinners: <CircleSpinners/>,
     WarpedDiscoWall: <WarpedDiscoWall/>,
     Nut: <Nut/>
