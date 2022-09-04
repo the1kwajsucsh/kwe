@@ -169,7 +169,40 @@ html, #root, .app {
   height: 100%;
 }
 
+.non-sidebar-area {
+  width: calc(100% - 15rem);
+  height: 100%;
+}
+
+.enter-button {
+  --width: 7em;
+  --height: 2.1em;
+
+  border: 2px solid lightgray;
+  border-radius: 0.5em;
+  color: lightgray;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: var(--height);
+  width: var(--width);
+  font-size: 1.5em;
+  z-index: 10000;
+  position: absolute;
+  left: calc(50% - var(--width)/2);
+  top: calc(10% - var(--height)/2);
+}
+
+.enter-button:hover {
+  color: white;
+  border-color: white;
+}
+
 /* MEDIA */
+
+@media (max-width: 1023px) {
+  .non-sidebar-area {
+    width: 100%;
+  }
+}
 
 @media (min-width: 1024px) {
   .lg-flex {

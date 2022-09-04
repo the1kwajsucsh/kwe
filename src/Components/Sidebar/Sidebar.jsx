@@ -21,12 +21,12 @@ const elements = {
     CircleSpinners: <CircleSpinners/>,
     WarpedDiscoWall: <WarpedDiscoWall/>,
     Nut: <Nut/>,
-    MatrixRain: <MatrixRain/>
+    MatrixRain: <MatrixRain/>,
   },
   Intermediate: {
     SplineSquares: <SplineSquares/>,
     WebcamVisualizer: <WebcamVisualizer/>,
-    ToastyPhone: <ToastyPhone/>
+    ToastyPhone: <ToastyPhone/>,
   },
 };
 
