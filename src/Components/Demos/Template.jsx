@@ -1,6 +1,6 @@
 import React from "react";
 import {Canvas} from "@react-three/fiber";
-import {OrbitControls, Stats} from "@react-three/drei";
+import {OrbitControls} from "@react-three/drei";
 import Box from "./Box";
 
 const Template = () => {
@@ -13,7 +13,6 @@ const Template = () => {
         <OrbitControls/>
         <Box position={[-1.2, 0, 0]}/>
         <Box position={[1.2, 0, 0]}/>
-        {/*<Stats/>*/}
       </Canvas>
     </>
   )
