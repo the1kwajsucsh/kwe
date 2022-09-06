@@ -12,6 +12,7 @@ import AbstractArt from "../Demos/AbstractArt/AbstractArt";
 import ToastyPhone from "../Demos/ToastyPhone/ToastyPhone";
 import MatrixRain from "../Demos/MatrixRain/MatrixRain";
 import AbstractArt2 from "../Demos/AbstractArt2/AbstractArt2";
+import AudioBoxVisualizer from "../Demos/AudioPathVisualizer/AudioBoxVisualizer";
 
 const elements = {
   Basics: {
@@ -20,12 +21,13 @@ const elements = {
     AbstractArt2_Basement: <AbstractArt2/>,
     CircleSpinners: <CircleSpinners/>,
     WarpedDiscoWall: <WarpedDiscoWall/>,
+    AudioBoxVisualizer: <AudioBoxVisualizer/>,
     Nut: <Nut/>,
-    MatrixRain: <MatrixRain/>,
   },
   Intermediate: {
     SplineSquares: <SplineSquares/>,
     WebcamVisualizer: <WebcamVisualizer/>,
+    MatrixRain: <MatrixRain/>,
     ToastyPhone: <ToastyPhone/>,
   },
 };
