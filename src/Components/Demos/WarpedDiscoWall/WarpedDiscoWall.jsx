@@ -1,4 +1,4 @@
-import {PerspectiveCamera, Stats} from '@react-three/drei';
+import {PerspectiveCamera} from '@react-three/drei';
 import {Canvas, useThree} from '@react-three/fiber';
 import React, {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {BoxGeometry, Color, Object3D, Vector3} from "three";
@@ -134,7 +134,6 @@ function WarpedDiscoWall() {
         <Boxes/>
         <CameraPositioning/>
         <Effects/>
-        {/*<Stats/>*/}
       </Canvas>
     </>
   );

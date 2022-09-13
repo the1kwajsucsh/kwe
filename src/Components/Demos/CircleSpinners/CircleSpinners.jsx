@@ -1,4 +1,4 @@
-import {Line, OrbitControls, Stats} from '@react-three/drei';
+import {Line, OrbitControls} from '@react-three/drei';
 import {Canvas, useFrame} from '@react-three/fiber';
 import React, {useRef, useState} from "react";
 import {Vector3} from "three";
@@ -91,7 +91,6 @@ function CircleSpinners() {
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         <OrbitControls />
-        {/*<Stats />*/}
         <CircleSegments numSegments={8}/>
       </Canvas>
     </>

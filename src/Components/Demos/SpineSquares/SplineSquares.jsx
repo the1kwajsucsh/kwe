@@ -1,4 +1,4 @@
-import {OrbitControls, OrthographicCamera, Stats} from '@react-three/drei';
+import {OrbitControls, OrthographicCamera} from '@react-three/drei';
 import {Canvas, useFrame} from '@react-three/fiber';
 import React, {useLayoutEffect, useRef, useState} from "react";
 import {Color, Matrix4, Object3D, Vector3} from "three";
@@ -156,7 +156,6 @@ function SplineSquares() {
         <directionalLight position={[2, 2, 2]} color="#d3d3d3" intensity={5}/>
         <OrbitControls makeDefault enablePan={false}/>
         <Boxes/>
-        {/*<Stats/>*/}
       </Canvas>
     </>
   );
