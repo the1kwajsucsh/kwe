@@ -12,7 +12,9 @@ function App() {
     <div className="app">
       <div className="lg-flex h-full">
         <Sidebar setExample={setExample} params={params}/>
-        <Content example={example}/>
+        <div className="non-sidebar-area">
+          <Content example={example}/>
+        </div>
       </div>
     </div>
   );
