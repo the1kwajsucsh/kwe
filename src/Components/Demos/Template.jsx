@@ -1,6 +1,6 @@
 import React from "react";
 import {Canvas} from "@react-three/fiber";
-import {OrbitControls} from "@react-three/drei";
+import ManualOrbitControlledPerspectiveCamera from "../Common/ManualOrbitControlledPerspectiveCamera";
 import Box from "./Box";
 
 const Template = () => {
@@ -10,7 +10,7 @@ const Template = () => {
         <color attach="background" args={["black"]}/>
         <ambientLight/>
         <pointLight position={[10, 10, 10]}/>
-        <OrbitControls/>
+        <ManualOrbitControlledPerspectiveCamera/>
         <Box position={[-1.2, 0, 0]}/>
         <Box position={[1.2, 0, 0]}/>
       </Canvas>
