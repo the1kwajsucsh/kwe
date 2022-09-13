@@ -12,7 +12,7 @@ import AbstractArt from "../Demos/AbstractArt/AbstractArt";
 import ToastyPhone from "../Demos/ToastyPhone/ToastyPhone";
 import MatrixRain from "../Demos/MatrixRain/MatrixRain";
 import AbstractArt2 from "../Demos/AbstractArt2/AbstractArt2";
-import AudioBoxVisualizer from "../Demos/AudioPathVisualizer/AudioBoxVisualizer";
+import AudioBoxVisualizer from "../Demos/AudioBoxVisualizer/AudioBoxVisualizer";
 
 const elements = {
   Basics: {

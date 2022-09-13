@@ -7,6 +7,8 @@ import {createAudio} from "../../../js/audioAnalyzer/audioAnalyzer";
 import {lerp, mapLinear} from "three/src/math/MathUtils";
 import {Color} from "three";
 
+const isLocal = window.location.hostname === "localhost";
+
 const BoxVisualizer = ({drums, other, bass, vocals}) => {
   const ref = useRef();
   const { gain: drumsGain, context: drumsContext, update: drumsUpdate } = suspend(() => createAudio(drums), [drums]);
@@ -42,7 +44,7 @@ const BoxVisualizer = ({drums, other, bass, vocals}) => {
     ref.current.scale.z = lerp(ref.current.scale.z, 0.4 + drumsVolumeAmplituede, 0.1);
 
     // Bass: Vertical position
-    ref.current.position.y = lerp(ref.current.position.y, bassVolumeAmplitude*5 + (ref.current.scale.y/2), 0.03);
+    ref.current.position.y = lerp(ref.current.position.y, 0.4 + bassVolumeAmplitude*5 + (ref.current.scale.y/2), 0.03);
 
     // Vocals: Rotation speed
     ref.current.rotation.y += mapLinear(vocalsVolumeAmplitude, 0, 0.5, 0, 0.3);
@@ -51,7 +53,7 @@ const BoxVisualizer = ({drums, other, bass, vocals}) => {
     // Other: Color
     let currentColor = {};
     ref.current.material.color.getHSL(currentColor);
-    const newColor = lerp(currentColor.h, mapLinear(otherVolumeAmplitude, 0, 0.1, 0, 360), 0.1);
+    const newColor = lerp(currentColor.h, mapLinear(otherVolumeAmplitude, 0, (!isLocal ? 0.05: 0.1), 0, 360), (!isLocal ? 1 : 0.1));
     ref.current.material.color = new Color(`hsl(${newColor}, 100%, 50%)`);
   });
 
@@ -64,6 +66,26 @@ const BoxVisualizer = ({drums, other, bass, vocals}) => {
   )
 };
 
+// scale
+const getDrums = () => {
+  return !isLocal ? process.env.PUBLIC_URL + "/audio/sampulator/808.mp3" : process.env.PUBLIC_URL + "/local/daylight/drums.wav";
+};
+
+// color
+const getOther = () => {
+  return !isLocal ? process.env.PUBLIC_URL + "/audio/sampulator/hat.mp3" : process.env.PUBLIC_URL + "/local/daylight/other.wav";
+};
+
+// vertical position
+const getBass = () => {
+  return !isLocal ? process.env.PUBLIC_URL + "/audio/sampulator/misc.mp3" : process.env.PUBLIC_URL + "/local/daylight/bass.wav";
+};
+
+// rotation
+const getVocals = () => {
+  return !isLocal ? process.env.PUBLIC_URL + "/audio/sampulator/vocal.mp3" : process.env.PUBLIC_URL + "/local/daylight/vocals.wav";
+};
+
 const AudioBoxVisualizer = () => {
   return (
     <Canvas id="canvas" aspect={2.35} shadows camera={{position: [1.3, 2, 2.6]}}>
@@ -71,12 +93,7 @@ const AudioBoxVisualizer = () => {
       <Plane position={[0, 0, 0]} rotation={[-Math.PI/2, 0, 0]} args={[100, 100]} receiveShadow>
         <meshStandardMaterial color="#05badd" side={DoubleSide}/>
       </Plane>
-      <BoxVisualizer
-        drums={process.env.PUBLIC_URL + "/local/daylight/drums.wav"}
-        other={process.env.PUBLIC_URL + "/local/daylight/other.wav"}
-        bass={process.env.PUBLIC_URL + "/local/daylight/bass.wav"}
-        vocals={process.env.PUBLIC_URL + "/local/daylight/vocals.wav"}
-      />
+      <BoxVisualizer drums={getDrums()} other={getOther()} bass={getBass()} vocals={getVocals()} />
       <ambientLight intensity={0.5}/>
       <pointLight position={[10, 10, 10]} castShadow/>
       <OrbitControls autoRotate autoRotateSpeed={3}/>
