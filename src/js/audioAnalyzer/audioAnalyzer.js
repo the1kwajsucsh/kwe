@@ -24,6 +24,8 @@ export async function createAudio(url) {
   // The frequencyData array receive the audio frequencies
   const frequencyData = new Uint8Array(analyser.frequencyBinCount);
   const pcmData = new Float32Array(analyser.fftSize);
+  let n = 0;
+  let volumeHistoryTenSeconds = new Array(600).fill(0);
 
   return {
     context,
@@ -45,12 +47,47 @@ export async function createAudio(url) {
       for (const amplitude of pcmData) {sumSquares += amplitude*amplitude}
       const volumeAmplitude =  Math.sqrt(sumSquares / pcmData.length);
 
+      // Store history
+      n++;
+      volumeHistoryTenSeconds[n % volumeHistoryTenSeconds.length] = volumeAmplitude;
+
+
       return {
         freqAverage: frequencyAverage,
         volumeAmplitude: volumeAmplitude,
+        volumeAvg: average(volumeHistoryTenSeconds),
+        volumeHistoryAvg: average(getPreviousElementsFromIndex(volumeHistoryTenSeconds, n % volumeHistoryTenSeconds.length, 10)),
         minDecibels: analyser.minDecibels,
         maxDecibels: analyser.maxDecibels,
       }
     },
   }
 }
+
+/**
+ * Calculates the average value of an array.
+ * @param array The array.
+ * @returns {number}
+ */
+const average = array => array.reduce((a, b) => a + b) / array.length;
+
+/**
+ * Retrieves the last n elements from an array with the tail of the elements
+ * at index. Will wrap around.
+ * @param arr The array containing the elements.
+ * @param index The index of the tail.
+ * @param n The number of elements to retrieve.
+ * @returns An array of size N containing the last N elements from the array with the tail at the index.
+ */
+const getPreviousElementsFromIndex = (arr, index, n) => {
+  if (n > index) {
+    const newArr = [];
+    const numToGrabFromEnd = n - index;
+
+    arr.slice(0, index).forEach(element => newArr.push(element));
+    arr.slice(arr.length - numToGrabFromEnd).forEach(element => newArr.push(element));
+    return newArr;
+  } else {
+    return arr.slice(index - n, index)
+  }
+};
