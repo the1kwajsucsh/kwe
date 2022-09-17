@@ -44,7 +44,6 @@ const buildThankResponse = () => {
 };
 
 const build2049Response = () => {
-  const isLocal = window.location.hostname === "localhost";
   const responses = [
     "Check this out",
     "Bangers only",
@@ -76,7 +75,7 @@ const build2049Response = () => {
     "/local/2049/17_TOUCH_THE_SKY.mp3",
   ];
 
-  const audioSource = process.env.PUBLIC_URL + (isLocal ? audioFiles[MathUtils.randInt(0, audioFiles.length - 1)] : "/audio/wicked_world.mp3");
+  const audioSource = process.env.PUBLIC_URL + audioFiles[MathUtils.randInt(0, audioFiles.length - 1)];
 
   return [
     {
@@ -93,8 +92,6 @@ const build2049Response = () => {
 };
 
 const buildDietResponse = () => {
-  const isLocal = window.location.hostname === "localhost";
-
   const responses = [
     "DIET YEEZUS ALL DAY BABY",
     "Bangers only",
@@ -121,7 +118,7 @@ const buildDietResponse = () => {
     "/local/DY/12_SKINLESS.mp3",
   ];
 
-  const audioSource = process.env.PUBLIC_URL + (isLocal ? audioFiles[MathUtils.randInt(0, audioFiles.length - 1)] : "/audio/wicked_world.mp3");
+  const audioSource = process.env.PUBLIC_URL + audioFiles[MathUtils.randInt(0, audioFiles.length - 1)];
 
   return [
     {
@@ -149,7 +146,6 @@ const buildGKTFResponse = () => {
     "Yesssiiirrr"
   ];
 
-  const isLocal = window.location.hostname === "localhost";
   const audioFiles = [
     "/local/GKTF/01_GET_MUCH_HIGHER.mp3",
     "/local/GKTF/02_GOOD_KID_TWISTED_FANTASY.mp3",
@@ -164,7 +160,7 @@ const buildGKTFResponse = () => {
     "/local/GKTF/11_DEVIL_IN_THE_BACKSEAT.mp3",
   ];
 
-  const audioSource = process.env.PUBLIC_URL + (isLocal ? audioFiles[MathUtils.randInt(0, audioFiles.length - 1)] : "/audio/wicked_world.mp3");
+  const audioSource = process.env.PUBLIC_URL + audioFiles[MathUtils.randInt(0, audioFiles.length - 1)];
 
   return [
     {
