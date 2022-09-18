@@ -52,7 +52,8 @@ const SphereVideoShader = {
     void main() {
       vUv = uv;
       vNormal = normal;
-      float noise = noised(4.*position).x;
+      vec3 p = position;
+      float noise = noised(4.*vec3(p.x, p.y, p.z + time / 5.)).x;
       vec3 newPosition = position + noise*normal;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
     }

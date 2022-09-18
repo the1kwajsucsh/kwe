@@ -1,13 +1,20 @@
-import React from "react";
-import {Canvas} from "@react-three/fiber";
+import React, {useRef} from "react";
+import {Canvas, useFrame} from "@react-three/fiber";
 import {OrbitControls, Sphere, useVideoTexture} from "@react-three/drei";
 import {SphereVideoShader} from "./SphereVideoShader";
 import {UniformsUtils} from "three";
 
 function VideoMaterial({ texture }) {
+  const shaderRef = useRef();
+
+  useFrame(({clock}) => {
+    shaderRef.current.uniforms.time.value = clock.elapsedTime;
+  });
+
   return (
     <shaderMaterial
       attach="material"
+      ref={shaderRef}
       transparent
       args={[
         {
@@ -26,7 +33,7 @@ function VideoMaterial({ texture }) {
 const SphereVideo = () => {
   const texture = useVideoTexture(process.env.PUBLIC_URL + "/video/05_JESUS_WALKS.mp4");
   return (
-    <Sphere>
+    <Sphere args={[1, 100, 100]}>
       <VideoMaterial texture={texture} />
     </Sphere>
   )
