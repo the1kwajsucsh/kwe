@@ -13,12 +13,14 @@ import ToastyPhone from "../Demos/ToastyPhone/ToastyPhone";
 import MatrixRain from "../Demos/MatrixRain/MatrixRain";
 import AbstractArt2 from "../Demos/AbstractArt2/AbstractArt2";
 import AudioBoxVisualizer from "../Demos/AudioBoxVisualizer/AudioBoxVisualizer";
+import SphereVideo from "../Demos/SphereVideo/SphereVideo";
 
 const elements = {
   Basics: {
     Template: <Template/>,
     AbstractArt: <AbstractArt/>,
     AbstractArt2_Basement: <AbstractArt2/>,
+    SphereVideo: <SphereVideo/>,
     CircleSpinners: <CircleSpinners/>,
     WarpedDiscoWall: <WarpedDiscoWall/>,
     AudioBoxVisualizer: <AudioBoxVisualizer/>,
