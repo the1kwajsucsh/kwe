@@ -1,4 +1,4 @@
-const SphereVideoShader = {
+const CircleVideoShader = {
   vertexShader: `
     uniform float time;
     varying vec2 vUv;
@@ -53,9 +53,9 @@ const SphereVideoShader = {
       vUv = uv;
       vNormal = normal;
       vec3 p = position;
-      float noise = noised(1.*vec3(p.x, p.y, p.z + time / 4.)).x;
-      vec3 newPosition = position + noise*normal;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+      float noise = noised(0.6*vec3(p.x+time/7., p.y+time/9., p.z + time / 2.)).x;
+      vec3 newPosition = position + noise;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition.x, newPosition.y, p.z, 1.0);
     }
   `,
   fragmentShader: `
@@ -77,4 +77,4 @@ const SphereVideoShader = {
   }
 };
 
-export { SphereVideoShader };
+export { CircleVideoShader };
