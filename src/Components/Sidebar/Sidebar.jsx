@@ -14,6 +14,7 @@ import MatrixRain from "../Demos/MatrixRain/MatrixRain";
 import AbstractArt2 from "../Demos/AbstractArt2/AbstractArt2";
 import AudioBoxVisualizer from "../Demos/AudioBoxVisualizer/AudioBoxVisualizer";
 import SphereVideo from "../Demos/SphereVideo/SphereVideo";
+import AudioData from "../Demos/AudioData/AudioData";
 
 const elements = {
   Basics: {
@@ -24,6 +25,7 @@ const elements = {
     CircleSpinners: <CircleSpinners/>,
     WarpedDiscoWall: <WarpedDiscoWall/>,
     AudioBoxVisualizer: <AudioBoxVisualizer/>,
+    AudioData: <AudioData/>,
     Nut: <Nut/>,
   },
   Intermediate: {
