@@ -50,7 +50,8 @@ export async function createAudio(url) {
       analyser.getByteFrequencyData(frequencyData);
       analyser.getFloatTimeDomainData(pcmData);
 
-      const thirdBand = calculateThirdBand(frequencyData, MAX_FREQUENCY);
+      const thirdBand = calculateNthBand(frequencyData, MAX_FREQUENCY, 3);
+      const twentyFourthBand = calculateNthBand(frequencyData, MAX_FREQUENCY, 24);
 
       //calculate volume amplitude
       let sumSquares = 0.0;
@@ -86,6 +87,11 @@ export async function createAudio(url) {
         One-third octave bands
          */
         oneThirdOctaveBands: thirdBand,
+
+        /*
+        One-twentyFourth octave bands
+         */
+        oneTwentyFourthOctaveBands: twentyFourthBand,
 
         /*
         Note associated with the current frequency.
@@ -131,38 +137,69 @@ export async function createAudio(url) {
   }
 }
 
-function calculateThirdBand(frequencyData, max_frequency) {
+const calculateNthBand = (frequencyData, max_frequency, bandNumber) => {
   const linearFreqPerPoint = max_frequency / frequencyData.length;
-  const centerFrequencies = [];
-  const thirdBand = [];
+  const centreFrequencies = generateTheoreticalCentreFrequencies(20, max_frequency, bandNumber);
+  const band = [];
 
-  for (let i = 12; i <= 44; i++) {
-    centerFrequencies.push(Math.pow(10, 0.1 * i));
-  }
+  let fLower, indexLower, fUpper, indexUpper;
+  for (let i = 0; i < centreFrequencies.length; i++) {
+    fLower = centreFrequencies[i] / Math.pow(2, 1/(bandNumber * 2));
+    fUpper = centreFrequencies[i] * Math.pow(2, 1/(bandNumber * 2));
+    indexLower =getIndexFromFrequency(fLower, linearFreqPerPoint);
+    indexUpper =getIndexFromFrequency(fUpper, linearFreqPerPoint);
 
-  const fd = Math.pow(10, 0.05);
-  let fLower;
-  let indexLower;
-  let fUpper;
-  let indexUpper;
-
-  for (let i = 0; i <= 32; i++) {
-    fLower = centerFrequencies[i] / fd;
-    indexLower = getIndexFromFrequency(fLower, linearFreqPerPoint);
-
-    fUpper = centerFrequencies[i] * fd;
-    indexUpper = getIndexFromFrequency(fUpper, linearFreqPerPoint);
-
-    let diff = fUpper - fLower;
-    if (diff < 2) {
-      diff = 2;
+    if (fUpper < max_frequency) {
+      let diff = indexUpper - indexLower;
+      if (diff < 2) {
+        diff = 2;
+      }
+      band.push(Math.round(average(frequencyData.slice(indexLower, indexLower + diff))));
     }
-
-    thirdBand.push(Math.round(average(frequencyData.slice(indexLower, indexLower + diff))));
   }
 
-  return thirdBand;
-}
+  linearSmoothBand(band);
+
+  return band;
+};
+
+const linearSmoothBand = (bandData) => {
+  let leftIndex = 0, rightIndex = 0;
+  let leftVal, rightVal;
+
+  while (rightIndex < bandData.length - 1) {
+    leftVal = bandData[leftIndex];
+    rightVal = bandData[++rightIndex];
+
+    if (leftVal !== rightVal) {
+      let indexDiff = rightIndex - leftIndex;
+
+      if (indexDiff > 1) {
+        let margin = (rightVal - leftVal) / indexDiff;
+        for (let i = 1; i < indexDiff; i++) {
+          bandData[++leftIndex] = bandData[leftIndex] + margin*i;
+        }
+      }
+
+      leftIndex++;
+    }
+  }
+
+  return bandData;
+};
+
+const generateTheoreticalCentreFrequencies = (minFreq, maxFreq, bandNumber) => {
+  const centreFreqs = [];
+  let lastFreq = minFreq;
+
+  while (lastFreq < maxFreq) {
+    let nextFreq = lastFreq * Math.pow(2, 1/bandNumber);
+    centreFreqs.push(nextFreq);
+    lastFreq = nextFreq;
+  }
+
+  return centreFreqs;
+};
 
 const getIndexFromFrequency = (frequency, linearFreqPerPoint) => {
   return Math.round(frequency / linearFreqPerPoint);

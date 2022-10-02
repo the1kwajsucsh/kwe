@@ -3,11 +3,12 @@ import {suspend} from "suspend-react";
 import {createAudio} from "../../../js/audioAnalyzer/audioAnalyzer";
 
 const AudioData = () => {
-  const { gain, context, update, duration } = suspend(() => createAudio(process.env.PUBLIC_URL + "/local/Lukhash/WeComeTogether.mp3"/*"/audio/c_scale.mp3"*/), []);
+  const { gain, context, update, duration } = suspend(() => createAudio(process.env.PUBLIC_URL + "/local/Lukhash/WeComeTogether.mp3"), []);
   const [freqArray, setFreqArray] = useState([]);
   const [freqAverage, setFreqAverage] = useState(0);
   const [frequency, setFrequency] = useState(-1);
   const [thirdBand, setThirdBand] = useState([]);
+  const [twentyFourthBand, setTwentyFourthBand] = useState([]);
   const [volumeAmplitude, setVolumeAmplitude] = useState(0);
   const [meter, setMeter] = useState(0);
   const [volumeAvg, setVolumeAvg] = useState(0);
@@ -18,6 +19,7 @@ const AudioData = () => {
   const [pitch, setPitch] = useState("");
 
   const thirdCanvas = useRef();
+  const fourthCanvas = useRef();
   const freqCanvas = useRef();
   const meterCanvas = useRef();
 
@@ -31,6 +33,7 @@ const AudioData = () => {
         frequency,
         freqAverage,
         oneThirdOctaveBands,
+        oneTwentyFourthOctaveBands,
         volumeAmplitude,
         volumeAvg,
         meter,
@@ -43,6 +46,7 @@ const AudioData = () => {
       setFreqArray(freqArray);
       setFreqAverage(freqAverage.toFixed(0));
       setThirdBand(oneThirdOctaveBands);
+      setTwentyFourthBand(oneTwentyFourthOctaveBands);
       setFrequency(frequency.toFixed(0));
       setVolumeAmplitude(volumeAmplitude.toFixed(2));
       setVolumeAvg(volumeAvg.toFixed(2));
@@ -57,17 +61,32 @@ const AudioData = () => {
       // canvas stuff
       const canvasForFreq = freqCanvas.current;
       const canvasForThird = thirdCanvas.current;
+      const canvasForFourth = fourthCanvas.current;
       const canvasForMeter = meterCanvas.current;
       const freqCanvasContext = canvasForFreq.getContext('2d');
       const thirdCanvasContext = canvasForThird.getContext('2d');
+      const fourthCanvasContext = canvasForFourth.getContext('2d');
       const meterCanvasContext = canvasForMeter.getContext('2d');
 
       const HEIGHT = 50;
-      const WIDTH = 33*12;
+      const WIDTH = 500;
 
       freqCanvasContext.clearRect(0, 0, freqCanvasContext.canvas.width, freqCanvasContext.canvas.height);
+      freqCanvasContext.fillStyle = "#051319";
+      freqCanvasContext.fillRect(0, 0, freqCanvasContext.canvas.width, freqCanvasContext.canvas.height);
+
       thirdCanvasContext.clearRect(0, 0, thirdCanvasContext.canvas.width, thirdCanvasContext.canvas.height);
+      thirdCanvasContext.fillStyle = "#051319";
+      thirdCanvasContext.fillRect(0, 0, thirdCanvasContext.canvas.width, thirdCanvasContext.canvas.height);
+
+      fourthCanvasContext.clearRect(0, 0, fourthCanvasContext.canvas.width, fourthCanvasContext.canvas.height);
+      fourthCanvasContext.fillStyle = "#051319";
+      fourthCanvasContext.fillRect(0, 0, fourthCanvasContext.canvas.width, fourthCanvasContext.canvas.height);
+
       meterCanvasContext.clearRect(0, 0, meterCanvasContext.canvas.width, meterCanvasContext.canvas.height);
+      meterCanvasContext.fillStyle = "#051319";
+      meterCanvasContext.fillRect(0, 0, meterCanvasContext.canvas.width, meterCanvasContext.canvas.height);
+
 
       let grd = meterCanvasContext.createLinearGradient(0, 0, 0, meterCanvasContext.canvas.height);
       grd.addColorStop(0, `hsl(0, 100%, 50%`);
@@ -79,14 +98,33 @@ const AudioData = () => {
       for (let i = 0; i < oneThirdOctaveBands.length; i++) {
         const value = oneThirdOctaveBands[i];
 
+        const NUM_BARS = oneThirdOctaveBands.length;
+        const SPACING_BETWEEN_BARS = 2;
+
         const percent = value / 256;
         const height = HEIGHT * percent;
         const offset = HEIGHT - height - 1;
-        const barWidth = 10;
+        const barWidth = (WIDTH - NUM_BARS*SPACING_BETWEEN_BARS)/NUM_BARS;
 
         const hue = i/oneThirdOctaveBands.length * 360;
         thirdCanvasContext.fillStyle = `hsl(${hue}, 100%, 50%`;
-        thirdCanvasContext.fillRect(i*barWidth + i*2, offset, barWidth, height);
+        thirdCanvasContext.fillRect(i*barWidth + i*SPACING_BETWEEN_BARS, offset, barWidth, height);
+      }
+
+      for (let i = 0; i < oneTwentyFourthOctaveBands.length; i++) {
+        const value = oneTwentyFourthOctaveBands[i];
+
+        const NUM_BARS = oneTwentyFourthOctaveBands.length;
+        const SPACING_BETWEEN_BARS = 0;
+
+        const percent = value / 256;
+        const height = HEIGHT * percent;
+        const offset = HEIGHT - height - 1;
+        const barWidth = (WIDTH - NUM_BARS*SPACING_BETWEEN_BARS)/NUM_BARS;
+
+        const hue = i/oneTwentyFourthOctaveBands.length * 360;
+        fourthCanvasContext.fillStyle = `hsl(${hue}, 100%, 50%`;
+        fourthCanvasContext.fillRect(i*barWidth + i*SPACING_BETWEEN_BARS, offset, barWidth, height);
       }
 
       for (let i = 0; i < freqArray.length; i++) {
@@ -119,8 +157,6 @@ const AudioData = () => {
       </ol>
       <h3>Frequency</h3>
       <ol>
-        <li>{`Frequency Array: ${freqArray.toString().substring(0, 100)}...`}</li>
-        <li>{`One third octave bands: ${thirdBand}`}</li>
         <li>{`Frequency Average: ${freqAverage}`}</li>
         <li>{`Frequency: ${frequency === -1 ? "Too Quiet" : frequency + " HZ"}`}</li>
         <li>{`Pitch: ${pitch}`}</li>
@@ -136,11 +172,13 @@ const AudioData = () => {
       </ol>
       <h3>Visualizations</h3>
       <p>One third octave bands:</p>
-      <canvas ref={thirdCanvas} width={33*12} height={50}/>
+      <canvas className="visualizer-canvas" ref={thirdCanvas} width={500} height={50}/>
+      <p>One twenty fourth octave bands:</p>
+      <canvas className="visualizer-canvas" ref={fourthCanvas} width={500} height={50}/>
       <p>Linear Frequency Array:</p>
-      <canvas ref={freqCanvas} width={33*12} height={50}/>
+      <canvas className="visualizer-canvas" ref={freqCanvas} width={500} height={50}/>
       <p>Meter:</p>
-      <canvas ref={meterCanvas} width={10} height={-minDecibels}/>
+      <canvas className="visualizer-canvas" ref={meterCanvas} width={10} height={-minDecibels}/>
     </div>
   )
 };
