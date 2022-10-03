@@ -88,9 +88,9 @@ export function PointsCam({video, width, height}) {
       const length = ref.current.geometry.attributes.position.count;
       for (let i = 0; i < length; i++) {
         const index = i * 4;
-        const r = imageData.frequencyData[index] / 255;
-        const g = imageData.frequencyData[index + 1] / 255;
-        const b = imageData.frequencyData[index + 2] / 255;
+        const r = imageData.data[index] / 255;
+        const g = imageData.data[index + 1] / 255;
+        const b = imageData.data[index + 2] / 255;
 
         ref.current.geometry.attributes.color.setX(i, r);
         ref.current.geometry.attributes.color.setY(i, g);
