@@ -8,9 +8,9 @@ import {DoubleSide} from "three/src/constants";
 import {Plane} from "@react-three/drei";
 
 const PolygonVisualizer = ({oneThirdOctaveBands}) => {
-
   const ref = useRef();
   const [shape, setShape] = useState(new Shape());
+  const NUM_DATA_POINTS = oneThirdOctaveBands.length;
 
   useFrame(() => {
     updateShape(oneThirdOctaveBands);
@@ -19,10 +19,12 @@ const PolygonVisualizer = ({oneThirdOctaveBands}) => {
   const updateShape = (data) => {
     const tempShape = new Shape();
     tempShape.moveTo(0, 0);
-    for (let i = 1; i <= 30; i++) {
-      tempShape.lineTo((i/30)*2, data[i-1]/256);
+
+    for (let i = 1; i <= NUM_DATA_POINTS; i++) {
+      tempShape.lineTo((i/NUM_DATA_POINTS)*2, data[i-1]/256);
     }
-    tempShape.lineTo(31, 0);
+
+    tempShape.lineTo(NUM_DATA_POINTS + 1/NUM_DATA_POINTS, 0);
     tempShape.lineTo(0, 0);
 
     setShape(tempShape);
@@ -69,7 +71,7 @@ const SimpleVisualizers = () => {
       <directionalLight position={[10, 10, 10]} castShadow/>
       <ManualOrbitControlledPerspectiveCamera/>
       <Visualizer  audio={process.env.PUBLIC_URL + "/local/DY/05_UMAMI.mp3"}/>
-      <Plane args={[100, 100]} rotation={[Math.PI/2, 0, 0]}>
+      <Plane args={[1000, 1000]} rotation={[Math.PI/2, 0, 0]}>
         <meshStandardMaterial color="white" side={DoubleSide}/>
       </Plane>
       <fog attach="fog" args={["gray", 0, 40]} />
