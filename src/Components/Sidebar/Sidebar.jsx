@@ -16,6 +16,7 @@ import AudioBoxVisualizer from "../Demos/AudioBoxVisualizer/AudioBoxVisualizer";
 import SphereVideo from "../Demos/SphereVideo/SphereVideo";
 import AudioData from "../Demos/AudioData/AudioData";
 import VisualizerPlane from "../Demos/VisualizerPlane/VisualizerPlane";
+import SimpleVisualizers from "../Demos/SimpleVisualizers/SimpleVisualizers";
 
 const elements = {
   Basics: {
@@ -25,6 +26,7 @@ const elements = {
     SphereVideo: <SphereVideo/>,
     CircleSpinners: <CircleSpinners/>,
     WarpedDiscoWall: <WarpedDiscoWall/>,
+    SimpleVisualizers: <SimpleVisualizers/>,
     AudioBoxVisualizer: <AudioBoxVisualizer/>,
     VisualizerPlane: <VisualizerPlane/>,
     AudioData: <AudioData/>,
