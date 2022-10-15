@@ -3,7 +3,7 @@ import {suspend} from "suspend-react";
 import {createAudio} from "../../../js/audioAnalyzer/audioAnalyzer";
 
 const AudioData = () => {
-  const { gain, context, update, duration } = suspend(() => createAudio(process.env.PUBLIC_URL + "/local/Lukhash/WeComeTogether.mp3"), []);
+  const { gain, context, update, duration } = suspend(() => createAudio(process.env.PUBLIC_URL + "/local/Lukhash/WeComeTogether.mp3", true), []);
   const [freqArray, setFreqArray] = useState([]);
   const [freqAverage, setFreqAverage] = useState(0);
   const [frequency, setFrequency] = useState(-1);
@@ -137,8 +137,6 @@ const AudioData = () => {
         freqCanvasContext.fillStyle = `hsl(${hue}, 100%, 50%`;
         freqCanvasContext.fillRect(i*barWidth, offset, barWidth, height);
       }
-
-
     }, 1/60);
 
     // Disconnect it on dismount

@@ -107,8 +107,8 @@ const BoxVisualizer = ({dataType, position, scale}) => {
   )
 };
 
-const Visualizer = ({audio}) => {
-  const { gain, context, update } = suspend(() => createAudio(audio), [audio]);
+export const Visualizer = ({audio, position, scale}) => {
+  const { gain, context, update } = suspend(() => createAudio(audio, true), [audio]);
 
    useEffect(() => {
       gain.connect(context.destination);
@@ -132,7 +132,7 @@ const Visualizer = ({audio}) => {
   };
 
   return (
-    <>
+    <group position={position} scale={scale}>
       <PolygonVisualizer dataType="THIRD" position={[-2.05, 0, 0]}/>
       <PolylineVisualizer dataType="THIRD" position={[-2.05, 1, 0]}/>
       <BoxVisualizer dataType="THIRD" position={[-2.05, 2, 0]}/>
@@ -140,7 +140,7 @@ const Visualizer = ({audio}) => {
       <PolygonVisualizer dataType="TWENTY_FOURTH" position={[0.05, 0, 0]}/>
       <PolylineVisualizer dataType="TWENTY_FOURTH" position={[0.05, 1, 0]}/>
       <BoxVisualizer dataType="TWENTY_FOURTH" position={[0.05, 2, 0]}/>
-    </>
+    </group>
   )
 
 };

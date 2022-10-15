@@ -2,23 +2,40 @@ import {mapLinear} from "three/src/math/MathUtils";
 
 let context = null;
 
-export async function createAudio(url) {
+export async function createAudio(url, microphone=false) {
   if (context === null) {
     context = new (window.AudioContext || window.webkitAudioContext)();
   }
 
-  // Fetch audio frequencyData and create a buffer source
-  const res = await fetch(url);
-  const buffer = await res.arrayBuffer();
-  const source = context.createBufferSource();
-  source.buffer = await new Promise((res) => context.decodeAudioData(buffer, res));
-  source.loop = true;
-  // This is why it doesn't run in Safari 🍏🐛. Start has to be called in an onClick event
-  // which makes it too awkward for a little demo since you need to load the async frequencyData first
-  source.start(0);
-  // Create gain node and an analyser
+  let source;
   const gain = context.createGain();
-  const analyser = context.createAnalyser();
+  const analyser  = context.createAnalyser();
+
+  if (!microphone) {
+    console.log("Initializing Track Analyzer");
+
+    // Fetch audio frequencyData and create a buffer source
+    const res = await fetch(url);
+    const buffer = await res.arrayBuffer();
+    source = context.createBufferSource();
+    source.buffer = await new Promise((res) => context.decodeAudioData(buffer, res));
+    source.loop = true;
+    // This is why it doesn't run in Safari 🍏🐛. Start has to be called in an onClick event
+    // which makes it too awkward for a little demo since you need to load the async frequencyData first
+    source.start(0);
+    analyser.connect(gain);
+  } else {
+    console.log("Initializing Microphone Analyzer");
+
+    const audio = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: false
+    });
+
+    source = context.createMediaStreamSource(audio);
+  }
+
+  source.connect(analyser);
 
   /* Defines the buffer size used to perform the analysis. It must be a power of two.
   Higher values will result in more fine grained analysis of the signal, at the cost of performance loss.*/
@@ -26,9 +43,6 @@ export async function createAudio(url) {
   analyser.minDecibels = -60;
   analyser.maxDecibels = 0;
   analyser.smoothingTimeConstant = 0.7;
-
-  source.connect(analyser);
-  analyser.connect(gain);
 
   // The frequencyData array receive the audio frequencies
   const frequencyData = new Uint8Array(analyser.frequencyBinCount);
@@ -43,7 +57,7 @@ export async function createAudio(url) {
     context,
     source,
     gain,
-    duration: source.buffer.duration,
+    duration: microphone ? 0.0 : source.buffer.duration,
 
     // This function gets called every frame per audio source
     update: () => {
@@ -131,7 +145,7 @@ export async function createAudio(url) {
         /*
 
          */
-        currentTime: (context.currentTime % source.buffer.duration),
+        currentTime: microphone ? 0 : (context.currentTime % source.buffer.duration),
       }
     },
   }
