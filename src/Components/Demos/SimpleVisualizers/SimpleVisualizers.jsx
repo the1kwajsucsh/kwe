@@ -13,7 +13,7 @@ const ONE_THIRD_BAND_LENGTH = ONE_THIRD_BAND.length;
 let ONE_TWENTY_FOURTH_BAND = Array.from({length: 244}, () => [0, 0, 0]);
 const ONE_TWENTY_FOURTH_BAND_LENGTH = ONE_TWENTY_FOURTH_BAND.length;
 
-const PolygonVisualizer = ({dataType}) => {
+const PolygonVisualizer = ({dataType, position, scale}) => {
   const LEN = dataType === "THIRD" ? ONE_THIRD_BAND_LENGTH : ONE_TWENTY_FOURTH_BAND_LENGTH;
   const ref = useRef();
   const [shape, setShape] = useState(new Shape());
@@ -37,14 +37,14 @@ const PolygonVisualizer = ({dataType}) => {
   };
 
   return (
-    <mesh>
+    <mesh position={position} scale={scale}>
       <shapeGeometry args={[shape]} ref={ref}/>
       <meshBasicMaterial color="red" side={DoubleSide}/>
     </mesh>
   )
 };
 
-const PolylineVisualizer = ({dataType}) => {
+const PolylineVisualizer = ({dataType, position, scale}) => {
   const LEN =  dataType === "THIRD" ? ONE_THIRD_BAND_LENGTH : ONE_TWENTY_FOURTH_BAND_LENGTH;
 
   const ref = useRef();
@@ -67,16 +67,18 @@ const PolylineVisualizer = ({dataType}) => {
   };
 
   return (
-    <Line
-      ref={ref}
-      points={initialPoints}
-      color="blue"
-      lineWidth={3}
-    />
+    <group position={position} scale={scale}>
+      <Line
+        ref={ref}
+        points={initialPoints}
+        color="blue"
+        lineWidth={3}
+      />
+    </group>
   )
 };
 
-const BoxVisualizer = ({dataType}) => {
+const BoxVisualizer = ({dataType, position, scale}) => {
   const LEN = dataType === "THIRD" ? ONE_THIRD_BAND_LENGTH : ONE_TWENTY_FOURTH_BAND_LENGTH;
   const SPACE = dataType === "THIRD" ? 0.01 : 0.0;
   const BOX_WIDTH = 2/LEN - SPACE;
@@ -96,10 +98,12 @@ const BoxVisualizer = ({dataType}) => {
   });
 
   return (
-    <instancedMesh ref={ref} args={[null, null, LEN]}>
-      <planeGeometry args={[BOX_WIDTH, 1]} />
-      <meshBasicMaterial color="green" side={DoubleSide}/>
-    </instancedMesh>
+    <group position={position} scale={scale}>
+      <instancedMesh ref={ref} args={[null, null, LEN]}>
+        <planeGeometry args={[BOX_WIDTH, 1]} />
+        <meshBasicMaterial color="green" side={DoubleSide}/>
+      </instancedMesh>
+    </group>
   )
 };
 
@@ -129,24 +133,13 @@ const Visualizer = ({audio}) => {
 
   return (
     <>
-      <group position={[-2.05, 0, 0]}>
-        <PolygonVisualizer dataType="THIRD"/>
-      </group>
-      <group position={[-2.05, 1, 0]}>
-        <PolylineVisualizer dataType="THIRD"/>
-      </group>
-      <group position={[-2.05, 2, 0]}>
-        <BoxVisualizer dataType="THIRD"/>
-      </group>
-      <group position={[0.05, 0, 0]}>
-        <PolygonVisualizer dataType="TWENTY_FOURTH"/>
-      </group>
-      <group position={[0.05, 1, 0]}>
-        <PolylineVisualizer dataType="TWENTY_FOURTH"/>
-      </group>
-      <group position={[0.05, 2, 0]}>
-        <BoxVisualizer dataType="TWENTY_FOURTH"/>
-      </group>
+      <PolygonVisualizer dataType="THIRD" position={[-2.05, 0, 0]}/>
+      <PolylineVisualizer dataType="THIRD" position={[-2.05, 1, 0]}/>
+      <BoxVisualizer dataType="THIRD" position={[-2.05, 2, 0]}/>
+
+      <PolygonVisualizer dataType="TWENTY_FOURTH" position={[0.05, 0, 0]}/>
+      <PolylineVisualizer dataType="TWENTY_FOURTH" position={[0.05, 1, 0]}/>
+      <BoxVisualizer dataType="TWENTY_FOURTH" position={[0.05, 2, 0]}/>
     </>
   )
 
@@ -159,7 +152,7 @@ const SimpleVisualizers = () => {
       <ambientLight/>
       <directionalLight position={[10, 10, 10]} castShadow/>
       <ManualOrbitControlledPerspectiveCamera/>
-      <Visualizer  audio={process.env.PUBLIC_URL + "/local/DY/05_UMAMI.mp3"}/>
+      <Visualizer audio={process.env.PUBLIC_URL + "/local/DY/05_UMAMI.mp3"}/>
       <Plane args={[1000, 1000]} rotation={[Math.PI/2, 0, 0]}>
         <meshStandardMaterial color="white" side={DoubleSide}/>
       </Plane>
