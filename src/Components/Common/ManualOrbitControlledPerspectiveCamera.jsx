@@ -11,7 +11,7 @@ function ManualOrbitControlledPerspectiveCamera() {
   const clock = new Clock(true);
   let levaUpdate = true;
 
-  const [, setPosition] = useControls(() => ({
+  const [{Position}, setPosition] = useControls(() => ({
     Position: {
       value: {x: 0, y: 0.5, z: 5},
       onChange: (value) => {
@@ -19,10 +19,11 @@ function ManualOrbitControlledPerspectiveCamera() {
           camRef.current.position.set(value.x, value.y, value.z);
         }
       },
+      transient: false,
     },
   }));
 
-  const [, setTarget] = useControls(() => ({
+  const [{Target},setTarget] = useControls(() => ({
     Target: {
       value: {x: 0, y: 0.5, z: 5},
       onChange: (value) => {
@@ -31,6 +32,7 @@ function ManualOrbitControlledPerspectiveCamera() {
         }
         targetRef.current.position.set(value.x, value.y, value.z);
       },
+      transient: false,
     },
   }));
 
@@ -47,16 +49,25 @@ function ManualOrbitControlledPerspectiveCamera() {
     if (curTime - lastTime > 1/60) {
       lastTime = curTime;
       levaUpdate = false;
-      setPosition({Position: {
-          x: camRef.current.position.x,
-          y: camRef.current.position.y,
-          z: camRef.current.position.z
-        }});
-      setTarget({Target: {
-          x: orbitControlsRef.current.target.x,
-          y: orbitControlsRef.current.target.y,
-          z: orbitControlsRef.current.target.z
-        }});
+
+      if (camRef.current.position.distanceTo(Position) > 0) {
+        setPosition({
+          Position: {
+            x: camRef.current.position.x,
+            y: camRef.current.position.y,
+            z: camRef.current.position.z
+          }
+        });
+      }
+
+      if (orbitControlsRef.current.target.distanceTo(Target) > 0) {
+        setTarget({Target: {
+            x: orbitControlsRef.current.target.x,
+            y: orbitControlsRef.current.target.y,
+            z: orbitControlsRef.current.target.z
+          }});
+      }
+
       levaUpdate = true;
     }
   };
