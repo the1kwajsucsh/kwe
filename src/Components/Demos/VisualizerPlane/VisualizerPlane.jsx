@@ -10,7 +10,7 @@ const Visualizer = ({audio}) => {
   const WIDTH_SEGMENTS = 15;
   const HEIGHT_SEGMENTS = 15;
 
-  const { gain, context, update } = suspend(() => createAudio(audio), [audio]);
+  const { gain, context, update } = suspend(() => createAudio(audio, false), [audio]);
   const planeRef = useRef();
 
   useEffect(() => {
