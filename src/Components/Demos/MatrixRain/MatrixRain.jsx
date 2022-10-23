@@ -7,6 +7,7 @@ import {SymbolShader} from "./SymbolShader";
 import {clamp, randInt} from "three/src/math/MathUtils";
 import {Bloom, EffectComposer} from "@react-three/postprocessing";
 
+/* eslint-disable no-mixed-operators */
 function sfc32(a, b, c, d) {
   return function() {
     a >>>= 0; b >>>= 0; c >>>= 0; d >>>= 0;
@@ -116,14 +117,15 @@ const updateOpacity = (attributesArray, opacityCycle, opacityColumnIndices, widt
   }
 };
 
-const MatrixRainPlane = ({
-                           width = 50,
+export const MatrixRainPlane = ({
+                           width=50,
                            height=25,
                            symbolFadeInterval=0.05,
                            symbolFadePercentage=0.02,
                            minNegativeOpacity=-2,
                            position=[0, 0, 0],
-                           rotation=[0, 0, 0]
+                           rotation=[0, 0, 0],
+                           scale=1
 }) => {
   const ref = useRef();
   const positionRef = useRef();
@@ -167,7 +169,7 @@ const MatrixRainPlane = ({
   });
 
   return (
-    <group position={position} rotation={rotation}>
+    <group position={position} rotation={rotation} scale={[scale, scale, scale]}>
       <group position={[-width*0.6/2, -height*0.6/2, 0]}>
         <points ref={ref}>
           <bufferGeometry>
@@ -193,6 +195,7 @@ const MatrixRainPlane = ({
             args={[SymbolShader]}
             uniforms-textureAtlas-value={textureAtlas}
             uniforms-u_time-value={0.0}
+            uniforms-scale-value={scale}
             side={DoubleSide}
             transparent
             depthWrite={false}

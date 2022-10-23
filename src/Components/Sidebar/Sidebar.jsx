@@ -17,12 +17,14 @@ import SphereVideo from "../Demos/SphereVideo/SphereVideo";
 import AudioData from "../Demos/AudioData/AudioData";
 import VisualizerPlane from "../Demos/VisualizerPlane/VisualizerPlane";
 import SimpleVisualizers from "../Demos/SimpleVisualizers/SimpleVisualizers";
+import Terminal from "../Demos/Terminal/Terminal";
 
 const elements = {
   Basics: {
     Template: <Template/>,
     AbstractArt: <AbstractArt/>,
     AbstractArt2_Basement: <AbstractArt2/>,
+    Terminal: <Terminal/>,
     SphereVideo: <SphereVideo/>,
     CircleSpinners: <CircleSpinners/>,
     WarpedDiscoWall: <WarpedDiscoWall/>,

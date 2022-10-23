@@ -3,8 +3,10 @@ export const SymbolShader = {
     textureAtlas: { type: "t", value: undefined },
     u_time: {type: "f", value: 0.0},
     opacity: {type: "f", value: 1.0},
+    scale: {type: "f", value: 1.0},
   },
   vertexShader: `
+    uniform float scale;
     attribute vec2 textureOffsets;
     attribute float opacity;
     varying vec2 vTextureOffsets;
@@ -17,7 +19,7 @@ export const SymbolShader = {
       vOpacity = opacity;
    
       vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-      gl_PointSize = 1.0 * ( 300.0 / -mvPosition.z );
+      gl_PointSize = 1.0 * ( 300.0 / -mvPosition.z )*scale;
       gl_Position = projectionMatrix * mvPosition;
     }
   `,
