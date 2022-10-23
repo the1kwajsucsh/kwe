@@ -1,6 +1,6 @@
 import {Canvas, useFrame, useThree} from "@react-three/fiber";
 import React, {useRef, useState} from "react";
-import {OrbitControls, Text} from "@react-three/drei";
+import {Text} from "@react-three/drei";
 import {Bloom, EffectComposer, Glitch, Scanline} from "@react-three/postprocessing";
 import { GlitchMode, BlendFunction } from 'postprocessing'
 import {randInt} from "three/src/math/MathUtils";
@@ -14,6 +14,7 @@ const TextEffect = ({baseText}) => {
 
   useFrame(({clock}) => {
     setCursorTime(Math.round(clock.getElapsedTime()*10)/10);
+    const RESET = (index > baseText.length + 360) ? -index : 0;
 
     let ENDING_APPEND = "_";
     if (index > baseText.length) {
@@ -21,7 +22,7 @@ const TextEffect = ({baseText}) => {
     }
 
     setText(baseText.substring(0, index) + ENDING_APPEND);
-    setIndex(index + randInt(1, 3));
+    setIndex(index + randInt(1, 3) + RESET);
   });
 
   return (
