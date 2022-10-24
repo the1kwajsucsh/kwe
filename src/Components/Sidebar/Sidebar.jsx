@@ -18,6 +18,7 @@ import AudioData from "../Demos/AudioData/AudioData";
 import VisualizerPlane from "../Demos/VisualizerPlane/VisualizerPlane";
 import SimpleVisualizers from "../Demos/SimpleVisualizers/SimpleVisualizers";
 import Terminal from "../Demos/Terminal/Terminal";
+import PhotoFlasher from "../Demos/PhotoFlasher/PhotoFlasher";
 
 const elements = {
   Basics: {
@@ -25,6 +26,7 @@ const elements = {
     AbstractArt: <AbstractArt/>,
     AbstractArt2_Basement: <AbstractArt2/>,
     Terminal: <Terminal/>,
+    PhotoFlasher: <PhotoFlasher/>,
     SphereVideo: <SphereVideo/>,
     CircleSpinners: <CircleSpinners/>,
     WarpedDiscoWall: <WarpedDiscoWall/>,
