@@ -1,7 +1,7 @@
 import React, {useLayoutEffect, useRef} from "react";
 import {Canvas, useFrame, useLoader} from "@react-three/fiber";
 import ManualOrbitControlledPerspectiveCamera from "../../Common/ManualOrbitControlledPerspectiveCamera";
-import {Image} from "@react-three/drei";
+import {Image, Stats} from "@react-three/drei";
 import {randFloat, randInt} from "three/src/math/MathUtils";
 import {TextureLoader} from "three";
 
@@ -60,6 +60,7 @@ const PhotoFlasher = () => {
         <pointLight position={[10, 10, 10]}/>
         <ManualOrbitControlledPerspectiveCamera/>
         <PhotoPlane/>
+        <Stats/>
       </Canvas>
     </>
   )
