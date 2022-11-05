@@ -147,8 +147,9 @@ const AudioData = () => {
   }, [gain, context]);
 
   return (
-    <div>
-      <h3>Time</h3>
+    <div style={{backgroundColor: "white"}}>
+      <br/>
+      <h3 style={{marginBlockStart: "0"}}>Time</h3>
       <ol>
         <li>{`Duration: ${duration}`}</li>
         <li>{`Current Time: ${currentTime}`}</li>

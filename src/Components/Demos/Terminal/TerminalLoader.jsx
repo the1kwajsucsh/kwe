@@ -1,53 +1,59 @@
-import {Canvas, useFrame, useThree} from "@react-three/fiber";
-import React, {useRef, useState} from "react";
-import {Text} from "@react-three/drei";
+import {Canvas} from "@react-three/fiber";
+import React from "react";
+import {Edges, Plane, RoundedBox, Text, useProgress} from "@react-three/drei";
 import {Bloom, EffectComposer, Glitch, Scanline} from "@react-three/postprocessing";
 import { GlitchMode, BlendFunction } from 'postprocessing'
-import {randInt} from "three/src/math/MathUtils";
-import {Vector3} from "three/src/math/Vector3";
-import {MathUtils} from "three";
+import {Rig, TextEffect} from "./Terminal";
+import {useControls} from "leva";
 
-export const TextEffect = ({baseText}) => {
-  const [text, setText] = useState("_");
-  const [index, setIndex] = useState(0);
-  const [cursorTime, setCursorTime] = useState(0);
+const LoadingPercentageBar = ({x, shouldDisplay}) => {
+  return (
+    <Plane args={[0.1, 0.25]} position={[x, -0.4, 0.3]}>
+      <meshStandardMaterial color="#f3f3f3" transparent opacity={shouldDisplay ? 1 : 0}/>
+    </Plane>
+  );
+};
 
-  useFrame(({clock}) => {
-    setCursorTime(Math.round(clock.getElapsedTime()*10)/10);
-    const RESET = (index > baseText.length + 360) ? -index : 0;
-
-    let ENDING_APPEND = "_";
-    if (index > baseText.length) {
-      ENDING_APPEND = cursorTime%1  < 0.5 ? "_" : "";
+const LoadingBar = () => {
+  // const { progress } = useProgress();
+  const {progress} = useControls({
+    progress: {
+      min: 0,
+      max: 100,
+      step: 1,
+      value: 0,
     }
-
-    setText(baseText.substring(0, index) + ENDING_APPEND);
-    setIndex(index + randInt(1, 3) + RESET);
   });
 
   return (
     <>
-      <Text color="white" anchorX="left" anchorY="top" maxWidth={5} lineHeight={1.2} font={process.env.PUBLIC_URL + "/font/SourceCodePro-SemiBold.ttf"} position={[-2.5, 1.6, 0]}>
-        {text}
+      <Text color="white" anchorX="center" anchorY="center" font={process.env.PUBLIC_URL + "/font/SourceCodePro-SemiBold.ttf"} position={[0, 0, 0.3]} fontSize={0.12}>
+        Loading... {Math.floor(progress)}%
       </Text>
+      <RoundedBox args={[2, 0.7, 0]} radius={0.05} smoothness={4} position={[0, -0.3, 0.1]}>
+        <meshStandardMaterial color="#707070" transparent opacity={0.9}/>
+        <Edges
+          scale={1.1}
+          threshold={12} // Display edges only when the angle between two faces exceeds this value (default=15 degrees)
+          color="white"
+          position={[-1.05, -0.3, 0.1]}
+        />
+      </RoundedBox>
+      <LoadingPercentageBar x={-0.675} shouldDisplay={Math.floor(progress) >= 0}/>
+      <LoadingPercentageBar x={-0.525} shouldDisplay={Math.floor(progress) >= 10}/>
+      <LoadingPercentageBar x={-0.375} shouldDisplay={Math.floor(progress) >= 20}/>
+      <LoadingPercentageBar x={-0.225} shouldDisplay={Math.floor(progress) >= 30}/>
+      <LoadingPercentageBar x={-0.075} shouldDisplay={Math.floor(progress) >= 40}/>
+      <LoadingPercentageBar x={0.075}  shouldDisplay={Math.floor(progress) >= 50}/>
+      <LoadingPercentageBar x={0.225}  shouldDisplay={Math.floor(progress) >= 60}/>
+      <LoadingPercentageBar x={0.375}  shouldDisplay={Math.floor(progress) >= 70}/>
+      <LoadingPercentageBar x={0.525}  shouldDisplay={Math.floor(progress) >= 80}/>
+      <LoadingPercentageBar x={0.675}  shouldDisplay={Math.floor(progress) >= 90}/>
     </>
   );
 };
 
-export function Rig({ children }) {
-  const ref = useRef();
-  const vec = new Vector3();
-  const { camera, mouse } = useThree();
-  useFrame(() => {
-    camera.position.lerp(vec.set(mouse.x * 0.5, 0, 2.5), 0.05);
-    ref.current.position.lerp(vec.set(mouse.x * 0.3, mouse.y * 0.05, 0), 0.1);
-    ref.current.rotation.y = MathUtils.lerp(ref.current.rotation.y, (-mouse.x * Math.PI) / 50, 0.1)
-  });
-  return <group ref={ref}>{children}</group>
-}
-
-
-const Terminal = () => {
+const TerminalLoader = () => {
   const TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone.toUpperCase();
   const TIME = new Date().toTimeString().split(' ')[0].split(':').slice(0,2).join(':');
 
@@ -84,7 +90,6 @@ ${TIME} ${TIMEZONE} (LOCAL TIME)
 
 $ `;
 
-
   return (
     <>
       <Canvas id="canvas" aspect={2.35} camera={{position: [0, 0, 2.5]}}>
@@ -93,6 +98,7 @@ $ `;
         <pointLight position={[10, 10, 10]}/>
         <Rig>
           <TextEffect baseText={baseText}/>
+          <LoadingBar/>
         </Rig>
         <EffectComposer>
           <Glitch
@@ -115,4 +121,4 @@ $ `;
   )
 };
 
-export default Terminal;
+export default TerminalLoader;

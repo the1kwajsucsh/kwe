@@ -71,7 +71,7 @@ const ToastyPhone = ({overlaySetters}) => {
   };
 
   return (
-    <div className="phoneContainer">
+    <div className="phoneContainer" style={{backgroundColor: "white"}}>
       <PhoneHeader/>
       <div id="chat" className="chat phone-left-right-border">
         <div>
