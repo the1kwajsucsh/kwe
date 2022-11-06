@@ -22,6 +22,7 @@
     "react-scripts": "5.0.1",
     "suspend-react": "^0.0.8",
     "three": "^0.144.0",
+    "web-audio-beat-detector": "^8.1.37",
     "web-vitals": "^3.0.2"
   },
   "scripts": {

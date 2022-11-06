@@ -1,4 +1,5 @@
 import {mapLinear} from "three/src/math/MathUtils";
+import { guess } from 'web-audio-beat-detector';
 
 let context = null;
 
@@ -10,6 +11,10 @@ export async function createAudio(url, microphone=false) {
   let source;
   const gain = context.createGain();
   const analyser  = context.createAnalyser();
+
+  let bpm = 0;
+  let bpmOffset = 0;
+  let tempo = 0;
 
   if (!microphone) {
     console.log("Initializing Track Analyzer");
@@ -24,6 +29,15 @@ export async function createAudio(url, microphone=false) {
     // which makes it too awkward for a little demo since you need to load the async frequencyData first
     source.start(0);
     analyser.connect(gain);
+
+    // Start detecting bpm
+    guess(source.buffer)
+      .then(({ bpm: pBpm, offset: pOffset, tempo: pTempo }) => {
+        bpm = pBpm;
+        bpmOffset = pOffset;
+        tempo = pTempo;
+      })
+      .catch((err) => {});
   } else {
     console.log("Initializing Microphone Analyzer");
 
@@ -80,6 +94,8 @@ export async function createAudio(url, microphone=false) {
       n++;
       volumeHistoryTenSeconds[n % volumeHistoryTenSeconds.length] = volumeAmplitude;
 
+      const songTimestamp = (context.currentTime) % source.buffer.duration;
+
       return {
         /*
         Byte frequency data (integers on a scale of 0 to 255). Each item represents the decibel value
@@ -118,6 +134,28 @@ export async function createAudio(url, microphone=false) {
         meter: mapLinear(Math.max(Math.max.apply(null, pcmData.map(Math.abs))), 0, 1, analyser.minDecibels, analyser.maxDecibels),
 
         /*
+        The Beats Per Minute
+         */
+        bpm: bpm,
+
+        /*
+        The offset of the first beat in seconds
+         */
+        bpmOffset: bpmOffset,
+
+        /*
+        The specific tempo (non-rounded BPM)
+         */
+        tempo: tempo,
+
+        /*
+        Whether we think this is a beat or not
+
+        ((lengthOfBeat + offset) / songTimestamp) % 1      is > 1-lambda or < lambda
+         */
+        isBeat: microphone ? false : ((((songTimestamp-bpmOffset)/(60/bpm)) % 1) > 1-0.1 || (((songTimestamp-bpmOffset)/(60/bpm)) % 1) < 0.1),
+
+        /*
 
          */
         volumeAmplitude: volumeAmplitude,
@@ -145,7 +183,7 @@ export async function createAudio(url, microphone=false) {
         /*
 
          */
-        currentTime: microphone ? 0 : (context.currentTime % source.buffer.duration),
+        currentTime: microphone ? 0 : songTimestamp,
       }
     },
   }

@@ -3,7 +3,7 @@ import {suspend} from "suspend-react";
 import {createAudio} from "../../../js/audioAnalyzer/audioAnalyzer";
 
 const AudioData = () => {
-  const { gain, context, update, duration } = suspend(() => createAudio(process.env.PUBLIC_URL + "/local/Lukhash/WeComeTogether.mp3", true), []);
+  const { gain, context, update, duration } = suspend(() => createAudio(process.env.PUBLIC_URL + "/local/GKTF/05_MAAD_WORLD.mp3", false), []);
   const [freqArray, setFreqArray] = useState([]);
   const [freqAverage, setFreqAverage] = useState(0);
   const [frequency, setFrequency] = useState(-1);
@@ -16,6 +16,10 @@ const AudioData = () => {
   const [minDecibels, setMinDecibels] = useState(0);
   const [maxDecibels, setMaxDecibels] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
+  const [bpm, setBpm] = useState(0);
+  const [bpmOffset, setBpmOffset] = useState(0);
+  const [tempo, setTempo] = useState(0);
+  const [isBeat, setIsBeat] = useState(false);
   const [pitch, setPitch] = useState("");
 
   const thirdCanvas = useRef();
@@ -42,6 +46,10 @@ const AudioData = () => {
         maxDecibels,
         currentTime,
         pitch,
+        bpm,
+        bpmOffset,
+        tempo,
+        isBeat
       } = update();
       setFreqArray(freqArray);
       setFreqAverage(freqAverage.toFixed(0));
@@ -55,6 +63,10 @@ const AudioData = () => {
       setMaxDecibels(maxDecibels);
       setCurrentTime(currentTime.toFixed(2));
       setMeter(meter.toFixed(0));
+      setBpm(bpm);
+      setBpmOffset(bpmOffset);
+      setTempo(tempo);
+      setIsBeat(isBeat);
 
       pitch !== undefined && setPitch(pitch);
 
@@ -72,19 +84,19 @@ const AudioData = () => {
       const WIDTH = 500;
 
       freqCanvasContext.clearRect(0, 0, freqCanvasContext.canvas.width, freqCanvasContext.canvas.height);
-      freqCanvasContext.fillStyle = "#051319";
+      freqCanvasContext.fillStyle = isBeat ? "#17c6de" : "#051319";
       freqCanvasContext.fillRect(0, 0, freqCanvasContext.canvas.width, freqCanvasContext.canvas.height);
 
       thirdCanvasContext.clearRect(0, 0, thirdCanvasContext.canvas.width, thirdCanvasContext.canvas.height);
-      thirdCanvasContext.fillStyle = "#051319";
+      thirdCanvasContext.fillStyle = isBeat ? "#052e34" : "#051319";
       thirdCanvasContext.fillRect(0, 0, thirdCanvasContext.canvas.width, thirdCanvasContext.canvas.height);
 
       fourthCanvasContext.clearRect(0, 0, fourthCanvasContext.canvas.width, fourthCanvasContext.canvas.height);
-      fourthCanvasContext.fillStyle = "#051319";
+      fourthCanvasContext.fillStyle = isBeat ? "#052e34" : "#051319";
       fourthCanvasContext.fillRect(0, 0, fourthCanvasContext.canvas.width, fourthCanvasContext.canvas.height);
 
       meterCanvasContext.clearRect(0, 0, meterCanvasContext.canvas.width, meterCanvasContext.canvas.height);
-      meterCanvasContext.fillStyle = "#051319";
+      meterCanvasContext.fillStyle = isBeat ? "#052e34" : "#051319";
       meterCanvasContext.fillRect(0, 0, meterCanvasContext.canvas.width, meterCanvasContext.canvas.height);
 
 
@@ -168,6 +180,13 @@ const AudioData = () => {
         <li>{`Volume History Average: ${volumeHistoryAvg}`}</li>
         <li>{`Min Decibels: ${minDecibels} dB`}</li>
         <li>{`Max Decibels: ${maxDecibels} dB`}</li>
+      </ol>
+      <h3>Beat</h3>
+      <ol>
+        <li>{`BPM: ${bpm}`}</li>
+        <li>{`BPM Offset: ${bpmOffset}`}</li>
+        <li>{`Tempo: ${tempo}`}</li>
+        <li>{`Beat: ${isBeat}`}</li>
       </ol>
       <h3>Visualizations</h3>
       <p>One third octave bands:</p>
