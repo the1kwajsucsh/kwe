@@ -7,6 +7,7 @@ import {createAudio} from "../../../js/audioAnalyzer/audioAnalyzer";
 import {Vector3} from "three/src/math/Vector3";
 import {MathUtils} from "three";
 
+let displayBeat = false;
 let lastIsBeat = false;
 let beat = false;
 let meter;
@@ -139,7 +140,7 @@ const PhotoPlane = ({index}) => {
   useFrame(({clock}) => {
     curTime = clock.getElapsedTime();
 
-    if (beat && curTime - prevTime > 0.3) {
+    if (beat && displayBeat && curTime - prevTime > 0.3) {
       prevTime = curTime;
 
       let shouldHide =  meter < -50 || Math.random() < 0.4;
@@ -221,7 +222,6 @@ const PhotoEffect = ({track}) => {
     }
   }, [gain, context]);
 
-  // let lastIsBeat = false;
   useFrame(() => {
     const {isBeat, meter: isMeter} = update();
 
@@ -230,6 +230,8 @@ const PhotoEffect = ({track}) => {
       beat = isBeat;
       meter = isMeter;
     }
+
+    displayBeat = Math.random() > 0.4;
 
     lastIsBeat = isBeat;
   });
@@ -257,7 +259,7 @@ export function Rig({ children }) {
   return <group ref={ref}>{children}</group>
 }
 
-const PhotoFlasher = () => {
+const PhotoFlasherVisualizer = () => {
   return (
     <>
       <Canvas id="canvas" aspect={2.35}>
@@ -271,4 +273,4 @@ const PhotoFlasher = () => {
   )
 };
 
-export default PhotoFlasher;
+export default PhotoFlasherVisualizer;
