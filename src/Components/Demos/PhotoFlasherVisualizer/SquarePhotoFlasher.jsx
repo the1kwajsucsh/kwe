@@ -2,10 +2,12 @@ import React, {useLayoutEffect, useRef} from "react";
 import {Canvas, useFrame} from "@react-three/fiber";
 import {Image, Stats, useTexture} from "@react-three/drei";
 import {useControls} from "leva";
-import {randFloat, randInt} from "three/src/math/MathUtils";
+import {lerp, randFloat, randInt, smootherstep, smoothstep} from "three/src/math/MathUtils";
 import {Color} from "three"
 import ManualOrbitControlledPerspectiveCamera from "../../Common/ManualOrbitControlledPerspectiveCamera";
+import {generalSmoothStep, perlin2, seed, simplex2} from "../../../js/perlin";
 
+const WHITE = new Color(`rgb(255,255,255)`);
 const IMG_URLS = Array.from({length: 20}, (_,i) => `${process.env.PUBLIC_URL}/img/colors/${i+1}.jpg`);
 let IMAGES;
 
@@ -36,8 +38,8 @@ const applyRandomPosition = (RANDOM_POSITION, ref, width, height, time) => {
       for (let i = 0; i < width; i++) {
         for (let j = 0; j < height; j++) {
           if (Math.random() > 0.8) {
-            ref.current.children[i*height+j].position.x = randFloat(-3, 3);
-            ref.current.children[i*height+j].position.y = randFloat(-3, 3);
+            ref.current.children[i*height+j].position.x = randFloat(-width/3, width/3);
+            ref.current.children[i*height+j].position.y = randFloat(-height/3, height/3);
             ref.current.children[i*height+j].position.z = (i*height+j) * 0.001;
           }
         }
@@ -46,9 +48,9 @@ const applyRandomPosition = (RANDOM_POSITION, ref, width, height, time) => {
   } else {
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < height; j++) {
-        ref.current.children[i*height+j].position.x = (i + SPACING*i) - (width+SPACING*width)/2 + 0.5 + SPACING/2;
-        ref.current.children[i*height+j].position.y = (j + SPACING*j) - (height+SPACING*height)/2 + 0.5 + SPACING/2;
-        ref.current.children[i*height+j].position.z = 0;
+        ref.current.children[i*height+j].position.x = lerp(ref.current.children[i*height+j].position.x, (i + SPACING*i) - (width+SPACING*width)/2 + 0.5 + SPACING/2, 0.05);
+        ref.current.children[i*height+j].position.y = lerp(ref.current.children[i*height+j].position.y, (j + SPACING*j) - (height+SPACING*height)/2 + 0.5 + SPACING/2, 0.05);
+        ref.current.children[i*height+j].position.z = lerp(ref.current.children[i*height+j].position.z, 0, 0.01);
       }
     }
   }
@@ -64,7 +66,8 @@ const applyGrayscale = (GRAYSCALE, ref, width, height, time) => {
   } else {
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < height; j++) {
-        ref.current.children[i*height+j].material.uniforms.grayscale.value = false;
+        ref.current.children[i*height+j].material.uniforms.grayscale.value
+          = ref.current.children[i*height+j].material.uniforms.grayscale.value ? Math.random() < 0.9 : false;
       }
     }
   }
@@ -86,29 +89,27 @@ const applyMixInColor = (MIX_IN_COLOR, ref, width, height, time) => {
   } else {
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < height; j++) {
-        ref.current.children[i * height + j].material.uniforms.color.value = new Color(`rgb(255,255,255)`);
+        ref.current.children[i*height+j].material.uniforms.color.value
+          = ref.current.children[i*height+j].material.uniforms.color.value.lerp(WHITE, 0.01);
       }
     }
   }
 };
 
-let opacityLastTime = 0;
 const applyOpacity = (OPACITY, ref, width, height, time) => {
-  const TIME_BETWEEN_CHANGE = 0.5;
 
   if (OPACITY) {
-    if (time - opacityLastTime > TIME_BETWEEN_CHANGE) {
-      opacityLastTime = time;
-      for (let i = 0; i < width; i++) {
-        for (let j = 0; j < height; j++) {
-          ref.current.children[i * height + j].material.uniforms.opacity.value = Math.random();
-        }
+    for (let i = 0; i < width; i++) {
+      for (let j = 0; j < height; j++) {
+        const perlin = Math.abs(perlin2(i/30 + time*4, j/50+time*0.01));
+        ref.current.children[i*height+j].material.uniforms.opacity.value = perlin;
       }
     }
   } else {
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < height; j++) {
-        ref.current.children[i * height + j].material.uniforms.opacity.value = 1;
+        ref.current.children[i*height+j].material.uniforms.opacity.value
+          = lerp(ref.current.children[i*height+j].material.uniforms.opacity.value, 1, 0.01);
       }
     }
   }
@@ -153,6 +154,7 @@ const EffectController = ({width=5, height=4, }) => {
 
   useLayoutEffect(() => {
     console.log(ref.current);
+    seed(Math.random());
   });
 
   useFrame(({clock}) => {
@@ -179,7 +181,7 @@ const SquarePhotoFlasher = () => {
       <Canvas id="canvas" aspect={2.35}>
         <color attach="background" args={["black"]}/>
         <ManualOrbitControlledPerspectiveCamera/>
-        <EffectController height={10} width={10}/>
+        <EffectController height={15} width={30}/>
         <Stats/>
       </Canvas>
     </>
