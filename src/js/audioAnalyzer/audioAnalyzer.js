@@ -67,11 +67,13 @@ export async function createAudio(url, microphone=false) {
   let n = 0;
   let volumeHistoryTenSeconds = new Array(600).fill(0);
 
+  const duration =  microphone ? 0.0 : source.buffer.duration;
+
   return {
     context,
     source,
     gain,
-    duration: microphone ? 0.0 : source.buffer.duration,
+    duration: duration,
 
     // This function gets called every frame per audio source
     update: () => {
@@ -94,7 +96,7 @@ export async function createAudio(url, microphone=false) {
       n++;
       volumeHistoryTenSeconds[n % volumeHistoryTenSeconds.length] = volumeAmplitude;
 
-      const songTimestamp = (context.currentTime) % source.buffer.duration;
+      const songTimestamp = (context.currentTime) % duration;
 
       return {
         /*
