@@ -102,19 +102,28 @@ const applyOpacity = (OPACITY, ref, width, height, time) => {
   }
 };
 
-let changeImageLastTime = 0;
 const applyChangeImage = (CHANGE_IMAGE, ref, width, height, time) => {
-  const TIME_BETWEEN_CHANGE = 0.03;
+  // high time between change + low chance to not update ==> solid wave effect
+  // low time between change + high chance to not update ==> Random updates
+  const TIME_BETWEEN_CHANGE = 0.1;
+  const CHANCE_TO_NOT_UPDATE = 0.7;
+
+  const HORIZ_VELOCITY = time*2;
+  const VERTICAL_VELOCITY = time*0.1;
 
   if (CHANGE_IMAGE) {
-    if (time - changeImageLastTime > TIME_BETWEEN_CHANGE) {
-      changeImageLastTime = time;
-      for (let i = 0; i < width; i++) {
-        for (let j = 0; j < height; j++) {
+    for (let i = 0; i < width; i++) {
+      for (let j = 0; j < height; j++) {
 
-          let perlin = Math.abs(perlin2(i/30 + time*2, j/50+time*0.01));
-          if (perlin < 0.1) {
-            ref.current.children[i * height + j].material.uniforms.map.value = IMAGES[randInt(0, IMAGES.length-1)]
+        if (!ref.current.children[i * height + j].lastImageChangeTime) {
+          ref.current.children[i * height + j].lastImageChangeTime = 0;
+        }
+
+        if (time - ref.current.children[i * height + j].lastImageChangeTime > TIME_BETWEEN_CHANGE) {
+          let perlin = Math.abs(perlin2(i / width + HORIZ_VELOCITY, j / height + VERTICAL_VELOCITY));
+          if (perlin < 0.1 && Math.random() > CHANCE_TO_NOT_UPDATE) {
+            ref.current.children[i * height + j].lastImageChangeTime = time;
+            ref.current.children[i * height + j].material.uniforms.map.value = IMAGES[randInt(0, IMAGES.length - 1)]
           }
         }
       }
