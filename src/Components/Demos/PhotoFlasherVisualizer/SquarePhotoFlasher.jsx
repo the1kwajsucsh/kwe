@@ -11,10 +11,45 @@ const WHITE = new Color(`rgb(255,255,255)`);
 const IMG_URLS = Array.from({length: 20}, (_,i) => `${process.env.PUBLIC_URL}/img/rappers/${i+1}.jpg`);
 let IMAGES;
 
+let lastOffsetTimeChange = 0;
+const applyOffset = (OFFSET, ref, width, height, time) => {
+  const TIME_BETWEEN_CHANGE = 2;
+
+  const HORIZ_VELOCITY = time*2;
+  const VERTICAL_VELOCITY = time*0.1;
+
+  if (OFFSET) {
+    if (time - lastOffsetTimeChange > TIME_BETWEEN_CHANGE) {
+      lastOffsetTimeChange = time;
+
+      for (let i = 0; i < width; i++) {
+        for (let j = 0; j < height; j++) {
+          const index = i*height+j;
+
+          let perlin = Math.abs(perlin2(i / width + HORIZ_VELOCITY, j / height + VERTICAL_VELOCITY));
+
+          if (perlin < 0.1 || (0.25 < perlin && perlin < 0.3) || (0.45 < perlin && perlin < 0.6) || Math.random() < 0.1) {
+            ref.current.children[index].position.z = index * 0.001;
+          } else {
+            ref.current.children[index].position.z = 1 + index * 0.001;
+          }
+        }
+      }
+    }
+  } else {
+    for (let i = 0; i < width; i++) {
+      for (let j = 0; j < height; j++) {
+        const index = i*height+j;
+        ref.current.children[index].position.z = lerp(ref.current.children[index].position.z, index * 0.001, 0.1);
+      }
+    }
+  }
+};
+
 let randomPositionLastTime = 0;
 const applyRandomPosition = (RANDOM_POSITION, ref, width, height, time) => {
   const SPACING = 0.1;
-  const TIME_BETWEEN_CHANGE = 0.1;
+  const TIME_BETWEEN_CHANGE = 0.05;
 
   if (RANDOM_POSITION) {
     if (time - randomPositionLastTime > TIME_BETWEEN_CHANGE) {
@@ -25,7 +60,6 @@ const applyRandomPosition = (RANDOM_POSITION, ref, width, height, time) => {
           if (Math.random() > 0.8) {
             ref.current.children[i*height+j].position.x = randFloat(-width/3, width/3);
             ref.current.children[i*height+j].position.y = randFloat(-height/3, height/3);
-            ref.current.children[i*height+j].position.z = (i*height+j) * 0.001;
           }
         }
       }
@@ -35,28 +69,49 @@ const applyRandomPosition = (RANDOM_POSITION, ref, width, height, time) => {
       for (let j = 0; j < height; j++) {
         ref.current.children[i*height+j].position.x = lerp(ref.current.children[i*height+j].position.x, (i + SPACING*i) - (width+SPACING*width)/2 + 0.5 + SPACING/2, 0.05);
         ref.current.children[i*height+j].position.y = lerp(ref.current.children[i*height+j].position.y, (j + SPACING*j) - (height+SPACING*height)/2 + 0.5 + SPACING/2, 0.05);
-        ref.current.children[i*height+j].position.z = lerp(ref.current.children[i*height+j].position.z, 0, 0.01);
       }
     }
   }
 };
 
-const applyGrayscale = (GRAYSCALE, ref, width, height, time) => {
+let lastGrayscale = false;
+const applyGrayscale = (GRAYSCALE, KEEP_GRAYSCALE, ref, width, height, time) => {
+  const TIME_BETWEEN_CHANGE = 4;
+  const HORIZ_VELOCITY = time*2;
+  const VERTICAL_VELOCITY = time*0.1;
+
   if (GRAYSCALE) {
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < height; j++) {
-        let perlin = Math.abs(perlin2(i/30 + time*2, j/50+time*0.01));
-        ref.current.children[i*height+j].material.uniforms.grayscale.value = perlin < 0.2;
+        const index = i*height+j;
+
+        if (!lastGrayscale) {
+          ref.current.children[index].material.uniforms.grayscale.value = false;
+        }
+
+        if (!ref.current.children[index].lastGrayscaleChangeTime) {
+          ref.current.children[index].lastGrayscaleChangeTime = 0;
+        }
+
+        if (time - ref.current.children[index].lastGrayscaleChangeTime > TIME_BETWEEN_CHANGE) {
+          let perlin = Math.abs(perlin2(i / width + HORIZ_VELOCITY, j / height + VERTICAL_VELOCITY));
+          if (perlin < 0.1) {
+            ref.current.children[index].lastGrayscaleChangeTime = time;
+            ref.current.children[index].material.uniforms.grayscale.value = KEEP_GRAYSCALE || !ref.current.children[index].material.uniforms.grayscale.value;
+          }
+        }
       }
     }
   } else {
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < height; j++) {
         ref.current.children[i*height+j].material.uniforms.grayscale.value
-          = ref.current.children[i*height+j].material.uniforms.grayscale.value ? Math.random() < 0.9 : false;
+          = KEEP_GRAYSCALE ? true
+          :(ref.current.children[i*height+j].material.uniforms.grayscale.value ? Math.random() < 0.9 : false);
       }
     }
   }
+  lastGrayscale = GRAYSCALE;
 };
 
 let mixInColorLastTime = 0;
@@ -83,9 +138,9 @@ const applyMixInColor = (MIX_IN_COLOR, ref, width, height, time) => {
   }
 };
 
-const applyOpacity = (OPACITY, ref, width, height, time) => {
+const applyOpacitySmooth = (OPACITY_SMOOTH, ref, width, height, time) => {
 
-  if (OPACITY) {
+  if (OPACITY_SMOOTH) {
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < height; j++) {
         let perlin = Math.abs(perlin2(i/30 + time*2, j/50+time*0.01));
@@ -97,6 +152,48 @@ const applyOpacity = (OPACITY, ref, width, height, time) => {
       for (let j = 0; j < height; j++) {
         ref.current.children[i*height+j].material.uniforms.opacity.value
           = lerp(ref.current.children[i*height+j].material.uniforms.opacity.value, 1, 0.01);
+      }
+    }
+  }
+};
+
+const applyOpacity = (OPACITY, ref, width, height, time) => {
+
+  const TIME_BETWEEN_CHANGE = 0.01;
+  const CHANCE_TO_NOT_UPDATE = 0.99;
+
+  let HORIZ_VELOCITY = time*4;
+  const VERTICAL_VELOCITY = time*0.1;
+
+  if (OPACITY) {
+    for (let i = 0; i < width; i++) {
+      for (let j = 0; j < height; j++) {
+
+        if (!ref.current.children[i * height + j].lastOpacityChangeTime) {
+          ref.current.children[i * height + j].lastOpacityChangeTime = 0;
+        }
+
+        if (time - ref.current.children[i * height + j].lastOpacityChangeTime > TIME_BETWEEN_CHANGE) {
+          let perlin = Math.abs(perlin2(i / width/0.5 + HORIZ_VELOCITY, j / height/5 + VERTICAL_VELOCITY));
+
+          if (Math.random() > CHANCE_TO_NOT_UPDATE) {
+            ref.current.children[i * height + j].lastOpacityChangeTime = time + randFloat(0, 0.2);
+            ref.current.children[i*height+j].material.uniforms.opacity.value = 1;
+          } else if (perlin < 0.2) {
+            ref.current.children[i * height + j].lastOpacityChangeTime = time;
+            ref.current.children[i*height+j].material.uniforms.opacity.value = 0.1;
+          } else {
+            ref.current.children[i * height + j].lastOpacityChangeTime = time;
+            ref.current.children[i*height+j].material.uniforms.opacity.value = lerp(ref.current.children[i*height+j].material.uniforms.opacity.value, 1, 0.1);
+          }
+        }
+      }
+    }
+  } else {
+    for (let i = 0; i < width; i++) {
+      for (let j = 0; j < height; j++) {
+        ref.current.children[i*height+j].material.uniforms.opacity.value
+          = lerp(ref.current.children[i*height+j].material.uniforms.opacity.value, 1, 0.1);
       }
     }
   }
@@ -137,17 +234,20 @@ const applyChangeImage = (CHANGE_IMAGE, ref, width, height, time) => {
 // -- Mix-in color
 // -- opacity
 // -- changeImage
+// -- verticalOffset
 const EffectController = ({width=5, height=4, }) => {
   const ref = useRef();
 
   IMAGES = useTexture(IMG_URLS);
 
-  const {RANDOM_POSITION, GRAYSCALE, MIX_IN_COLOR, OPACITY, CHANGE_IMAGE} = useControls({
+  const {RANDOM_POSITION, GRAYSCALE, KEEP_GRAYSCALE, MIX_IN_COLOR, OPACITY, CHANGE_IMAGE, OFFSET} = useControls({
     RANDOM_POSITION: false,
     GRAYSCALE: false,
+    KEEP_GRAYSCALE: false,
     MIX_IN_COLOR: false,
     OPACITY: false,
     CHANGE_IMAGE: false,
+    OFFSET: false,
   });
 
   useLayoutEffect(() => {
@@ -158,12 +258,13 @@ const EffectController = ({width=5, height=4, }) => {
   useFrame(({clock}) => {
     const time = clock.getElapsedTime();
 
-    // applyGroupMove(GROUP_MOVE, ref);
     applyRandomPosition(RANDOM_POSITION, ref, width, height, time);
-    applyGrayscale(GRAYSCALE, ref, width, height, time);
+    applyGrayscale(GRAYSCALE, KEEP_GRAYSCALE, ref, width, height, time);
     applyMixInColor(MIX_IN_COLOR, ref, width, height, time);
+    // applyOpacitySmooth(OPACITY, ref, width, height, time);
     applyOpacity(OPACITY, ref, width, height, time);
     applyChangeImage(CHANGE_IMAGE, ref, width, height, time);
+    applyOffset(OFFSET, ref, width, height, time);
   });
 
   return (
