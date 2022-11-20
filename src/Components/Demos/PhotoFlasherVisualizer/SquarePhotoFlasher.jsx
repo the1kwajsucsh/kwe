@@ -3,14 +3,14 @@ import {Canvas, useFrame, useThree} from "@react-three/fiber";
 import {Image, Stats, useTexture} from "@react-three/drei";
 import {useControls} from "leva";
 import {lerp, randFloat, randInt} from "three/src/math/MathUtils";
-import {Color} from "three"
-import ManualOrbitControlledPerspectiveCamera from "../../Common/ManualOrbitControlledPerspectiveCamera";
+import {Color} from "three";
 import {perlin2, seed} from "../../../js/perlin";
 import {Vector3} from "three/src/math/Vector3";
 import CameraControls from 'camera-controls'
 import * as THREE from 'three'
+import ManualOrbitControlledPerspectiveCamera from "../../Common/ManualOrbitControlledPerspectiveCamera";
 
-CameraControls.install({ THREE })
+CameraControls.install({ THREE });
 
 const WHITE = new Color(`rgb(255,255,255)`);
 const IMG_URLS = Array.from({length: 20}, (_,i) => `${process.env.PUBLIC_URL}/img/rappers/${i+1}.jpg`);
@@ -23,8 +23,10 @@ const applyOffset = (OFFSET, ref, width, height, time) => {
   const HORIZ_VELOCITY = time*2;
   const VERTICAL_VELOCITY = time*0.1;
 
+  const timeDiff = time - lastOffsetTimeChange;
+
   if (OFFSET) {
-    if (time - lastOffsetTimeChange > TIME_BETWEEN_CHANGE) {
+    if (timeDiff > TIME_BETWEEN_CHANGE) {
       lastOffsetTimeChange = time;
 
       for (let i = 0; i < width; i++) {
@@ -34,10 +36,17 @@ const applyOffset = (OFFSET, ref, width, height, time) => {
           let perlin = Math.abs(perlin2(i / width + HORIZ_VELOCITY, j / height + VERTICAL_VELOCITY));
 
           if (perlin < 0.1 || (0.25 < perlin && perlin < 0.3) || (0.45 < perlin && perlin < 0.6) || Math.random() < 0.1) {
-            ref.current.children[index].position.z = index * 0.001;
+            ref.current.children[index].offsetPosition = index * 0.001
           } else {
-            ref.current.children[index].position.z = 1 + index * 0.001;
+            ref.current.children[index].offsetPosition = 1 + index * 0.001
           }
+        }
+      }
+    } else {
+      for (let i = 0; i < width; i++) {
+        for (let j = 0; j < height; j++) {
+          const index = i*height+j;
+          ref.current.children[index].position.z = lerp(ref.current.children[index].position.z, ref.current.children[index].offsetPosition, timeDiff / TIME_BETWEEN_CHANGE);
         }
       }
     }
@@ -143,24 +152,24 @@ const applyMixInColor = (MIX_IN_COLOR, ref, width, height, time) => {
   }
 };
 
-const applyOpacitySmooth = (OPACITY_SMOOTH, ref, width, height, time) => {
-
-  if (OPACITY_SMOOTH) {
-    for (let i = 0; i < width; i++) {
-      for (let j = 0; j < height; j++) {
-        let perlin = Math.abs(perlin2(i/30 + time*2, j/50+time*0.01));
-        ref.current.children[i*height+j].material.uniforms.opacity.value = perlin;
-      }
-    }
-  } else {
-    for (let i = 0; i < width; i++) {
-      for (let j = 0; j < height; j++) {
-        ref.current.children[i*height+j].material.uniforms.opacity.value
-          = lerp(ref.current.children[i*height+j].material.uniforms.opacity.value, 1, 0.01);
-      }
-    }
-  }
-};
+// const applyOpacitySmooth = (OPACITY_SMOOTH, ref, width, height, time) => {
+//
+//   if (OPACITY_SMOOTH) {
+//     for (let i = 0; i < width; i++) {
+//       for (let j = 0; j < height; j++) {
+//         let perlin = Math.abs(perlin2(i/30 + time*2, j/50+time*0.01));
+//         ref.current.children[i*height+j].material.uniforms.opacity.value = perlin;
+//       }
+//     }
+//   } else {
+//     for (let i = 0; i < width; i++) {
+//       for (let j = 0; j < height; j++) {
+//         ref.current.children[i*height+j].material.uniforms.opacity.value
+//           = lerp(ref.current.children[i*height+j].material.uniforms.opacity.value, 1, 0.01);
+//       }
+//     }
+//   }
+// };
 
 const applyOpacity = (OPACITY, ref, width, height, time) => {
 
@@ -234,23 +243,53 @@ const applyChangeImage = (CHANGE_IMAGE, ref, width, height, time) => {
 };
 
 const Controls = () => {
-  const pos = new Vector3();
-  const look = new Vector3();
+  const startPos = new Vector3();
+  const endPos = new Vector3();
+  const startTarget = new Vector3();
+  const endTarget = new Vector3();
 
   const camera = useThree((state) => state.camera);
   const gl = useThree((state) => state.gl);
   const controls = useMemo(() => new CameraControls(camera, gl.domElement), []);
   const clock = useThree((state) => state.clock);
 
+  let lastTime = 0;
+
   return (
     useFrame((state, delta) => {
-      pos.set(Math.sin(clock.elapsedTime/3)*5, 0, 5);
-      look.set(Math.sin(clock.elapsedTime/3)*5, 0, 0);
+      const difBetweenTimes = clock.getElapsedTime() - lastTime;
 
-      camera.position.lerp(pos, 1)
-      camera.updateProjectionMatrix()
+      if (difBetweenTimes > 5) {
+        const x1 = randInt(-5, 5);
+        const x2 = randInt(-5, 5);
+        const y1 = randInt(-5, 5);
+        const y2 = randInt(-5, 5);
 
-      controls.setLookAt(camera.position.x, camera.position.y, camera.position.z, look.x, look.y, look.z, true);
+        startPos.set(x1, y1, 5);
+        endPos.set(x2, y2, 5);
+        startTarget.set(x1, y1, 0);
+        endTarget.set(x2, y2, 0);
+
+        lastTime = clock.getElapsedTime();
+      }
+      //
+      // pos.set(Math.sin(clock.elapsedTime/3)*5, 0, 5);
+      // look.set(Math.sin(clock.elapsedTime/3)*5, 0, 0);
+      //
+      // camera.position.lerp(pos, 1);
+      // camera.updateProjectionMatrix();
+      //
+      // controls.setLookAt(camera.position.x, camera.position.y, camera.position.z, look.x, look.y, look.z, true);
+
+      controls.lerpLookAt(
+        startPos.x, startPos.y, startPos.z,
+        startTarget.x, startTarget.y, startTarget.z,
+        endPos.x, endPos.y, endPos.z,
+        endTarget.x, endTarget.y, endTarget.z,
+        difBetweenTimes/5,
+        false
+      );
+      camera.updateProjectionMatrix();
       return controls.update(delta)
     })
   )
@@ -303,16 +342,13 @@ const EffectController = ({width=5, height=4, }) => {
 };
 
 const SquarePhotoFlasher = () => {
-  const [zoom, setZoom] = useState(false);
-  const [focus, setFocus] = useState({x: 0, y:0, z:0});
-
   return (
     <>
       <Canvas id="canvas" aspect={2.35}>
         <color attach="background" args={["black"]}/>
         {/*<ManualOrbitControlledPerspectiveCamera/>*/}
-        <EffectController height={15} width={30}/>
-        <Controls zoom={zoom} focus={focus} />
+        <EffectController height={25} width={25}/>
+        <Controls />
         <Stats/>
       </Canvas>
     </>
