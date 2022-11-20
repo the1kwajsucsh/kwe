@@ -7,6 +7,7 @@
     "@react-three/drei": "^9.29.0",
     "@react-three/fiber": "^8.7.2",
     "@react-three/postprocessing": "2.6.2",
+    "camera-controls": "^1.37.3",
     "gh-pages": "^4.0.0",
     "leva": "^0.9.31",
     "lodash": "^4.17.21",

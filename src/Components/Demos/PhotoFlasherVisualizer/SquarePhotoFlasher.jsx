@@ -1,11 +1,16 @@
-import React, {useLayoutEffect, useRef} from "react";
-import {Canvas, useFrame} from "@react-three/fiber";
+import React, {useLayoutEffect, useMemo, useRef, useState} from "react";
+import {Canvas, useFrame, useThree} from "@react-three/fiber";
 import {Image, Stats, useTexture} from "@react-three/drei";
 import {useControls} from "leva";
 import {lerp, randFloat, randInt} from "three/src/math/MathUtils";
 import {Color} from "three"
 import ManualOrbitControlledPerspectiveCamera from "../../Common/ManualOrbitControlledPerspectiveCamera";
 import {perlin2, seed} from "../../../js/perlin";
+import {Vector3} from "three/src/math/Vector3";
+import CameraControls from 'camera-controls'
+import * as THREE from 'three'
+
+CameraControls.install({ THREE })
 
 const WHITE = new Color(`rgb(255,255,255)`);
 const IMG_URLS = Array.from({length: 20}, (_,i) => `${process.env.PUBLIC_URL}/img/rappers/${i+1}.jpg`);
@@ -228,6 +233,29 @@ const applyChangeImage = (CHANGE_IMAGE, ref, width, height, time) => {
   }
 };
 
+const Controls = () => {
+  const pos = new Vector3();
+  const look = new Vector3();
+
+  const camera = useThree((state) => state.camera);
+  const gl = useThree((state) => state.gl);
+  const controls = useMemo(() => new CameraControls(camera, gl.domElement), []);
+  const clock = useThree((state) => state.clock);
+
+  return (
+    useFrame((state, delta) => {
+      pos.set(Math.sin(clock.elapsedTime/3)*5, 0, 5);
+      look.set(Math.sin(clock.elapsedTime/3)*5, 0, 0);
+
+      camera.position.lerp(pos, 1)
+      camera.updateProjectionMatrix()
+
+      controls.setLookAt(camera.position.x, camera.position.y, camera.position.z, look.x, look.y, look.z, true);
+      return controls.update(delta)
+    })
+  )
+};
+
 // EFFECTS
 // -- Random Position & scale (otherwise default to position in a grid format)
 // -- Grayscale
@@ -275,12 +303,16 @@ const EffectController = ({width=5, height=4, }) => {
 };
 
 const SquarePhotoFlasher = () => {
+  const [zoom, setZoom] = useState(false);
+  const [focus, setFocus] = useState({x: 0, y:0, z:0});
+
   return (
     <>
       <Canvas id="canvas" aspect={2.35}>
         <color attach="background" args={["black"]}/>
-        <ManualOrbitControlledPerspectiveCamera/>
+        {/*<ManualOrbitControlledPerspectiveCamera/>*/}
         <EffectController height={15} width={30}/>
+        <Controls zoom={zoom} focus={focus} />
         <Stats/>
       </Canvas>
     </>
