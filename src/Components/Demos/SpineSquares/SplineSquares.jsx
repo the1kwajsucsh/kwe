@@ -137,26 +137,24 @@ function Boxes() {
 function SplineSquares() {
   return (
     <>
-      <Canvas id="canvas">
-        <OrthographicCamera
-          makeDefault
-          zoom={5}
-          position={[-5, 8, -5]}
-          left={-size}
-          right={size}
-          top={size}
-          bottom={-size}
-          near={-2000}
-          far={2000}
-        />
-        <color attach="background" args={["#121316"]}/>
-        <fog attach="fog" args={["#121316", 5, 20]}/>
-        <hemisphereLight position={[0, 1, 0]} color="#d3d3d3" intensity={1}/>
-        <directionalLight position={[0, 10, 0]} color="#FFFFFF" intensity={2}/>
-        <directionalLight position={[2, 2, 2]} color="#d3d3d3" intensity={5}/>
-        <OrbitControls makeDefault enablePan={false}/>
-        <Boxes/>
-      </Canvas>
+      <OrthographicCamera
+        makeDefault
+        zoom={5}
+        position={[-5, 8, -5]}
+        left={-size}
+        right={size}
+        top={size}
+        bottom={-size}
+        near={-2000}
+        far={2000}
+      />
+      <color attach="background" args={["#121316"]}/>
+      <fog attach="fog" args={["#121316", 5, 20]}/>
+      <hemisphereLight position={[0, 1, 0]} color="#d3d3d3" intensity={1}/>
+      <directionalLight position={[0, 10, 0]} color="#FFFFFF" intensity={2}/>
+      <directionalLight position={[2, 2, 2]} color="#d3d3d3" intensity={5}/>
+      <OrbitControls makeDefault enablePan={false}/>
+      <Boxes/>
     </>
   );
 }

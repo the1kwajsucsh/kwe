@@ -1,6 +1,6 @@
-import {Canvas, useFrame, useThree} from "@react-three/fiber";
+import {useFrame, useThree} from "@react-three/fiber";
 import React, {useRef, useState} from "react";
-import {Text} from "@react-three/drei";
+import {PerspectiveCamera, Text} from "@react-three/drei";
 import {Bloom, EffectComposer, Glitch, Scanline} from "@react-three/postprocessing";
 import { GlitchMode, BlendFunction } from 'postprocessing'
 import {randInt} from "three/src/math/MathUtils";
@@ -39,7 +39,7 @@ export function Rig({ children }) {
   const vec = new Vector3();
   const { camera, mouse } = useThree();
   useFrame(() => {
-    camera.position.lerp(vec.set(mouse.x * 0.5, 0, 2.5), 0.05);
+    camera.position.lerp(vec.set(mouse.x * 0.5, 0, 4), 0.05);
     ref.current.position.lerp(vec.set(mouse.x * 0.3, mouse.y * 0.05, 0), 0.1);
     ref.current.rotation.y = MathUtils.lerp(ref.current.rotation.y, (-mouse.x * Math.PI) / 50, 0.1)
   });
@@ -87,30 +87,29 @@ $ `;
 
   return (
     <>
-      <Canvas id="canvas" aspect={2.35} camera={{position: [0, 0, 2.5]}}>
-        <color attach="background" args={["black"]}/>
-        <ambientLight/>
-        <pointLight position={[10, 10, 10]}/>
-        <Rig>
-          <TextEffect baseText={baseText}/>
-        </Rig>
-        <EffectComposer>
-          <Glitch
-            delay={[1.5, 3.5]} // min and max glitch delay
-            duration={[0.5, 1.5]} // min and max glitch duration
-            strength={[0.05, 0.3]} // min and max glitch strength
-            mode={GlitchMode.SPORADIC} // glitch mode
-            active // turn on/off the effect (switches between "mode" prop and GlitchMode.DISABLED)
-            ratio={0.9} // Threshold for strong glitches, 0 - no weak glitches, 1 - no strong glitches.
-          />
-          <Scanline
-            blendFunction={BlendFunction.OVERLAY} // blend mode
-            density={2.25} // scanline density
-            opacity={0.5}
-          />
-          <Bloom luminanceThreshold={0.6} luminanceSmoothing={0.8}/>
-        </EffectComposer>
-      </Canvas>
+      <PerspectiveCamera makeDefault position={[0, 0, 5]}/>
+      <color attach="background" args={["black"]}/>
+      <ambientLight/>
+      <pointLight position={[10, 10, 10]}/>
+      <Rig>
+        <TextEffect baseText={baseText}/>
+      </Rig>
+      <EffectComposer>
+        <Glitch
+          delay={[1.5, 3.5]} // min and max glitch delay
+          duration={[0.5, 1.5]} // min and max glitch duration
+          strength={[0.05, 0.3]} // min and max glitch strength
+          mode={GlitchMode.SPORADIC} // glitch mode
+          active // turn on/off the effect (switches between "mode" prop and GlitchMode.DISABLED)
+          ratio={0.9} // Threshold for strong glitches, 0 - no weak glitches, 1 - no strong glitches.
+        />
+        <Scanline
+          blendFunction={BlendFunction.OVERLAY} // blend mode
+          density={2.25} // scanline density
+          opacity={0.5}
+        />
+        <Bloom luminanceThreshold={0.6} luminanceSmoothing={0.8}/>
+      </EffectComposer>
     </>
   )
 };

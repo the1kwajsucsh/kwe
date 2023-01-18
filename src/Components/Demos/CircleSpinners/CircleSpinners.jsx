@@ -1,5 +1,5 @@
-import {Line, OrbitControls} from '@react-three/drei';
-import {Canvas, useFrame} from '@react-three/fiber';
+import {Line, OrbitControls, PerspectiveCamera} from '@react-three/drei';
+import { useFrame} from '@react-three/fiber';
 import React, {useRef, useState} from "react";
 import {Vector3} from "three";
 
@@ -87,12 +87,11 @@ function CircleSpinners() {
 
   return (
     <>
-      <Canvas id="canvas">
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <OrbitControls />
-        <CircleSegments numSegments={8}/>
-      </Canvas>
+      <PerspectiveCamera position={[0, 0, 4]}/>
+      <ambientLight />
+      <pointLight position={[10, 10, 10]} />
+      <OrbitControls />
+      <CircleSegments numSegments={8}/>
     </>
   );
 }

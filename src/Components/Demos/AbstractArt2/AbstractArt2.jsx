@@ -1,4 +1,4 @@
-import {CatmullRomLine} from '@react-three/drei';
+import {CatmullRomLine, OrbitControls, OrthographicCamera, PerspectiveCamera} from '@react-three/drei';
 import {Canvas, useFrame} from '@react-three/fiber';
 import React, {useRef, useState} from "react";
 import {Vector3} from "three";
@@ -40,12 +40,15 @@ const CurveTest = ({numPoints=25, changeInterval=0.1}) => {
   );
 };
 
+//OrthographicCamera( left : Number, right : Number, top : Number, bottom : Number, near : Number, far : Number )
+
 function AbstractArt2() {
   return (
-    <Canvas id="canvas" camera={{position: [0,0, 7]}}>
+    <>
+      <PerspectiveCamera makeDefault position={[0, 0, 7]}/>
       <color attach="background" args={["black"]} />
       <CurveTest/>
-    </Canvas>
+    </>
   );
 }
 

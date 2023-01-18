@@ -1,6 +1,6 @@
-import React, {useEffect, useRef} from "react";
+import React, {Suspense, useEffect, useRef} from "react";
 import {Canvas, useFrame} from "@react-three/fiber";
-import {Box, OrbitControls, Plane} from "@react-three/drei";
+import {Box, OrbitControls, PerspectiveCamera, Plane, Text} from "@react-three/drei";
 import {DoubleSide} from "three/src/constants";
 import {suspend} from "suspend-react";
 import {createAudio} from "../../../js/audioAnalyzer/audioAnalyzer";
@@ -66,7 +66,14 @@ const BoxVisualizer = ({drums, other, bass, vocals}) => {
 
 const AudioBoxVisualizer = () => {
   return (
-    <Canvas id="canvas" aspect={2.35} shadows camera={{position: [1.3, 2, 2.6]}}>
+    <Suspense fallback={
+      <>
+        <color attach="background" args={["black"]}/>
+        <PerspectiveCamera makeDefault position={[0, 0, 5]} />
+        <Text color="white" anchorX="center" anchorY="middle" fontSize={0.3}>Loading...</Text>
+      </>
+    }>
+      <PerspectiveCamera makeDefault position={[1.3, 2, 2.6]}/>
       <color attach="background" args={["black"]}/>
       <Plane position={[0, 0, 0]} rotation={[-Math.PI/2, 0, 0]} args={[100, 100]} receiveShadow>
         <meshStandardMaterial color="#05badd" side={DoubleSide}/>
@@ -80,7 +87,7 @@ const AudioBoxVisualizer = () => {
       <ambientLight intensity={0.5}/>
       <pointLight position={[10, 10, 10]} castShadow/>
       <OrbitControls autoRotate autoRotateSpeed={3}/>
-    </Canvas>
+    </Suspense>
   )
 };
 

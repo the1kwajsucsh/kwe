@@ -126,15 +126,13 @@ function Effects() {
 function WarpedDiscoWall() {
   return (
     <>
-      <Canvas id="canvas">
-        <color attach="background" args={["#121316"]}/>
-        <directionalLight position={[0.4, 1, 0]} color="#FFFFFF" intensity={0.5}/>
-        <directionalLight position={[1, 0, 0]} color="#d3d3d3" intensity={2}/>
-        <PerspectiveCamera position={[0, 3, 0]} makeDefault />
-        <Boxes/>
-        <CameraPositioning/>
-        <Effects/>
-      </Canvas>
+      <color attach="background" args={["#121316"]}/>
+      <directionalLight position={[0.4, 1, 0]} color="#FFFFFF" intensity={0.5}/>
+      <directionalLight position={[1, 0, 0]} color="#d3d3d3" intensity={2}/>
+      <PerspectiveCamera position={[0, 3, 0]} makeDefault />
+      <Boxes/>
+      <CameraPositioning/>
+      <Effects/>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import React, {useLayoutEffect, useRef, useState} from "react";
 import {Canvas, useFrame, useLoader} from "@react-three/fiber";
-import {OrbitControls, Stats} from "@react-three/drei";
+import {OrbitControls, PerspectiveCamera, Stats} from "@react-three/drei";
 import {BufferAttribute, DoubleSide} from "three";
 import {TextureLoader} from "three/src/loaders/TextureLoader";
 import {SymbolShader} from "./SymbolShader";
@@ -210,18 +210,17 @@ const MatrixRain = () => {
 
   return (
     <>
-      <Canvas id="canvas" aspect={2.35} camera={{position: [0, 0, 30]}}>
-        <color attach="background" args={["black"]}/>
-        <ambientLight/>
-        <pointLight position={[10, 10, 10]}/>
-        <OrbitControls/>
-        <MatrixRainPlane/>
-        <MatrixRainPlane position={[14,0,15]} rotation={[0, Math.PI/2, 0]}/>
-        <Stats/>
-        <EffectComposer>
-          <Bloom luminanceThreshold={0.3} luminanceSmoothing={0.9} height={300} />
-        </EffectComposer>
-      </Canvas>
+      <PerspectiveCamera position={[0, 0, 30]}/>
+      <color attach="background" args={["black"]}/>
+      <ambientLight/>
+      <pointLight position={[10, 10, 10]}/>
+      <OrbitControls/>
+      <MatrixRainPlane/>
+      <MatrixRainPlane position={[14,0,15]} rotation={[0, Math.PI/2, 0]}/>
+      <Stats/>
+      <EffectComposer>
+        <Bloom luminanceThreshold={0.3} luminanceSmoothing={0.9} height={300} />
+      </EffectComposer>
     </>
   )
 };

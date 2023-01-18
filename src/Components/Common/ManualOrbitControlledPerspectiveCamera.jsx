@@ -75,7 +75,7 @@ function ManualOrbitControlledPerspectiveCamera() {
   return (
     <>
       <OrbitControls ref={orbitControlsRef} onChange={orbitControlsChange}/>
-      <PerspectiveCamera ref={camRef} makeDefault position={[0, 0.5, 5]}/>
+      <PerspectiveCamera ref={camRef} makeDefault position={[0, 0, 5]}/>
       <group ref={targetRef}>
         <Line points={[[-0.5, 0, 0], [0.5, 0, 0]]} color="gray" lineWidth={1} />
         <Line points={[[0, -0.5, 0], [0, 0.5, 0]]} color="gray" lineWidth={1}/>

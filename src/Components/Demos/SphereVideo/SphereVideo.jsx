@@ -1,6 +1,6 @@
-import React, {useRef} from "react";
-import {Canvas, useFrame} from "@react-three/fiber";
-import {Circle, OrbitControls, Sphere, useVideoTexture} from "@react-three/drei";
+import React, {useLayoutEffect, useRef} from "react";
+import {useFrame} from "@react-three/fiber";
+import {Circle, OrbitControls, PerspectiveCamera, Sphere, useVideoTexture} from "@react-three/drei";
 import {SphereVideoShader} from "./SphereVideoShader";
 import {UniformsUtils} from "three";
 import {CircleVideoShader} from "./CircleVideoShader";
@@ -84,14 +84,13 @@ const CircleVideo = () => {
 const SphereVideoScene = () => {
   return (
     <>
-      <Canvas id="canvas" aspect={2.35} camera={{position: [0, 0, 9]}}>
-        <color attach="background" args={["gray"]}/>
-        <ambientLight/>
-        <pointLight position={[10, 10, 10]}/>
-        <OrbitControls/>
-        <SphereVideo/>
-        <CircleVideo/>
-      </Canvas>
+      <PerspectiveCamera position={[0, 0, 9]}/>
+      <color attach="background" args={["gray"]}/>
+      <ambientLight/>
+      <pointLight position={[10, 10, 10]}/>
+      <OrbitControls/>
+      <SphereVideo/>
+      <CircleVideo/>
     </>
   )
 };

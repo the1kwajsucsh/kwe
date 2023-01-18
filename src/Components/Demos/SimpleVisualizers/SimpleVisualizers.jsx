@@ -4,7 +4,7 @@ import {suspend} from "suspend-react";
 import {createAudio} from "../../../js/audioAnalyzer/audioAnalyzer";
 import {Object3D, Shape, Color, MathUtils} from "three";
 import {DoubleSide} from "three/src/constants";
-import {Line, OrbitControls, Plane} from "@react-three/drei";
+import {Line, OrbitControls, PerspectiveCamera, Plane} from "@react-three/drei";
 import {useControls} from "leva";
 import {Vector3} from "three/src/math/Vector3";
 
@@ -291,7 +291,7 @@ function Rig({ children }) {
   const vec = new Vector3();
   const { camera, mouse } = useThree();
   useFrame(() => {
-    camera.position.lerp(vec.set(mouse.x * 1, 0, 4), 0.05);
+    camera.position.lerp(vec.set(mouse.x * 1, 0, 7), 0.05);
     ref.current.position.lerp(vec.set(mouse.x * 0.4, mouse.y * 0.4, 0), 0.1);
     ref.current.rotation.y = MathUtils.lerp(ref.current.rotation.y, (-mouse.x * Math.PI) / 20, 0.1)
   });
@@ -300,7 +300,8 @@ function Rig({ children }) {
 
 const SimpleVisualizers = () => {
   return (
-    <Canvas id="canvas" aspect={2.35}>
+    <>
+      <PerspectiveCamera makeDefault position={[0, 0, 7]}/>
       <color attach="background" args={["gray"]}/>
       <ambientLight/>
       <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
@@ -313,7 +314,7 @@ const SimpleVisualizers = () => {
         </group>
       </Rig>
       <fog attach="fog" args={["gray", 0, 25]} />
-    </Canvas>
+    </>
   );
 };
 

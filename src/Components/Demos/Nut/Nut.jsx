@@ -1,4 +1,4 @@
-import { OrbitControls, SpotLight} from '@react-three/drei';
+import {OrbitControls, PerspectiveCamera, SpotLight, Text} from '@react-three/drei';
 import {Canvas, useFrame, useLoader} from '@react-three/fiber';
 import React, {Suspense, useLayoutEffect, useRef} from "react";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
@@ -74,20 +74,25 @@ Nut.defaultProps = {
 function Nut() {
 
   return (
-    <>
-      <Canvas id="canvas" shadows camera={{position: [7, 4, 7]}}>
+    <Suspense fallback={
+      <>
         <color attach="background" args={["black"]}/>
-        <group position={[0, -2, 0]}>
-          <ambientLight color="white" intensity={0.2}/>
-          <directionalLight position={[0, 25, 0]} color="yellow" intensity={0.8}/>
-          <NutModel position={[0, 3, 0]}/>
-          <FloorSpotlight position={[5, 0, 0]} color="#0c8cbf" />
-          <FloorSpotlight position={[-5, 0, 0]} color="orange" rotation={[0, Math.PI, 0]} />
-          <Pedestal scale={0.4}/>
-        </group>
-        <OrbitControls autoRotate/>
-      </Canvas>
-    </>
+        <PerspectiveCamera makeDefault position={[0, 0, 5]} />
+        <Text color="white" anchorX="center" anchorY="middle" fontSize={0.3}>Loading...</Text>
+      </>
+    }>
+      <PerspectiveCamera makeDefault position={[7, 4, 7]}/>
+      <color attach="background" args={["black"]}/>
+      <group position={[0, -2, 0]}>
+        <ambientLight color="white" intensity={0.2}/>
+        <directionalLight position={[0, 25, 0]} color="yellow" intensity={0.8}/>
+        <NutModel position={[0, 3, 0]}/>
+        <FloorSpotlight position={[5, 0, 0]} color="#0c8cbf" />
+        <FloorSpotlight position={[-5, 0, 0]} color="orange" rotation={[0, Math.PI, 0]} />
+        <Pedestal scale={0.4}/>
+      </group>
+      <OrbitControls autoRotate/>
+    </Suspense>
   );
 }
 

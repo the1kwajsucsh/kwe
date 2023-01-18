@@ -1,6 +1,5 @@
-import {OrbitControls} from '@react-three/drei';
-import {Canvas} from '@react-three/fiber';
-import React, {Suspense} from "react";
+import {OrbitControls, PerspectiveCamera} from '@react-three/drei';
+import React from "react";
 import {useControls} from 'leva';
 import {
   CatmullRomCurve3,
@@ -109,29 +108,28 @@ function Effects() {
 
 function AbstractArt() {
   return (
-    <Suspense fallback={null}>
-      <Canvas id="canvas" shadows camera={{position:[-5,2,10], fov:60}}>
-        <color attach="background" args={["black"]} />
-        <ambientLight intensity={0.2}/>
-        <directionalLight
-          castShadow
-          position={[-5,5,0]}
-          intensity={2}
-          shadow-mapSize-width={1024}
-          shadow-mapSize-height={1024}
-          shadow-camera-far={50}
-          shadow-camera-left = {-10}
-          shadow-camera-right = {10}
-          shadow-camera-top = {10}
-          shadow-camera-bottom = {-10}
-        />
-        <group>
-          <Ribbon />
-        </group>
-        <OrbitControls autoRotate dampen/>
-        <Effects />
-      </Canvas>
-    </Suspense>
+    <>
+      <PerspectiveCamera makeDefault position={[0, 0, 12]} />
+      <color attach="background" args={["black"]} />
+      <ambientLight intensity={0.2}/>
+      <directionalLight
+        castShadow
+        position={[-5,5,0]}
+        intensity={2}
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
+        shadow-camera-far={50}
+        shadow-camera-left = {-10}
+        shadow-camera-right = {10}
+        shadow-camera-top = {10}
+        shadow-camera-bottom = {-10}
+      />
+      <group>
+        <Ribbon />
+      </group>
+      <OrbitControls autoRotate dampen/>
+      <Effects />
+    </>
   );
 }
 
